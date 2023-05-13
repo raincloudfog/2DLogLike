@@ -379,9 +379,37 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1941457191785433360, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: curBossPatton
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1941457191785433370, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_Name
       value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 1941457191785433372, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1941457191785433372, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1941457191785433372, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1941457191785433372, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1941457191785433373, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1941457191785433374, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1941457191785433375, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_RootOrder

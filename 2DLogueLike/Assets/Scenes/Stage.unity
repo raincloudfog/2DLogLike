@@ -522,6 +522,7 @@ Transform:
   - {fileID: 2048416009}
   - {fileID: 1522874639}
   - {fileID: 856278530}
+  - {fileID: 807145447}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2537,8 +2538,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4390347543299468971, guid: 9b1c43edd84f1374eb899e4a2693e2f8, type: 3}
   parent: {fileID: 2048416009}
-  bossBullet: {fileID: 0}
-  bossBulletParent: {fileID: 0}
+  bossBullet: {fileID: -4860358251845302917, guid: 131556a32d29fb7458250436d1721492, type: 3}
+  bossBulletParent: {fileID: 807145447}
 --- !u!4 &416346101
 Transform:
   m_ObjectHideFlags: 0
@@ -3069,6 +3070,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 793640968}
   m_CullTransparentMesh: 1
+--- !u!1 &807145446
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 807145447}
+  m_Layer: 0
+  m_Name: EnemyBossBulletParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &807145447
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807145446}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 8.282405, y: 1.4618609, z: -0.25370422}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 218160754}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &838963143
 GameObject:
   m_ObjectHideFlags: 0

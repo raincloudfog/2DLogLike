@@ -9,6 +9,7 @@ public class Boss : MonoBehaviour
         RandomFire,
         Fires,
         AroundFire,
+        Teleport,
     }
     public BossPatton curBossPatton = BossPatton.Fires;
     Rigidbody2D rigid;
@@ -61,6 +62,10 @@ public class Boss : MonoBehaviour
                 AroundFire();
                 // 원 형태로 전체 공격;
                 break;
+            case BossPatton.Teleport:
+                // 순간이동
+                Teleport();
+                break;
         }
     }
     
@@ -97,7 +102,28 @@ public class Boss : MonoBehaviour
         }
     }
 
-
+    void Teleport()
+    {
+        anim.SetBool("isMove", false);
+        rigid.velocity = Vector2.zero;
+        timer += Time.deltaTime;
+        if(timer >= 5f)
+        {
+            timer = 0;
+            SetPatton();
+        }
+        else if(timer > 3f)
+        {
+            anim.SetTrigger("isTLportOff");
+            capCol.enabled = true;
+        }
+        else if(timer > 1.5f)
+        {
+            anim.SetTrigger("isTLportOn");
+            capCol.enabled = false;
+        }
+    }
+   
     void Fires() // 다가가면서 상대방 위치에 조금 랜덤한 총알 발사
     {
         rigid.velocity = Vector2.zero;
@@ -177,7 +203,7 @@ public class Boss : MonoBehaviour
 
     void SetPatton() // 패턴을 랜덤으로 봐꿔주는 함수
     {
-        int rand = Random.Range(0, 3);
+        int rand = Random.Range(0, 4);
         switch (rand)
         {
             case 0:
@@ -189,6 +215,10 @@ public class Boss : MonoBehaviour
             case 2:
                 curBossPatton = BossPatton.AroundFire;
                 break;
+            case 3:
+                curBossPatton = BossPatton.Teleport;
+                break;
+
         }
     }
     void EnemyFilp() // 싱글톤에 있는 플레이어의 위치에 따라 좌우반전시켜주는 함수
@@ -240,4 +270,9 @@ public class Boss : MonoBehaviour
         anim.SetBool("isJump", false);
         SetPatton();
     }
+    void TeleportOn()
+    {
+        this.transform.position = EnemyObjectPool.instance.player.transform.position;
+    }
+    
 }
