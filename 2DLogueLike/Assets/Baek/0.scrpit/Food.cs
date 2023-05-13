@@ -11,14 +11,19 @@ public class Food : Item
     [SerializeField] protected float ranginPlayer; // 플레이어와 닿였을때
     Rigidbody2D rigid;
     bool sprite = true;
-    private void OnEnable()
+
+    /*private void OnEnable()
     {
         Init();
-    }
-    private void Start()
+    }*/
+    /*private void Start()
     {
         Init();
-    }
+    }*/
+    /*private void Awake()
+    {
+        Init();
+    }*/
 
 
     public void Init()
