@@ -8,9 +8,9 @@ public class EnemyBulletPool : MonoBehaviour
     public Transform parent;
     Queue<Enemybullet> pool = new Queue<Enemybullet>();
 
-    public Enemybullet bossBullet;
+    public BossBullet bossBullet;
     public Transform bossBulletParent;
-    Queue<Enemybullet> bossBulletPool = new Queue<Enemybullet>();
+    Queue<BossBullet> bossBulletPool = new Queue<BossBullet>();
     private void Awake()
     {
         for (int i = 0; i < 500; i++)
@@ -20,13 +20,13 @@ public class EnemyBulletPool : MonoBehaviour
             bullet.transform.SetParent(parent);
             pool.Enqueue(bullet);
         }
-        /*for (int i = 0; i < 500; i++)
+        for (int i = 0; i < 500; i++)
         {
-            Enemybullet bullet = Instantiate(bossBullet);
+            BossBullet bullet = Instantiate(bossBullet);
             bullet.gameObject.SetActive(false);
             bullet.transform.SetParent(bossBulletParent);
-            pool.Enqueue(bullet);
-        }*/
+            bossBulletPool.Enqueue(bullet);
+        }
     }
 
     public Enemybullet Getbullet()
@@ -46,29 +46,30 @@ public class EnemyBulletPool : MonoBehaviour
             return bullet;
         }
     }
-    /*public Enemybullet GetBossBullet()
+    public BossBullet GetBossBullet()
     {
         if (bossBulletPool.Count > 0)
         {
-            Enemybullet bullet = bossBulletPool.Dequeue();
+            BossBullet bullet = bossBulletPool.Dequeue();
             bullet.gameObject.SetActive(true);
             return bullet;
         }
         else
         {
-            Enemybullet bullet = Instantiate(bossBullet);
+            BossBullet bullet = Instantiate(bossBullet);
             bullet.gameObject.SetActive(true);
             bullet.transform.SetParent(bossBulletParent);
             bossBulletPool.Enqueue(bullet);
             return bullet;
         }
-    }*/
-    /*public void ReturnBossBullet(Enemybullet bullet)
+    }
+
+    public void ReturnBossBullet(BossBullet bullet)
     {
         bullet.gameObject.SetActive(false);
         bullet.transform.SetParent(bossBulletParent);
         bossBulletPool.Enqueue(bullet);
-    }*/
+    }
     public void ReturnBullet(Enemybullet bullet)
     {
         bullet.gameObject.SetActive(false);

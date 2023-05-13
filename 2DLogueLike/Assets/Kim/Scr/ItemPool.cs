@@ -16,7 +16,7 @@ public class ItemPool : MonoBehaviour
     {
         for (int i = 0; i < 20; i++)
         {
-            Food foodobj = Instantiate(foodPrefab);
+            Food foodobj = Instantiate(foodPrefab); 
             foodobj.gameObject.SetActive(false);
             foodobj.transform.SetParent(foodParent);
             foodPool.Enqueue(foodobj);

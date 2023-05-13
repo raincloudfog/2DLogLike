@@ -90,9 +90,9 @@ public class Boss : MonoBehaviour
             isShot = false;
             Vector2 randBullet = new Vector2(EnemyObjectPool.instance.player.transform.position.x * Random.Range(-1f, 1f),
                 EnemyObjectPool.instance.player.transform.position.y * Random.Range(-1f, 1f));
-            Enemybullet bullet = EnemyObjectPool.instance.enemyBulletpool.Getbullet();
+            BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
             bullet.transform.position = transform.position;
-            bullet.SetRigidBullet(randBullet, bulletSpeed, bulletDamage);
+            bullet.SetRigidBossBullet(randBullet, bulletSpeed, bulletDamage);
             StartCoroutine(Delay(0.2f));
         }
     }
@@ -101,7 +101,7 @@ public class Boss : MonoBehaviour
     void Fires() // 다가가면서 상대방 위치에 조금 랜덤한 총알 발사
     {
         rigid.velocity = Vector2.zero;
-        anim.SetBool("isMove", true);
+        anim.SetBool("isMove", false);
         if(count >= 5)
         {
             count = 0;
@@ -112,9 +112,9 @@ public class Boss : MonoBehaviour
             isShot = false;
             Vector2 dir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1, 2));
             dir += offset;
-            Enemybullet bullet = EnemyObjectPool.instance.enemyBulletpool.Getbullet();
+            BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
             bullet.transform.position = transform.position;
-            bullet.SetRigidBullet(dir, 7, bulletDamage);
+            bullet.SetRigidBossBullet(dir, 7, bulletDamage);
             count += 1;
             StartCoroutine(Delay(0.2f));
         }
@@ -229,13 +229,13 @@ public class Boss : MonoBehaviour
         float weightAngle = 0; // 각도의 차이를 주기 위해 
         for (int i = 0; i < count; ++i)
         {
-            Enemybullet bullet = EnemyObjectPool.instance.enemyBulletpool.Getbullet();
+            BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
             float angle = weightAngle + intervalAngle * i;
             float x = Mathf.Cos(angle * Mathf.PI / 180.0f);
             float y = Mathf.Sin(angle * Mathf.PI / 180.0f);
             Vector2 dir = new Vector2(x, y);
             bullet.transform.position = transform.position;
-            bullet.SetRigidBullet(dir, bulletSpeed, bulletDamage);
+            bullet.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
         }
         anim.SetBool("isJump", false);
         SetPatton();
