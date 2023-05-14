@@ -197,7 +197,7 @@ public class Character : MonoBehaviour
 
         // 플레이어가 움직이는걸 실행 속도 조절
         transform.position += movedic * Time.deltaTime * moveSpeed;
-        
+        anim.SetBool("isMove", movedic != Vector3.zero); // 김영수가 추가함 키입력이 있을 때 애니메이션 실행
         
     }
 

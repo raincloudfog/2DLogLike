@@ -13,12 +13,12 @@ public class Boss : MonoBehaviour
         ExploreFire,
     }
     [SerializeField] ExploreBullet exploreBullet;
-    
+
     public BossPatton curBossPatton = BossPatton.Fires;
     Rigidbody2D rigid;
     Animator anim;
     CapsuleCollider2D capCol;
-    Collider2D bodyCol;
+   
     Vector2 offset;
     public LayerMask layer;
     public int bossHp;
@@ -32,10 +32,7 @@ public class Boss : MonoBehaviour
     public bool isRandomFire = true;
     public bool isAroundFire = true;
     public bool isFires = true;
-    float radius = 0.5f;
-    int fireAngle = 0;
 
-    float spinAngle = 0f;
     int count = 0;
     private void OnEnable()
     {
@@ -49,14 +46,23 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isDie == true)
+        Move();
+    }
+    void Move() // 움직임 함수 만약 보스가 죽었을 경우 리턴시켜 작동하지 않게 한다
+    {
+        if (isDie == true)
         {
             return;
         }
         offset = EnemyObjectPool.instance.player.transform.position - transform.position;
         rigid.velocity = offset.normalized * bossSpeed;
-        
+
         EnemyFilp();
+        StateBossPatton();
+    }
+    
+    void StateBossPatton() // 보스의 패턴 상태
+    {
         switch (curBossPatton)
         {
             case BossPatton.RandomFire:
@@ -80,8 +86,8 @@ public class Boss : MonoBehaviour
                 break;
         }
     }
-    
-    void Init()
+
+    void Init() // 초기값 
     {
         if (rigid == null) rigid = GetComponent<Rigidbody2D>();
         if (anim == null) anim = GetComponent<Animator>();
@@ -89,11 +95,6 @@ public class Boss : MonoBehaviour
         {
             capCol = GetComponent<CapsuleCollider2D>();
             capCol.enabled = true;
-        }
-        if(bodyCol == null)
-        {
-            bodyCol = GetComponent<Collider2D>();
-            bodyCol.enabled = true;
         }
     }
 
@@ -118,7 +119,7 @@ public class Boss : MonoBehaviour
         }
     }
 
-    void Teleport()
+    void Teleport() // 상대방의 위치로 순간이동하는 패턴
     {
         anim.SetBool("isMove", false);
         rigid.velocity = Vector2.zero;
@@ -165,7 +166,7 @@ public class Boss : MonoBehaviour
             StartCoroutine(Delay(0.2f));
         }
     }
-    void AroundFire() // 잠시 멈춰서 전체 공격
+    void AroundFire() // 
     {
         anim.SetBool("isMove", false);
         rigid.velocity = Vector2.zero;
@@ -177,7 +178,7 @@ public class Boss : MonoBehaviour
             anim.SetBool("isJump", true);
         }
     }
-    void ExploreFire()
+    void ExploreFire() // 폭발하는 큰 불렛을 발사한다 폭발시 AroundFire처럼 전방향으로 불렛을 뿌린다
     {
         rigid.velocity = Vector2.zero;
         anim.SetBool("isMove", false);
@@ -251,7 +252,7 @@ public class Boss : MonoBehaviour
             Destroy(this, 1f);
         }
     }
-    void Around_Fire() // 애니메이션 점프모션이 땅바닥에 닿았을 때 실행
+    void AroundFireOn() // 애니메이션 점프모션이 땅바닥에 닿았을 때 실행
     {
         int count = 30; // 총알 갯수
         float intervalAngle = 360 / count; // 총알의 각도
@@ -269,11 +270,12 @@ public class Boss : MonoBehaviour
         anim.SetBool("isJump", false);
         SetPatton();
     }
+
     void TeleportOn() // 텔레포트 애니메이션에 넣을 함수
     {
         this.transform.position = EnemyObjectPool.instance.player.transform.position;
     }
-    void ExploreFireOn()
+    void ExploreFireOn() // 
     {
         ExploreBullet bullet = Instantiate(exploreBullet);
         int x = Random.Range(-1, 2);
