@@ -10,13 +10,17 @@ public class Boss : MonoBehaviour
         Fires,
         AroundFire,
         Teleport,
+        ExploreFire,
     }
+    [SerializeField] ExploreBullet exploreBullet;
+    
     public BossPatton curBossPatton = BossPatton.Fires;
     Rigidbody2D rigid;
     Animator anim;
     CapsuleCollider2D capCol;
+    Collider2D bodyCol;
     Vector2 offset;
-
+    public LayerMask layer;
     public int bossHp;
     public int bossSpeed;
     public int bulletDamage =1;
@@ -24,10 +28,11 @@ public class Boss : MonoBehaviour
     public float timer;
 
     bool isShot = true;
+    bool isDie = false;
     public bool isRandomFire = true;
     public bool isAroundFire = true;
     public bool isFires = true;
-
+    float radius = 0.5f;
     int fireAngle = 0;
 
     float spinAngle = 0f;
@@ -44,6 +49,10 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(isDie == true)
+        {
+            return;
+        }
         offset = EnemyObjectPool.instance.player.transform.position - transform.position;
         rigid.velocity = offset.normalized * bossSpeed;
         
@@ -66,6 +75,9 @@ public class Boss : MonoBehaviour
                 // 순간이동
                 Teleport();
                 break;
+            case BossPatton.ExploreFire:
+                ExploreFire();
+                break;
         }
     }
     
@@ -78,7 +90,11 @@ public class Boss : MonoBehaviour
             capCol = GetComponent<CapsuleCollider2D>();
             capCol.enabled = true;
         }
-        
+        if(bodyCol == null)
+        {
+            bodyCol = GetComponent<Collider2D>();
+            bodyCol.enabled = true;
+        }
     }
 
     void RandomFire() // 플레이어의 추적하면서 랜덤발사
@@ -107,20 +123,24 @@ public class Boss : MonoBehaviour
         anim.SetBool("isMove", false);
         rigid.velocity = Vector2.zero;
         timer += Time.deltaTime;
-        if(timer >= 5f)
+        if(timer >= 3f)
         {
             timer = 0;
+            anim.SetBool("isTLportOff", false);
             SetPatton();
         }
-        else if(timer > 3f)
+        else if(timer > 2f)
         {
-            anim.SetTrigger("isTLportOff");
+            anim.SetBool("isTLportOff", true);
+            anim.SetBool("isTLportOn", false);
             capCol.enabled = true;
+            
         }
         else if(timer > 1.5f)
         {
-            anim.SetTrigger("isTLportOn");
+            anim.SetBool("isTLportOn", true);
             capCol.enabled = false;
+            
         }
     }
    
@@ -156,54 +176,30 @@ public class Boss : MonoBehaviour
             anim.SetBool("isMove", false);
             anim.SetBool("isJump", true);
         }
-        /*if(timer >= 2f)
+    }
+    void ExploreFire()
+    {
+        rigid.velocity = Vector2.zero;
+        anim.SetBool("isMove", false);
+        timer += Time.deltaTime;
+        if (timer > 3f)
         {
             timer = 0;
-            anim.SetTrigger("isJump");
-            int count = 30; // 총알 갯수
-            float intervalAngle = 360 / count; // 총알의 각도
-            float weightAngle = 0; // 각도의 차이를 주기 위해 
-            for (int i = 0; i < count; ++i)
-            {
-                Enemybullet bullet = EnemyObjectPool.instance.enemyBulletpool.Getbullet();
-                float angle = weightAngle + intervalAngle * i;
-                float x = Mathf.Cos(angle * Mathf.PI / 180.0f);
-                float y = Mathf.Sin(angle * Mathf.PI / 180.0f);
-                Vector2 dir = new Vector2(x, y);
-                bullet.transform.position = transform.position;
-                bullet.SetRigidBullet(dir, bulletSpeed, bulletDamage);
-            }
-            Invoke("SetPatton", 0.5f);
-        }*/
-        
-
-        /*float attackDelay = 1.5f; // 공격 딜레이 
-        StartCoroutine(Delay(attackDelay));
-        anim.SetTrigger("isJump");
-        rigid.velocity = Vector2.zero;
-        if (isAroundFire == true && isShot == false)
-        {
-            int count = 30; // 총알 갯수
-            float intervalAngle = 360 / count; // 총알의 각도
-            float weightAngle = 0; // 각도의 차이를 주기 위해 
-            for (int i = 0; i < count; ++ i)
-            {
-                Enemybullet bullet = EnemyObjectPool.instance.enemyBulletpool.Getbullet();
-                float angle = weightAngle + intervalAngle * i;
-                float x = Mathf.Cos(angle * Mathf.PI / 180.0f);
-                float y = Mathf.Sin(angle * Mathf.PI / 180.0f);
-                Vector2 dir = new Vector2(x, y);
-                bullet.transform.position = transform.position;
-                bullet.SetRigidBullet(dir, bulletSpeed, bulletDamage);
-            }
-            //weightAngle += 1;
+            SetPatton();
         }
-        SetPatton();*/
+        else if(timer > 1.58f)
+        {
+            anim.SetBool("isExploreFire", false);
+        }
+        else if(timer > 1.5f)
+        {
+            anim.SetBool("isExploreFire", true);
+        }
     }
-
+    
     void SetPatton() // 패턴을 랜덤으로 봐꿔주는 함수
     {
-        int rand = Random.Range(0, 4);
+        int rand = Random.Range(0, 5);
         switch (rand)
         {
             case 0:
@@ -218,7 +214,9 @@ public class Boss : MonoBehaviour
             case 3:
                 curBossPatton = BossPatton.Teleport;
                 break;
-
+            case 4:
+                curBossPatton = BossPatton.ExploreFire;
+                break;
         }
     }
     void EnemyFilp() // 싱글톤에 있는 플레이어의 위치에 따라 좌우반전시켜주는 함수
@@ -247,6 +245,7 @@ public class Boss : MonoBehaviour
         anim.SetTrigger("isHit");
         if(bossHp <= 0)
         {
+            isDie = true;
             anim.SetTrigger("isDie");
             capCol.enabled = false;
             Destroy(this, 1f);
@@ -270,9 +269,28 @@ public class Boss : MonoBehaviour
         anim.SetBool("isJump", false);
         SetPatton();
     }
-    void TeleportOn()
+    void TeleportOn() // 텔레포트 애니메이션에 넣을 함수
     {
         this.transform.position = EnemyObjectPool.instance.player.transform.position;
     }
-    
+    void ExploreFireOn()
+    {
+        ExploreBullet bullet = Instantiate(exploreBullet);
+        int x = Random.Range(-1, 2);
+        int y = Random.Range(-1, 2);
+        Vector2 dir = new Vector2(x, y);
+        dir += offset;
+        bullet.transform.position = transform.position;
+        bullet.SetRigidExploreBullet(dir, bulletSpeed, bulletDamage);
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            collision.GetComponent<Character>().PlayerHIt(1);
+        }
+    }
+
 }

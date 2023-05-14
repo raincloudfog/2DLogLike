@@ -266,6 +266,5 @@ public class Character : MonoBehaviour
 
 
     }
-    
 
 }

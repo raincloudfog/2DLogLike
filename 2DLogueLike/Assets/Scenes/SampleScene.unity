@@ -380,12 +380,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1941457191785433360, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
-      propertyPath: curBossPatton
-      value: 3
+      propertyPath: bossHp
+      value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1941457191785433360, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: layer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 1941457191785433360, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: curBossPatton
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1941457191785433360, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: exploreBullet
+      value: 
+      objectReference: {fileID: 321218970, guid: 4b2327fe07bf27443b192e9baa8b29a5, type: 3}
     - target: {fileID: 1941457191785433370, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_Name
       value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 1941457191785433370, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1941457191785433372, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_Color.b
@@ -411,17 +427,21 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1941457191785433374, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1941457191785433375, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1941457191785433375, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.9976754
+      value: -1.36
       objectReference: {fileID: 0}
     - target: {fileID: 1941457191785433375, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.7711568
+      value: 2.42
       objectReference: {fileID: 0}
     - target: {fileID: 1941457191785433375, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -433,15 +453,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1941457191785433375, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1941457191785433375, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1941457191785433375, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1941457191785433375, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -954,27 +974,6 @@ MonoBehaviour:
   ismove: 1
   isAttack: 1
   isHit: 1
---- !u!95 &1900873215711782085
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900873215711782105}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a9dbe8623c6643847bb534dde5eb7351, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!70 &1900873215711782086
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1002,9 +1001,9 @@ GameObject:
   - component: {fileID: 1900873215711782107}
   - component: {fileID: 1900873215711782106}
   - component: {fileID: 1900873215711782084}
-  - component: {fileID: 1900873215711782085}
   - component: {fileID: 1900873215711782086}
   - component: {fileID: 1900873215711782108}
+  - component: {fileID: 1900873215711782109}
   m_Layer: 6
   m_Name: player_0
   m_TagString: Player
@@ -1101,3 +1100,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &1900873215711782109
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900873215711782105}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a9dbe8623c6643847bb534dde5eb7351, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
