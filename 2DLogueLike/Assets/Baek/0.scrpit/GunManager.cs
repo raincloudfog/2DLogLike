@@ -20,11 +20,16 @@ public class GunManager : SingletonBaek<GunManager>
     [SerializeField] Sprite[] Guns; // 총 종류 스프라이트
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
+            
         }
-        
+        else
+        {
+            Destroy(gameObject);
+        }
+
     }
     
 

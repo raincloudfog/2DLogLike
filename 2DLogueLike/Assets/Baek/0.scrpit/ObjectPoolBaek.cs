@@ -10,7 +10,14 @@ public class ObjectPoolBaek : SingletonBaek<ObjectPoolBaek>
         if (Instance == null)
         {
             Instance = this;
+            
         }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+
     }
 
     [SerializeField] GameObject hpiconlist;

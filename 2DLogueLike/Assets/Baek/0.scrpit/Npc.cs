@@ -9,8 +9,8 @@ public class Npc : MonoBehaviour
     public Collider2D player;
     [SerializeField] protected float ranginPlayer; // 플레이어를 발견하는 범위
      
-    public bool isshop = true;
-    [SerializeField] GameObject shop;
+    public bool istalking = true;
+    [SerializeField] GameObject UI;
 
     private void OnDrawGizmos()
     {
@@ -25,13 +25,13 @@ public class Npc : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                shop.SetActive(true);
+                UI.SetActive(true);
                 GameManager.Instance.Player.isAttack = false;
             }
         }
         else
         {
-            shop.SetActive(false);
+            UI.SetActive(false);
             GameManager.Instance.Player.isAttack = true;
         }
     }

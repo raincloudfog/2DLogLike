@@ -7,10 +7,10 @@ public class Character : MonoBehaviour
 
 
     public Transform gun;   // 총의 위치
-    public GameObject bulletPrefab;
+    public GameObject bulletPrefab; // 더미데이터
 
-    [SerializeField] Animator anim;
-    [SerializeField] SpriteRenderer spr;
+    [SerializeField] Animator anim; // 애니메이터
+    [SerializeField] SpriteRenderer spr; // 스프라이트
 
     private Vector3 mousePosition;
 
@@ -22,16 +22,16 @@ public class Character : MonoBehaviour
 
     public float gunDistance = 1.0f;// 마우스 위치와 총 사이의 거리
     [SerializeField]
-    float moveSpeed;
-    float timer = 0;
-    public float timerdelay = 0;
-    public int Damage = 5;
-    public int Hp = 10;
-    public int MaxHp = 100;
+    float moveSpeed; // 이동속도
+    float timer = 0; // 타이머
+    public float timerdelay = 0; // 총알 딜레이
+    public int Damage = 5; // 기본 데미지
+    public int Hp = 5; // 현재 체력
+    public int MaxHp = 10; // 최대 체력
     public int Hpcut;
     public bool ismove = true; // 이동 허용
     public bool isAttack = true; // 공격 허용
-    [SerializeField] bool isHit = true;
+    [SerializeField] bool isHit = true; // 타격 허용;
 
     private void Awake()
     {
@@ -46,11 +46,19 @@ public class Character : MonoBehaviour
         gunDirection();
         Shoot();
         Move();
-        gunmove();
-        
+        gunmove(); 
+        Cheat(); // 무적 모드
     }
 
-    private void AnimatorMove()
+    void Cheat() // 치트 모드
+    {
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            isHit = !isHit;
+        }
+    }
+
+    private void AnimatorMove() // 더미 데이터
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         anim.SetFloat("State", (transform.position.x+worldPosition.x));
@@ -84,7 +92,7 @@ public class Character : MonoBehaviour
         AnimatorMove();
     }
 
-    public void PlayerHIt(int Damage)
+    public void PlayerHIt(int Damage) // 플레이어 피격시 
     {
         if (isHit == false)
             return;

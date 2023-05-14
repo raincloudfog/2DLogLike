@@ -14,10 +14,17 @@ public class GameManager : SingletonBaek<GameManager>
     [SerializeField] int curHp;
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+
 
         curHp = Player.Hp;
     }
@@ -48,6 +55,13 @@ public class GameManager : SingletonBaek<GameManager>
         {
             ObjectPoolBaek.Instance.HpiconReturn
                 (hpiconlist.transform.GetChild(hpiconlist.transform.childCount - 1).GetComponent<Image>());
+        }
+    }
+    private void LateUpdate()
+    {
+        if(Player == null)
+        {
+            Player = FindObjectOfType<Character>();
         }
     }
 }
