@@ -39,7 +39,7 @@ public class BossBullet : MonoBehaviour
         }
         bulletVec = offset.normalized * speed; // 받은 벡터값
         rigid.velocity = bulletVec;
-        StartCoroutine(Disable());
+        //StartCoroutine(Disable());
     }
     public void RigidBossBulletAgain()
     // 일시정지를 풀었을 경우 제로니까 저장해놓은 불렛벡터를 불러온다.           
@@ -57,9 +57,9 @@ public class BossBullet : MonoBehaviour
 
 
 
-    IEnumerator Disable() // 총알이 발사된 3초 후 리턴시키는 코루틴 
+    /*IEnumerator Disable() // 총알이 발사된 3초 후 리턴시키는 코루틴 더미데이터
     {
         yield return new WaitForSeconds(3f);
         EnemyObjectPool.instance.enemyBulletpool.ReturnBossBullet(this);
-    }
+    }*/
 }

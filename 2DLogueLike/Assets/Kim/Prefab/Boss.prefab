@@ -243,6 +243,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1bf642a7a6530b40b6eb3515d2beccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  textObj: {fileID: 0}
   exploreBullet: {fileID: 321218970, guid: 4b2327fe07bf27443b192e9baa8b29a5, type: 3}
   curBossPatton: 4
   layer:
@@ -253,6 +255,7 @@ MonoBehaviour:
   bulletDamage: 1
   bulletSpeed: 4
   timer: 0
+  coTimer: 0
   isRandomFire: 1
   isAroundFire: 1
   isFires: 1

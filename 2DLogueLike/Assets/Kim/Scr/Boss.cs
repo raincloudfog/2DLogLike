@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
+using UnityEngine.UI;
 public class Boss : MonoBehaviour
 {
+    public TMP_Text text;
+    public GameObject textObj;
+    public Color isHitColor;
+    SpriteRenderer spren;
     public enum BossPatton
     {
         RandomFire,
@@ -11,6 +16,7 @@ public class Boss : MonoBehaviour
         AroundFire,
         Teleport,
         ExploreFire,
+        ShotgunFire
     }
     [SerializeField] ExploreBullet exploreBullet;
 
@@ -38,6 +44,7 @@ public class Boss : MonoBehaviour
     private void OnEnable()
     {
         Init();
+        
     }
     void Awake()
     {
@@ -55,8 +62,8 @@ public class Boss : MonoBehaviour
         {
             return;
         }
-        /*offset = EnemyObjectPool.instance.player.transform.position - transform.position;
-        rigid.velocity = offset.normalized * bossSpeed;*/
+        offset = EnemyObjectPool.instance.player.transform.position - transform.position;
+        //rigid.velocity = offset.normalized * bossSpeed;
 
         EnemyFilp();
         StateBossPatton();
@@ -67,6 +74,7 @@ public class Boss : MonoBehaviour
         if (startCo == true)
         {
             startCo = false;
+            rigid.velocity = Vector2.zero;
             switch (curBossPatton)
             {
                 case BossPatton.RandomFire:
@@ -82,7 +90,9 @@ public class Boss : MonoBehaviour
                     // 플레이어 방향으로 샷건
                     break;
                 case BossPatton.AroundFire:
-                    AroundFire();
+                    StartCoroutine(IAroundFire());
+
+                    //AroundFire();
                     // 원 형태로 전체 공격;
                     break;
                 case BossPatton.Teleport:
@@ -92,7 +102,12 @@ public class Boss : MonoBehaviour
                     //Teleport();
                     break;
                 case BossPatton.ExploreFire:
-                    ExploreFire();
+                    StartCoroutine(IExploreFire());
+
+                    //ExploreFire();
+                    break;
+                case BossPatton.ShotgunFire:
+                    StartCoroutine(IShotgunFire());
                     break;
             }
         }
@@ -107,29 +122,9 @@ public class Boss : MonoBehaviour
             capCol = GetComponent<CapsuleCollider2D>();
             capCol.enabled = true;
         }
+        if (spren == null) spren = GetComponent<SpriteRenderer>();
     }
 
-    void RandomFire() // 플레이어의 추적하면서 랜덤발사
-    {
-        anim.SetBool("isMove", true);
-        timer += Time.deltaTime;
-        if (timer >= 5)
-        {
-            timer = 0;
-           
-            SetPatton();
-        }
-        else if (isRandomFire == true && isShot == true)
-        {
-            isShot = false;
-            Vector2 randBullet = new Vector2(EnemyObjectPool.instance.player.transform.position.x * Random.Range(-1f, 1f),
-                EnemyObjectPool.instance.player.transform.position.y * Random.Range(-1f, 1f));
-            BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
-            bullet.transform.position = transform.position;
-            bullet.SetRigidBossBullet(randBullet, bulletSpeed, bulletDamage);
-            StartCoroutine(Delay(0.2f));
-        }
-    }
     IEnumerator IRandomFire() // 상태가 변했을 떄 한번만 실행되게 만듬
     {
         anim.SetBool("isMove", true);
@@ -155,39 +150,7 @@ public class Boss : MonoBehaviour
         }
 
     }
-    /*IEnumerator ISetPatton(float time)
-    {
-        yield return new WaitForSeconds(time);
-        //isShot = false;
-        //startCo = true;
-        SetPatton();
-    }*/
-
-    void Teleport() // 상대방의 위치로 순간이동하는 패턴
-    {
-        anim.SetBool("isMove", false);
-        rigid.velocity = Vector2.zero;
-        timer += Time.deltaTime;
-        if(timer >= 3f)
-        {
-            timer = 0;
-            anim.SetBool("isTLportOff", false);
-            SetPatton();
-        }
-        else if(timer > 2f)
-        {
-            anim.SetBool("isTLportOff", true);
-            anim.SetBool("isTLportOn", false);
-            capCol.enabled = true;
-            
-        }
-        else if(timer > 1.5f)
-        {
-            anim.SetBool("isTLportOn", true);
-            capCol.enabled = false;
-            
-        }
-    }
+   
     IEnumerator ITeleport()
     {
         anim.SetBool("isMove", false);
@@ -205,85 +168,86 @@ public class Boss : MonoBehaviour
         SetPatton();
     }
    
-    void Fires() // 다가가면서 상대방 위치에 조금 랜덤한 총알 발사
-    {
-        rigid.velocity = Vector2.zero;
-        anim.SetBool("isMove", false);
-        if(count >= 5)
-        {
-            count = 0;
-            SetPatton();
-        }
-        else if(isFires == true && isShot == true)
-        {
-            isShot = false;
-            Vector2 dir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1, 2));
-            dir += offset;
-            BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
-            bullet.transform.position = transform.position;
-            bullet.SetRigidBossBullet(dir, 7, bulletDamage);
-            count += 1;
-            StartCoroutine(Delay(0.2f));
-        }
-    }
+   
 
-    IEnumerator IFires()
+    IEnumerator IFires() // 적에게 빠르게 불렛을 5연발 발사
     {
         Vector2 dir;
-        anim.SetBool("isMove", false);
+        anim.SetBool("isMove", true);
         while(count < 5)
         {
             dir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1, 2));
             dir += offset;
+            rigid.velocity = offset.normalized * bossSpeed;
             BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
             bullet.transform.position = transform.position;
             bullet.SetRigidBossBullet(dir, 7, bulletDamage);
             count += 1;
             yield return new WaitForSeconds(0.2f);
         }
-        count = 0;
-    }
-    void AroundFire() // 
-    {
-        anim.SetBool("isMove", false);
         rigid.velocity = Vector2.zero;
-        timer += Time.deltaTime;
-        if(timer >= 1.5f)
-        {
-            timer = 0;
-            anim.SetBool("isMove", false);
-            anim.SetBool("isJump", true);
-        }
+        yield return new WaitForSeconds(1f);
+        count = 0;
+        startCo = true;
+        SetPatton();
     }
+   
     IEnumerator IAroundFire()
     {
         anim.SetBool("isMove", false);
         yield return new WaitForSeconds(1.5f);
-        
-    }
-    void ExploreFire() // 폭발하는 큰 불렛을 발사한다 폭발시 AroundFire처럼 전방향으로 불렛을 뿌린다
-    {
-        rigid.velocity = Vector2.zero;
         anim.SetBool("isMove", false);
-        timer += Time.deltaTime;
-        if (timer > 3f)
-        {
-            timer = 0;
-            SetPatton();
-        }
-        else if(timer > 1.58f)
-        {
-            anim.SetBool("isExploreFire", false);
-        }
-        else if(timer > 1.5f)
-        {
-            anim.SetBool("isExploreFire", true);
-        }
+        anim.SetBool("isJump", true);   
+    }
+
+    IEnumerator IExploreFire()
+    {
+        anim.SetBool("isMove", false);
+        yield return new WaitForSeconds(1.5f);
+        anim.SetBool("isExploreFire", true);
+        yield return new WaitForSeconds(0.3f);
+        anim.SetBool("isExploreFire", false);
+        yield return new WaitForSeconds(1.5f);
+        startCo = true;
+        SetPatton();
     }
     
+    IEnumerator IShotgunFire()
+    {
+        anim.SetBool("isMove", false);
+        yield return new WaitForSeconds(1f);
+        Vector2 dir;
+        BossBullet obj;
+        for (int i = -1; i < 2; i++) //
+        {
+            /*if (i==0)
+            {
+                continue;
+            }*/
+            dir = Quaternion.AngleAxis(10 * i, Vector3.forward) * offset;
+            obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
+            obj.transform.position = transform.position;
+            obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
+        }
+        yield return new WaitForSeconds(0.5f);
+        for (int i = -2; i < 3; i++) //
+        {
+            /*if (i==0)
+            {
+                continue;
+            }*/
+            dir = Quaternion.AngleAxis(10 * i, Vector3.forward) * offset;
+            obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
+            obj.transform.position = transform.position;
+            obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
+        }
+        startCo = true;
+        SetPatton();
+    }
     void SetPatton() // 패턴을 랜덤으로 봐꿔주는 함수
     {
-        int rand = Random.Range(0, 5);
+        
+        int rand = Random.Range(0, 6);
         switch (rand)
         {
             case 0:
@@ -301,6 +265,9 @@ public class Boss : MonoBehaviour
             case 4:
                 curBossPatton = BossPatton.ExploreFire;
                 break;
+            case 5:
+                curBossPatton = BossPatton.ShotgunFire;
+                break;
         }
     }
     void EnemyFilp() // 싱글톤에 있는 플레이어의 위치에 따라 좌우반전시켜주는 함수
@@ -317,23 +284,31 @@ public class Boss : MonoBehaviour
         transform.localScale = localScale;
     }
 
-    IEnumerator Delay(float seconds) // 공격 딜레이 코루틴
-    {
-        yield return new WaitForSeconds(seconds);
-        isShot = true;
-
-    }
     public void IsHit(int damage =1) // 보스의 히트 함수
     {
         bossHp -= damage;
-        anim.SetTrigger("isHit");
+        //anim.SetTrigger("isHit");
+        StartCoroutine(IsHitChangeColor());
         if(bossHp <= 0)
         {
+            StopAllCoroutines();
+            rigid.velocity = Vector2.zero;
             isDie = true;
             anim.SetTrigger("isDie");
             capCol.enabled = false;
-            Destroy(this, 1f);
+            textObj.gameObject.SetActive(true);
+            text.gameObject.SetActive(true);
+            text.text = "Game Clear";
+            Time.timeScale = 0;
+            //Destroy(this.gameObject, 1f);
+   
         }
+    }
+    IEnumerator IsHitChangeColor()
+    {
+        spren.color = Color.blue;
+        yield return new WaitForSeconds(0.1f);
+        spren.color = Color.white;
     }
     void AroundFireOn() // 애니메이션 점프모션이 땅바닥에 닿았을 때 실행
     {
@@ -351,6 +326,7 @@ public class Boss : MonoBehaviour
             bullet.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
         }
         anim.SetBool("isJump", false);
+        startCo = true;
         SetPatton();
     }
 
@@ -366,8 +342,7 @@ public class Boss : MonoBehaviour
         Vector2 dir = new Vector2(x, y);
         dir += offset;
         bullet.transform.position = transform.position;
-        bullet.SetRigidExploreBullet(dir, bulletSpeed, bulletDamage);
-        
+        bullet.SetRigidExploreBullet(dir, 7, bulletDamage);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
