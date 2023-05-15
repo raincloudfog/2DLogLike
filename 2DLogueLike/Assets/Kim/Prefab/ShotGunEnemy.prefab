@@ -157,7 +157,7 @@ MonoBehaviour:
   bodyDamage: 0
   shotDelay: 3
   ranginPlayer: 5
-  ranginShot: 3.3
+  ranginShot: 3.27
 --- !u!70 &1238913517
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

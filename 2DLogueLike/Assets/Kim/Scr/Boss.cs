@@ -26,7 +26,7 @@ public class Boss : MonoBehaviour
     public int bulletDamage =1;
     public int bulletSpeed = 6;
     public float timer;
-
+    public float coTimer;
     bool isShot = true;
     bool isDie = false;
     public bool isRandomFire = true;
@@ -34,6 +34,7 @@ public class Boss : MonoBehaviour
     public bool isFires = true;
 
     int count = 0;
+    bool startCo = true;
     private void OnEnable()
     {
         Init();
@@ -54,36 +55,46 @@ public class Boss : MonoBehaviour
         {
             return;
         }
-        offset = EnemyObjectPool.instance.player.transform.position - transform.position;
-        rigid.velocity = offset.normalized * bossSpeed;
+        /*offset = EnemyObjectPool.instance.player.transform.position - transform.position;
+        rigid.velocity = offset.normalized * bossSpeed;*/
 
         EnemyFilp();
         StateBossPatton();
     }
-    
+
     void StateBossPatton() // 보스의 패턴 상태
     {
-        switch (curBossPatton)
+        if (startCo == true)
         {
-            case BossPatton.RandomFire:
-                RandomFire();
-                // 앞으로 4발 발사
-                break;
-            case BossPatton.Fires:
-                Fires();
-                // 플레이어 방향으로 샷건
-                break;
-            case BossPatton.AroundFire:
-                AroundFire();
-                // 원 형태로 전체 공격;
-                break;
-            case BossPatton.Teleport:
-                // 순간이동
-                Teleport();
-                break;
-            case BossPatton.ExploreFire:
-                ExploreFire();
-                break;
+            startCo = false;
+            switch (curBossPatton)
+            {
+                case BossPatton.RandomFire:
+                    StartCoroutine(IRandomFire());
+
+                    //RandomFire();
+                    // 앞으로 4발 발사
+                    break;
+                case BossPatton.Fires:
+                    StartCoroutine(IFires());
+
+                    //Fires();
+                    // 플레이어 방향으로 샷건
+                    break;
+                case BossPatton.AroundFire:
+                    AroundFire();
+                    // 원 형태로 전체 공격;
+                    break;
+                case BossPatton.Teleport:
+                    StartCoroutine(ITeleport());
+
+                    // 순간이동
+                    //Teleport();
+                    break;
+                case BossPatton.ExploreFire:
+                    ExploreFire();
+                    break;
+            }
         }
     }
 
@@ -105,6 +116,7 @@ public class Boss : MonoBehaviour
         if (timer >= 5)
         {
             timer = 0;
+           
             SetPatton();
         }
         else if (isRandomFire == true && isShot == true)
@@ -118,6 +130,38 @@ public class Boss : MonoBehaviour
             StartCoroutine(Delay(0.2f));
         }
     }
+    IEnumerator IRandomFire() // 상태가 변했을 떄 한번만 실행되게 만듬
+    {
+        anim.SetBool("isMove", true);
+        bool isStart = true;
+        while (/*isShot == true*/isStart == true)
+        {
+            coTimer += 1f;
+            if(coTimer >= 20f)
+            {
+                coTimer = 0;
+                startCo = true;
+                isStart = false;
+                SetPatton();
+            }
+            offset = EnemyObjectPool.instance.player.transform.position - transform.position;
+            rigid.velocity = offset.normalized * bossSpeed;
+            Vector2 randBullet = new Vector2(EnemyObjectPool.instance.player.transform.position.x * Random.Range(-1f, 1f),
+                    EnemyObjectPool.instance.player.transform.position.y * Random.Range(-1f, 1f));
+            BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
+            bullet.transform.position = transform.position;
+            bullet.SetRigidBossBullet(randBullet, bulletSpeed, bulletDamage);
+            yield return new WaitForSeconds(0.2f);
+        }
+
+    }
+    /*IEnumerator ISetPatton(float time)
+    {
+        yield return new WaitForSeconds(time);
+        //isShot = false;
+        //startCo = true;
+        SetPatton();
+    }*/
 
     void Teleport() // 상대방의 위치로 순간이동하는 패턴
     {
@@ -144,6 +188,22 @@ public class Boss : MonoBehaviour
             
         }
     }
+    IEnumerator ITeleport()
+    {
+        anim.SetBool("isMove", false);
+        rigid.velocity = Vector2.zero;
+        yield return new WaitForSeconds(1.5f);
+        anim.SetBool("isTLportOn", true);
+        capCol.enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        anim.SetBool("isTLportOff", true);
+        anim.SetBool("isTLportOn", false);
+        capCol.enabled = true;
+        yield return new WaitForSeconds(1f);
+        anim.SetBool("isTLportOff", false);
+        startCo = true;
+        SetPatton();
+    }
    
     void Fires() // 다가가면서 상대방 위치에 조금 랜덤한 총알 발사
     {
@@ -166,6 +226,23 @@ public class Boss : MonoBehaviour
             StartCoroutine(Delay(0.2f));
         }
     }
+
+    IEnumerator IFires()
+    {
+        Vector2 dir;
+        anim.SetBool("isMove", false);
+        while(count < 5)
+        {
+            dir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1, 2));
+            dir += offset;
+            BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
+            bullet.transform.position = transform.position;
+            bullet.SetRigidBossBullet(dir, 7, bulletDamage);
+            count += 1;
+            yield return new WaitForSeconds(0.2f);
+        }
+        count = 0;
+    }
     void AroundFire() // 
     {
         anim.SetBool("isMove", false);
@@ -177,6 +254,12 @@ public class Boss : MonoBehaviour
             anim.SetBool("isMove", false);
             anim.SetBool("isJump", true);
         }
+    }
+    IEnumerator IAroundFire()
+    {
+        anim.SetBool("isMove", false);
+        yield return new WaitForSeconds(1.5f);
+        
     }
     void ExploreFire() // 폭발하는 큰 불렛을 발사한다 폭발시 AroundFire처럼 전방향으로 불렛을 뿌린다
     {

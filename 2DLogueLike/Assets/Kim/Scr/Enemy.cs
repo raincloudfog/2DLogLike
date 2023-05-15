@@ -64,5 +64,6 @@ public class Enemy : MonoBehaviour
     protected virtual void SetState(State newState)
     {   
         curState = newState;
+        
     }
 }

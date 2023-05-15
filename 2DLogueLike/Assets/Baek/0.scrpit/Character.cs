@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-
+    Rigidbody2D rigid; // 플레이어의 리지드부분은 김영수가 수정중
 
     public Transform gun;   // 총의 위치
     public GameObject bulletPrefab; // 더미데이터
@@ -37,6 +37,7 @@ public class Character : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         spr = GetComponent<SpriteRenderer>();
+        rigid = GetComponent<Rigidbody2D>();
         Hpcut = 50;
     }
 
@@ -196,9 +197,11 @@ public class Character : MonoBehaviour
         movedic.y = y;
 
         // 플레이어가 움직이는걸 실행 속도 조절
-        transform.position += movedic * Time.deltaTime * moveSpeed;
-        anim.SetBool("isMove", movedic != Vector3.zero); // 김영수가 추가함 키입력이 있을 때 애니메이션 실행
-        
+        //transform.position += movedic * Time.deltaTime * moveSpeed;
+
+        // 김영수가 리지드바디로 움직임 수정
+        rigid.velocity = movedic * moveSpeed;
+        anim.SetBool("isMove", movedic != Vector3.zero); // 김영수가 추가함 키입력이 있을 때 애니메이션 실행   
     }
 
     void gunmove() // 총 이동 함수

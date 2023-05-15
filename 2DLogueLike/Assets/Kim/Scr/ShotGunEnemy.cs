@@ -47,6 +47,8 @@ public class ShotGunEnemy : Enemy
                 break;
         }
         Die();
+
+        
     }
     void Idle()
     {
@@ -83,7 +85,8 @@ public class ShotGunEnemy : Enemy
             if (isAttack)
             {
                 isAttack = false;
-                ShotGun();
+                //ShotGun();
+                newShotgun();
 
                 StartCoroutine(Delay());
             }
@@ -106,17 +109,40 @@ public class ShotGunEnemy : Enemy
     }
     void ShotGun()
     {
-        int angle = 180;
-        for (int i = 20; i < angle; i += angle/4)
+        //int angle = 180;
+        for (int i = -1; i < 2; i ++)
         {
             //Vector2 offset = player.transform.position - transform.position;
             Vector2 offset = EnemyObjectPool.instance.player.transform.position - transform.position;
-            Vector2 dir = new Vector2(Mathf.Cos(i * Mathf.Deg2Rad), Random.Range(0,2));
-            dir += offset;
+            Vector2 dir = new Vector2(Mathf.Cos(i * 20 * Mathf.Deg2Rad), 0);
+            if (i < 0)
+                dir -= offset;
+            else
+                dir += offset;
+            Debug.Log(dir);
             Enemybullet obj = EnemyObjectPool.instance.enemyBulletpool.Getbullet();
             obj.transform.position = transform.position;
             obj.SetRigidBullet(dir, curEnemyBulletSpeed, curEnemyBulletDamage);
         }
+    }
+    void newShotgun() //
+    {
+        Vector2 offset = EnemyObjectPool.instance.player.transform.position - transform.position;
+        Vector2 dir;
+        Enemybullet obj;
+        for (int i = -1; i < 2; i++) //
+        {
+            /*if (i==0)
+            {
+                continue;
+            }*/
+            dir = Quaternion.AngleAxis( 10 * i, Vector3.forward) * offset;
+            obj = EnemyObjectPool.instance.enemyBulletpool.Getbullet();
+            obj.transform.position = transform.position;
+            obj.SetRigidBullet(dir, curEnemyBulletSpeed, curEnemyBulletDamage);
+            
+        }
+        
     }
     void Die()
     {

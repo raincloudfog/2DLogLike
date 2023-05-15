@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PistorEnemy : Enemy
 {
-    //Character player;
-    //GameObject player;
     CapsuleCollider2D capCol;
     private void Awake()
     {
@@ -15,12 +13,6 @@ public class PistorEnemy : Enemy
     private void OnEnable()
     {
         Init();
-        capCol.enabled = true;
-        curEnemyHp = enemyHp;
-        curEnemySpeed = enemySpeed;
-        curEnemyBulletSpeed = enemyBulletSpeed;
-        curEnemyBulletDamage = enemybulletDamage;
-        //player = EnemyObjectPool.instance.player.GetComponent<Character>();
     }
     protected override void Init()
     {
@@ -29,14 +21,22 @@ public class PistorEnemy : Enemy
         {
             capCol = GetComponent<CapsuleCollider2D>();
         }
+        capCol.enabled = true;
+        curEnemyHp = enemyHp;
+        curEnemySpeed = enemySpeed;
+        curEnemyBulletSpeed = enemyBulletSpeed;
+        curEnemyBulletDamage = enemybulletDamage;
     }
-    
-
 
     void Update()
     {
+        StateEnemyPatton();
+    }
+
+    void StateEnemyPatton()
+    {
         col = Physics2D.OverlapCircle(transform.position, ranginPlayer, playerLayer);
-        
+
         switch (curState)
         {
             case State.Idle:
@@ -48,8 +48,8 @@ public class PistorEnemy : Enemy
                 break;
         }
         Die();
-
     }
+
     void Idle()
     {
         anim.SetBool("isMove", false);
@@ -58,10 +58,12 @@ public class PistorEnemy : Enemy
             SetState(State.Attack);
         }
     }
+
     void Attack()
     {
         Collider2D col2 = Physics2D.OverlapCircle(transform.position, ranginShot, playerLayer);
         anim.SetBool("isMove", col);
+        EnemyFilp();
         if (col == null)
         {
             SetState(State.Idle);
@@ -73,14 +75,13 @@ public class PistorEnemy : Enemy
             //Vector2 offset = player.transform.position - transform.position;
             Vector2 offset = EnemyObjectPool.instance.player.transform.position - transform.position;
             rigid.velocity = offset.normalized * curEnemySpeed;
-            EnemyFilp();
+            
         }
 
 
         else if (col2 != null && col != null && isDie == false)
         {
             anim.SetBool("isMove", false);
-            EnemyFilp();
             rigid.velocity = Vector2.zero;
             if (isAttack)
             {
@@ -91,6 +92,7 @@ public class PistorEnemy : Enemy
             }
         }
     }
+
     void EnemyFilp()
     {
         Vector3 localScale = transform.localScale;
@@ -124,6 +126,7 @@ public class PistorEnemy : Enemy
             capCol.enabled = false;
         }
     }
+
     IEnumerator ReturnDelay()
     {
         yield return new WaitForSeconds(1f);
