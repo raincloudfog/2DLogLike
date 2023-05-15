@@ -158,7 +158,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1bf642a7a6530b40b6eb3515d2beccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  exploreBullet: {fileID: 321218970, guid: 4b2327fe07bf27443b192e9baa8b29a5, type: 3}
   curBossPatton: 2
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
   bossHp: 100
   bossSpeed: 1
   bulletDamage: 1

@@ -12,7 +12,10 @@ public class NextStage : MonoBehaviour
         Player = Physics2D.OverlapBox(transform.position, GetComponent<BoxCollider2D>().size,0,LayerMask.GetMask("Player"));
         if(Player != null)
         {
+            SaveData.Instance.Weapontype(GunManager.Instance.waeponType).
+                Hpsave(Player.GetComponent<Character>().Hp).Coinsave(GameManager.Instance.coin);
             SceneManager.LoadScene(2);
         }
     }
+    
 }

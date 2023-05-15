@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class ShopNPC : Npc
 {
-    
+    private void Start()
+    {
+        _kind = NPCKind.Weapon;
+    }
 }

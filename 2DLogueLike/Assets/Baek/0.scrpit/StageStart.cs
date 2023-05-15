@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StageStart : MonoBehaviour
 {
@@ -23,11 +24,20 @@ public class StageStart : MonoBehaviour
     private void FixedUpdate()
     {
         
-        monsters = Physics2D.OverlapBox(transform.position, GetComponent<BoxCollider2D>().size,0, LayerMask.GetMask("Enemy"));
+        
+        if(SceneManager.GetActiveScene().name == "BossRoom")
+        {
+            monsters = Physics2D.OverlapBox(transform.position, GetComponent<BoxCollider2D>().size, 0, LayerMask.GetMask("Boss"));
+        }
+        else
+        {
+            monsters = Physics2D.OverlapBox(transform.position, GetComponent<BoxCollider2D>().size, 0, LayerMask.GetMask("Enemy"));
+        }
 
 
-       
-        if(monsters != null)
+
+
+        if (monsters != null)
         {
             wall.SetActive(true);
             
