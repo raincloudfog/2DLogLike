@@ -4,5 +4,9 @@ using UnityEngine;
 
 public class Healer : Npc
 {
-    
+
+    private void Start()
+    {
+        _kind = NPCKind.Potion;
+    }
 }

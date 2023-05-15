@@ -18,7 +18,12 @@ public class Character : MonoBehaviour
 
     public float spreadAngle = 10f; // 총알 퍼짐 각도
 
+    Vector3 Player; // 플레이어의 현재위치
+    public Npc SHOP;// 무기 상인 위치
+    public Npc POTION; // 힐러 위치
 
+    Vector3 Weapon;
+    Vector3 Potion;
 
     public float gunDistance = 1.0f;// 마우스 위치와 총 사이의 거리
     [SerializeField]
@@ -32,13 +37,24 @@ public class Character : MonoBehaviour
     public bool ismove = true; // 이동 허용
     public bool isAttack = true; // 공격 허용
     [SerializeField] bool isHit = true; // 타격 허용;
+    float HealerDistance; // 힐러 상인과의 거리
+    float shopDistance; // 무기상인과의 거리
 
+    
     private void Awake()
     {
         anim = GetComponent<Animator>();
         spr = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
         Hpcut = 50;
+        
+        
+       if(SHOP != null && POTION != null)
+       {
+            Weapon = SHOP.transform.position;
+            Potion = POTION.transform.position;
+       }
+       
     }
 
 
@@ -49,6 +65,62 @@ public class Character : MonoBehaviour
         Move();
         gunmove(); 
         Cheat(); // 무적 모드
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+
+            if (SHOP != null || POTION != null)
+            {
+
+
+                //NPC랑 가까운 뭔지 체크..
+                if (shopDistance < 5)
+                {
+                    SHOP.EventUI(true);
+
+                }
+                else if (HealerDistance < 5)
+                {
+                    POTION.EventUI(true);
+                }
+            }
+            
+        }
+        if (SHOP != null || POTION != null)
+        {
+            if (shopDistance > 5 && HealerDistance > 5)
+            {
+                SHOP.EventUI(false);
+                POTION.EventUI(false);
+            }
+        }
+        
+        
+
+        //
+    }
+    private void FixedUpdate()
+    {
+        Player = transform.position;
+        shopDistance = (Player - Weapon).sqrMagnitude;
+        HealerDistance = (Player - Potion).sqrMagnitude;
+
+        // 총이 왼쪽으로 갔을시에 플립으로 돌려준다.
+        // 총이 오른쪽으로 갔을시 플립을 해제한다.
+        if (gun.rotation.eulerAngles.z >= 90 && gun.rotation.eulerAngles.z <= 270)
+        {
+            gun.gameObject.GetComponent<SpriteRenderer>().flipY = true;
+            spr.flipX = true;
+
+        }
+        else
+        {
+            gun.gameObject.GetComponent<SpriteRenderer>().flipY = false;
+            spr.flipX = false;
+
+        }
+        //Debug.Log(gun.rotation.eulerAngles.z); // 총 각도 확인값
+        AnimatorMove();
     }
 
     void Cheat() // 치트 모드
@@ -73,25 +145,7 @@ public class Character : MonoBehaviour
         }*/ // 더미데이터
     }
 
-    private void FixedUpdate()
-    {
-        // 총이 왼쪽으로 갔을시에 플립으로 돌려준다.
-        // 총이 오른쪽으로 갔을시 플립을 해제한다.
-        if (gun.rotation.eulerAngles.z >= 90 && gun.rotation.eulerAngles.z <= 270)
-        {
-            gun.gameObject.GetComponent<SpriteRenderer>().flipY = true;
-            spr.flipX = true;
-
-        }
-        else
-        {
-            gun.gameObject.GetComponent<SpriteRenderer>().flipY = false;
-            spr.flipX = false;
-
-        }
-        //Debug.Log(gun.rotation.eulerAngles.z); // 총 각도 확인값
-        AnimatorMove();
-    }
+    
 
     public void PlayerHIt(int Damage) // 플레이어 피격시 
     {
@@ -131,12 +185,16 @@ public class Character : MonoBehaviour
 
             // 총 위치 업데이트
             gun.position = transform.position + gunOffset;
-        }
-        
+        }        
     }
 
     void Shoot() // 샷건쏘는 함수
     {
+        //Debug.Log("총쏨");
+        if(GameManager.Instance.isUiactive == true)
+        {
+            return;
+        }
         timer += Time.deltaTime;
 
 
@@ -231,7 +289,7 @@ public class Character : MonoBehaviour
     {
         
 
-        for (int i = 0; i < 5; i++)
+        for (int i = -1; i <2 ; i++)
         {
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 world = Vector3.zero;
@@ -248,7 +306,7 @@ public class Character : MonoBehaviour
 
             // 총알 발사 방향 벡터를 랜덤하게 변경
             float spread = Random.Range(-spreadAngle, spreadAngle);
-            bulletDirection = Quaternion.Euler(spread, spread, 0f) * bulletDirection;
+            bulletDirection = Quaternion.AngleAxis(10 * i, Vector3.forward) * bulletDirection;
             GameObject bullet = ObjectPoolBaek.Instance.PlayerBulletCreate();
             bullet.transform.position = transform.GetChild(0).transform.position;
             bullet.GetComponent<Playerbullet>().Shoot(bulletDirection, bulletSpeed);
