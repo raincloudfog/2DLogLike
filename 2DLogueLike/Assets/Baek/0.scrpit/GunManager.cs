@@ -58,25 +58,25 @@ public class GunManager : SingletonBaek<GunManager>
                 Gunsp.GetComponent<SpriteRenderer>().sprite = Guns[1]; 
                 Player.timerdelay = 0.2f;
                 Player.Damage = 3;
-                Player.bulletSpeed = 50;
+                Player.bulletSpeed = 25;
                 break;
             case WaeponType.Shotgun:
                 Gunsp.GetComponent<SpriteRenderer>().sprite = Guns[2];
                 Player.timerdelay = 1f;
                 Player.Damage = 3;
-                Player.bulletSpeed = 50;
+                Player.bulletSpeed = 25;
                 break;
             case WaeponType.Sniper:
                 Gunsp.GetComponent<SpriteRenderer>().sprite = Guns[3];
                 Player.timerdelay = 2.5f;
                 Player.Damage = 15;
-                Player.bulletSpeed = 50;
+                Player.bulletSpeed = 30;
                 break;
             case WaeponType.Missile:
                 Gunsp.GetComponent<SpriteRenderer>().sprite = Guns[4];
                 Player.timerdelay = 3.5f;
                 Player.Damage = 30;
-                Player.bulletSpeed = 50;
+                Player.bulletSpeed = 30;
                 break;
             case WaeponType.End:
                 break;

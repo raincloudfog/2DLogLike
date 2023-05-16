@@ -40,7 +40,7 @@ public class Coin : Item
               ranginPlayer,
               LayerMask.GetMask("Player"));
 
-        rigid.velocity = (Player.transform.position - transform.position).normalized * 5f;
+        rigid.velocity = (Player.transform.position - transform.position).normalized * 15f;
         Pick_Up();
     }
 }
