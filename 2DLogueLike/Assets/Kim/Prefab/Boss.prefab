@@ -243,11 +243,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1bf642a7a6530b40b6eb3515d2beccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  exploreBullet: {fileID: 321218970, guid: 4b2327fe07bf27443b192e9baa8b29a5, type: 3}
+  curBossPatton: 4
   text: {fileID: 0}
   textObj: {fileID: 0}
   isHitColor: {r: 0, g: 0, b: 0, a: 0}
-  exploreBullet: {fileID: 321218970, guid: 4b2327fe07bf27443b192e9baa8b29a5, type: 3}
-  curBossPatton: 4
+  TLportSound: {fileID: 8300000, guid: b2c16dc12cf487c4db3cdff772b4c903, type: 3}
+  ExploreSound: {fileID: 8300000, guid: 3bfb9b749391ade4fb8ceb3a4830d950, type: 3}
+  FiresSound: {fileID: 8300000, guid: 11af08b3f9d7bcd4c8dcfc6f39381827, type: 3}
   layer:
     serializedVersion: 2
     m_Bits: 64

@@ -114,6 +114,7 @@ public class PistorEnemy : Enemy
         Enemybullet obj = EnemyObjectPool.instance.enemyBulletpool.Getbullet();
         obj.transform.position = transform.position;
         obj.SetRigidBullet(offset, curEnemyBulletSpeed, curEnemyBulletDamage);
+        PlaySound("isShot");
     }
     void Die()
     {

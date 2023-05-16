@@ -147,11 +147,13 @@ public class Character : MonoBehaviour
 
     
 
-    public void PlayerHIt(int Damage) // 플레이어 피격시 
+    public void PlayerHIt(int Damage = 1) // 플레이어 피격시 
     {
         if (isHit == false)
             return;
+        Debug.Log("맞았음");
         Hp -= Damage;
+        
         isHit = false;
         StartCoroutine(Hitspr());
         if(Hp <= 0)
@@ -322,10 +324,6 @@ public class Character : MonoBehaviour
         yield return new WaitForSeconds(1f);
         OptionManager.Instance.died.SetActive(true);
         Time.timeScale = 0;
-
-
-
-
     }
 
 }

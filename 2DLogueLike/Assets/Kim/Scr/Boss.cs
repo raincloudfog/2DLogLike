@@ -4,11 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 public class Boss : MonoBehaviour
-{
-    public TMP_Text text;
-    public GameObject textObj;
-    public Color isHitColor;
-    SpriteRenderer spren;
+{    
     public enum BossPatton
     {
         RandomFire,
@@ -18,13 +14,26 @@ public class Boss : MonoBehaviour
         ExploreFire,
         ShotgunFire
     }
-    [SerializeField] ExploreBullet exploreBullet;
 
+    public enum BossAudio
+    {
+        Fires,
+        Explore,
+        TLport
+    }
+
+    [SerializeField] ExploreBullet exploreBullet;
+    
     public BossPatton curBossPatton = BossPatton.Fires;
+    public TMP_Text text;
+    public GameObject textObj;
+ 
     Rigidbody2D rigid;
     Animator anim;
     CapsuleCollider2D capCol;
-   
+    SpriteRenderer spren;
+    EnemyAudio enemyAudio;
+
     Vector2 offset;
     public LayerMask layer;
     public int bossHp;
@@ -78,8 +87,8 @@ public class Boss : MonoBehaviour
             switch (curBossPatton)
             {
                 case BossPatton.RandomFire:
-                    StartCoroutine(IRandomFire());
-
+                    //StartCoroutine(IRandomFire());
+                    StartCoroutine(PracticeFire());
                     //RandomFire();
                     // 앞으로 4발 발사
                     break;
@@ -123,6 +132,8 @@ public class Boss : MonoBehaviour
             capCol.enabled = true;
         }
         if (spren == null) spren = GetComponent<SpriteRenderer>();
+        //if (bossAudio == null) bossAudio = GetComponent<AudioSource>();
+        if (enemyAudio == null) enemyAudio = GetComponent<EnemyAudio>();
     }
 
     IEnumerator IRandomFire() // 상태가 변했을 떄 한번만 실행되게 만듬
@@ -156,13 +167,16 @@ public class Boss : MonoBehaviour
     {
         anim.SetBool("isMove", false);
         rigid.velocity = Vector2.zero;
+
         yield return new WaitForSeconds(1f);
         anim.SetBool("isTLportOn", true);
         capCol.enabled = false;
+
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("isTLportOff", true);
         anim.SetBool("isTLportOn", false);
         capCol.enabled = true;
+
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("isTLportOff", false);
         startCo = true;
@@ -183,6 +197,7 @@ public class Boss : MonoBehaviour
             BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
             bullet.transform.position = transform.position;
             bullet.SetRigidBossBullet(dir, 7, bulletDamage);
+            enemyAudio.PlayAudio((int)BossAudio.Fires);
             count += 1;
             yield return new WaitForSeconds(0.2f);
         }
@@ -227,6 +242,44 @@ public class Boss : MonoBehaviour
         startCo = true;
         SetPatton();
     }
+
+    IEnumerator PracticeFire()
+    {
+        Vector2 dir;
+        BossBullet obj;
+        int count = 0;
+        
+        while (true)
+        {
+            for (int i = 0; i <= 360; i+=50)
+            {
+                /*if (i==0)
+                {
+                    continue;
+                }*/
+                dir = Quaternion.AngleAxis(i, Vector3.forward) * transform.position;
+                obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
+                obj.transform.position = transform.position;
+                obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
+                
+            }
+            yield return new WaitForSeconds(0.1f);
+
+            for (int i = 45; i <= 315; i += 60)
+            {
+                /*if (i==0)
+                {
+                    continue;
+                }*/
+                dir = Quaternion.AngleAxis(i, Vector3.forward) * transform.position * 0.1f;
+                obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
+                obj.transform.position = transform.position;
+                obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
     void SetPatton() // 패턴을 랜덤으로 봐꿔주는 함수
     {
         
@@ -317,10 +370,14 @@ public class Boss : MonoBehaviour
 
     void TeleportOn() // 텔레포트 애니메이션에 넣을 함수
     {
+        //PlaySound("TLportSound");
+        enemyAudio.PlayAudio((int)BossAudio.TLport);
         this.transform.position = EnemyObjectPool.instance.player.transform.position;
     }
     void ExploreFireOn() // 
     {
+        //PlaySound("ExploreSound");
+        enemyAudio.PlayAudio((int)BossAudio.Explore);
         ExploreBullet bullet = Instantiate(exploreBullet);
         int x = Random.Range(-1, 2);
         int y = Random.Range(-1, 2);
@@ -371,11 +428,15 @@ public class Boss : MonoBehaviour
             }
         }
     }
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (isDie == false)
         {
-            collision.gameObject.GetComponent<Character>().PlayerHIt(1);
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                collision.gameObject.GetComponent<Character>().PlayerHIt(1);
+            }
         }
     }
 

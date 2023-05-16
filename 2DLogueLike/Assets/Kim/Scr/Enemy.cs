@@ -10,11 +10,17 @@ public class Enemy : MonoBehaviour
         Patrol,
         Attack
     }
+
+    [SerializeField] protected AudioClip audioHit;
+    [SerializeField] protected AudioClip enemyBulletShot;
+    [SerializeField] protected AudioClip enemyDie;
+
     [SerializeField] protected LayerMask playerLayer;
     protected State curState = State.Idle;
     //protected Transform player;
     protected Animator anim;
     protected Rigidbody2D rigid;
+    protected AudioSource audio;
     protected Collider2D col = new Collider2D(); // 감지범위는 필수
     [SerializeField] protected int enemyHp;
     [SerializeField] protected int curEnemyHp;
@@ -46,6 +52,8 @@ public class Enemy : MonoBehaviour
             anim = GetComponent<Animator>();
         if (rigid == null)
             rigid = GetComponent<Rigidbody2D>();
+        if (audio == null)
+            audio = GetComponent<AudioSource>();
     }
 
     public void IsHit(int damage)
@@ -56,6 +64,7 @@ public class Enemy : MonoBehaviour
             anim.SetTrigger("isHit");
             if(curEnemyHp <= 0)
             {
+                PlaySound("isDie");
                 isDie = true;
             }
         }
@@ -65,6 +74,23 @@ public class Enemy : MonoBehaviour
     {   
         curState = newState;
         
+    }
+
+    protected virtual void PlaySound(string action)
+    {
+        switch (action)
+        {
+            case "isHit":
+                audio.clip = audioHit;
+                break;
+            case "isShot":
+                audio.clip = enemyBulletShot;
+                break;
+            case "isDie":
+                audio.clip = enemyDie;
+                break;
+        }
+        audio.Play();
     }
 
     protected void OnCollisionStay2D(Collision2D collision)

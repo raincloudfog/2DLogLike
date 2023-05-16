@@ -17,7 +17,11 @@ public class Stage : MonoBehaviour
         {
             monstersList[i].SetActive(false);
         }
-        walldoor.SetActive(false);
+        if (walldoor != null)
+        {
+            walldoor.SetActive(false);
+        }
+
     }
 
     private void FixedUpdate()
@@ -31,10 +35,19 @@ public class Stage : MonoBehaviour
             {
                 monstersList[i].gameObject.SetActive(true);
             }
-            walldoor.SetActive(true);
-            bossHpObj.SetActive(true);
+            if (walldoor != null)
+            {
+                walldoor.SetActive(true);
+            }
+            if (bossHpObj != null)
+            {
+                bossHpObj.SetActive(true);
+            }
+
+
             // 현재 스테이지를 비활성화합니다.
             gameObject.SetActive(false);
         }
     }
+
 }

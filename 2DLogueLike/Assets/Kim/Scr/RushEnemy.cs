@@ -64,17 +64,6 @@ public class RushEnemy : Enemy
         
         Die();
     }
-    private void FixedUpdate()
-    {
-        bodyCol = Physics2D.OverlapCircle(transform.position, transform.localScale.x, playerLayer);
-        if (bodyCol != null)
-        {
-            if (col.gameObject.layer == 6)
-            {
-                col.GetComponent<Character>().PlayerHIt(curBodyDamage);
-            }
-        }
-    }
 
     void Idle() // °¡¸¸È÷ 
     {

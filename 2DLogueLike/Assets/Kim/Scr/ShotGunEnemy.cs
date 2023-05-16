@@ -85,7 +85,7 @@ public class ShotGunEnemy : Enemy
             if (isAttack)
             {
                 isAttack = false;
-                //ShotGun();
+                
                 newShotgun();
 
                 StartCoroutine(Delay());
@@ -107,24 +107,7 @@ public class ShotGunEnemy : Enemy
         }
         transform.localScale = localScale;
     }
-    void ShotGun()
-    {
-        //int angle = 180;
-        for (int i = -1; i < 2; i ++)
-        {
-            //Vector2 offset = player.transform.position - transform.position;
-            Vector2 offset = EnemyObjectPool.instance.player.transform.position - transform.position;
-            Vector2 dir = new Vector2(Mathf.Cos(i * 20 * Mathf.Deg2Rad), 0);
-            if (i < 0)
-                dir -= offset;
-            else
-                dir += offset;
-            Debug.Log(dir);
-            Enemybullet obj = EnemyObjectPool.instance.enemyBulletpool.Getbullet();
-            obj.transform.position = transform.position;
-            obj.SetRigidBullet(dir, curEnemyBulletSpeed, curEnemyBulletDamage);
-        }
-    }
+ 
     void newShotgun() //
     {
         Vector2 offset = EnemyObjectPool.instance.player.transform.position - transform.position;
@@ -140,8 +123,8 @@ public class ShotGunEnemy : Enemy
             obj = EnemyObjectPool.instance.enemyBulletpool.Getbullet();
             obj.transform.position = transform.position;
             obj.SetRigidBullet(dir, curEnemyBulletSpeed, curEnemyBulletDamage);
-            
         }
+        PlaySound("isShot");
         
     }
     void Die()
