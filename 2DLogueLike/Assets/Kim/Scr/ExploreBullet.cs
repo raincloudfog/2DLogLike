@@ -42,8 +42,8 @@ public class ExploreBullet : MonoBehaviour
                     bullet.transform.position = transform.position;
                     bullet.SetRigidBossBullet(dir, 6, bulletDamage);
                 }
+                Destroy(this.gameObject);
             }
-            Destroy(this.gameObject);
         }
     }
     public void SetRigidExploreBullet(Vector2 offset, float speed, int bulletDamage)

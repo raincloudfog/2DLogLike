@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Stage : MonoBehaviour
 {
     [SerializeField] Collider2D player;  // 플레이어를 감지하기 위한 콜라이더
     [SerializeField] List<GameObject> monstersList;  // 몬스터 오브젝트들의 리스트
 
+    public GameObject bossHpObj;
 
+    public GameObject walldoor;
 
     private void Awake()
     {
@@ -16,6 +17,7 @@ public class Stage : MonoBehaviour
         {
             monstersList[i].SetActive(false);
         }
+        walldoor.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -29,7 +31,8 @@ public class Stage : MonoBehaviour
             {
                 monstersList[i].gameObject.SetActive(true);
             }
-
+            walldoor.SetActive(true);
+            bossHpObj.SetActive(true);
             // 현재 스테이지를 비활성화합니다.
             gameObject.SetActive(false);
         }

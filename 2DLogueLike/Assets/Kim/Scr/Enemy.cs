@@ -66,4 +66,15 @@ public class Enemy : MonoBehaviour
         curState = newState;
         
     }
+
+    protected void OnCollisionStay2D(Collision2D collision)
+    {
+        if (isDie == false)
+        {
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                collision.gameObject.GetComponent<Character>().PlayerHIt(1);
+            }
+        }
+    }
 }

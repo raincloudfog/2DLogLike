@@ -129,7 +129,7 @@ public class Boss : MonoBehaviour
     {
         anim.SetBool("isMove", true);
         bool isStart = true;
-        while (/*isShot == true*/isStart == true)
+        while (isStart == true)
         {
             coTimer += 0.1f;
             if(coTimer >= 20f)
@@ -143,6 +143,7 @@ public class Boss : MonoBehaviour
             rigid.velocity = offset.normalized * bossSpeed;
             Vector2 randBullet = new Vector2(EnemyObjectPool.instance.player.transform.position.x * Random.Range(-1f, 1f),
                     EnemyObjectPool.instance.player.transform.position.y * Random.Range(-1f, 1f));
+            randBullet += offset;
             BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
             bullet.transform.position = transform.position;
             bullet.SetRigidBossBullet(randBullet, bulletSpeed, bulletDamage);
@@ -155,14 +156,14 @@ public class Boss : MonoBehaviour
     {
         anim.SetBool("isMove", false);
         rigid.velocity = Vector2.zero;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         anim.SetBool("isTLportOn", true);
         capCol.enabled = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         anim.SetBool("isTLportOff", true);
         anim.SetBool("isTLportOn", false);
         capCol.enabled = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         anim.SetBool("isTLportOff", false);
         startCo = true;
         SetPatton();
@@ -174,7 +175,7 @@ public class Boss : MonoBehaviour
     {
         Vector2 dir;
         anim.SetBool("isMove", true);
-        while(count < 5)
+        while(count < 8)
         {
             dir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1, 2));
             dir += offset;
@@ -269,8 +270,7 @@ public class Boss : MonoBehaviour
     public void IsHit(int damage =1) // 보스의 히트 함수
     {
         bossHp -= damage;
-        //anim.SetTrigger("isHit");
-        StartCoroutine(IsHitChangeColor());
+        StartCoroutine(IsHitColorChange());
         if(bossHp <= 0)
         {
             StopAllCoroutines();
@@ -278,20 +278,23 @@ public class Boss : MonoBehaviour
             isDie = true;
             anim.SetTrigger("isDie");
             capCol.enabled = false;
-            textObj.gameObject.SetActive(true);
-            text.gameObject.SetActive(true);
-            text.text = "Game Clear";
-            Time.timeScale = 0;
-            //Destroy(this.gameObject, 1f);
-   
         }
     }
-    IEnumerator IsHitChangeColor()
+    void Ending()
+    {
+        textObj.gameObject.SetActive(true);
+        text.gameObject.SetActive(true);
+        text.text = "Game Clear";
+        Time.timeScale = 0;
+    }
+    IEnumerator IsHitColorChange()
     {
         spren.color = Color.blue;
         yield return new WaitForSeconds(0.1f);
         spren.color = Color.white;
     }
+
+
     void AroundFireOn() // 애니메이션 점프모션이 땅바닥에 닿았을 때 실행
     {
         int count = 30; // 총알 갯수
