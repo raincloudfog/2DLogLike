@@ -72,7 +72,7 @@ public class Food : Item
         Pick = Physics2D.OverlapCircle(transform.position,
                ranginPlayer,
                LayerMask.GetMask("Player"));
-        rigid.velocity = (Player.transform.position - transform.position).normalized * 5f;
+        rigid.velocity = (Player.transform.position - transform.position).normalized * 15f;
         Pick_Up();
         
     }
