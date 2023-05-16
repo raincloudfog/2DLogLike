@@ -249,6 +249,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   monstersList: []
+  bossHpObj: {fileID: 0}
+  walldoor: {fileID: 0}
 --- !u!1 &41773686
 GameObject:
   m_ObjectHideFlags: 0
@@ -4537,6 +4539,8 @@ MonoBehaviour:
   - {fileID: 4849228842932253271}
   - {fileID: 6619070182004435864}
   - {fileID: 5247445241997721923}
+  bossHpObj: {fileID: 0}
+  walldoor: {fileID: 0}
 --- !u!1 &346716961
 GameObject:
   m_ObjectHideFlags: 0
@@ -4880,6 +4884,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   monstersList: []
+  bossHpObj: {fileID: 0}
+  walldoor: {fileID: 0}
 --- !u!1 &416346099
 GameObject:
   m_ObjectHideFlags: 0
@@ -20852,6 +20858,8 @@ MonoBehaviour:
   - {fileID: 807664237529555300}
   - {fileID: 8832371850968570054}
   - {fileID: 2805281503250392639}
+  bossHpObj: {fileID: 0}
+  walldoor: {fileID: 0}
 --- !u!1 &1096236925
 GameObject:
   m_ObjectHideFlags: 0
@@ -23708,6 +23716,8 @@ MonoBehaviour:
   - {fileID: 6513971918575052582}
   - {fileID: 7583098304995227635}
   - {fileID: 1251126202634203794}
+  bossHpObj: {fileID: 0}
+  walldoor: {fileID: 0}
 --- !u!1 &2074946497
 GameObject:
   m_ObjectHideFlags: 0
@@ -25271,14 +25281,6 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7293673877935743589, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7293673877935743589, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7293673877935743589, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -25321,14 +25323,6 @@ PrefabInstance:
     - target: {fileID: 7293673877935743591, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}
       propertyPath: m_Name
       value: player_0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7293673879374012054, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7293673879374012054, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}

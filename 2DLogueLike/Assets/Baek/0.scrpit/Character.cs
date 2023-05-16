@@ -6,6 +6,10 @@ public class Character : MonoBehaviour
 {
     Rigidbody2D rigid; // 플레이어의 리지드부분은 김영수가 수정중
 
+
+    
+    private AudioSource audioSource;  // 총소리를 재생할 오디오 소스
+
     public Transform gun;   // 총의 위치
     public GameObject bulletPrefab; // 더미데이터
 
@@ -54,7 +58,16 @@ public class Character : MonoBehaviour
             Weapon = SHOP.transform.position;
             Potion = POTION.transform.position;
        }
-       
+        audioSource = GetComponent<AudioSource>();
+
+        if (GameObject.Find("AudioManager"))
+        {
+            audioSource.clip = AudioManager.Instance.BulletSound[0];
+        }
+
+
+
+
     }
 
 
@@ -121,6 +134,8 @@ public class Character : MonoBehaviour
         }
         //Debug.Log(gun.rotation.eulerAngles.z); // 총 각도 확인값
         AnimatorMove();
+        
+        
     }
 
     void Cheat() // 치트 모드
@@ -190,8 +205,10 @@ public class Character : MonoBehaviour
 
     void Shoot() // 샷건쏘는 함수
     {
+        
+        
         //Debug.Log("총쏨");
-        if(GameManager.Instance.isUiactive == true)
+        if (GameManager.Instance.isUiactive == true)
         {
             return;
         }
@@ -202,6 +219,7 @@ public class Character : MonoBehaviour
         {
             return;
         }
+        
         Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 world = Vector3.zero;
         world.x = worldPosition.x;
@@ -210,6 +228,7 @@ public class Character : MonoBehaviour
         // 마우스 왼쪽 버튼을 누르면 발사
         if (Input.GetMouseButton(0) && timer >= timerdelay)
         {
+            audioSource.Play();
             timer = 0;
             if (GunManager.Instance.waeponType == WaeponType.Shotgun)
             {
