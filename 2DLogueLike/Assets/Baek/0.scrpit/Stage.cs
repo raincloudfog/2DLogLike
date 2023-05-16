@@ -10,6 +10,8 @@ public class Stage : MonoBehaviour
     [SerializeField]
     List<GameObject> monstersList;
 
+
+
     private void Awake()
     {
         for (int i = 0; i < monstersList.Count; i++)

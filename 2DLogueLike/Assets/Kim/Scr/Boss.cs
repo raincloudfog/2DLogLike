@@ -131,7 +131,7 @@ public class Boss : MonoBehaviour
         bool isStart = true;
         while (/*isShot == true*/isStart == true)
         {
-            coTimer += 1f;
+            coTimer += 0.1f;
             if(coTimer >= 20f)
             {
                 coTimer = 0;
@@ -146,7 +146,7 @@ public class Boss : MonoBehaviour
             BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
             bullet.transform.position = transform.position;
             bullet.SetRigidBossBullet(randBullet, bulletSpeed, bulletDamage);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
         }
 
     }
@@ -158,7 +158,7 @@ public class Boss : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         anim.SetBool("isTLportOn", true);
         capCol.enabled = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         anim.SetBool("isTLportOff", true);
         anim.SetBool("isTLportOn", false);
         capCol.enabled = true;
@@ -185,8 +185,9 @@ public class Boss : MonoBehaviour
             count += 1;
             yield return new WaitForSeconds(0.2f);
         }
+        anim.SetBool("isMove", false);
         rigid.velocity = Vector2.zero;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         count = 0;
         startCo = true;
         SetPatton();
@@ -203,11 +204,11 @@ public class Boss : MonoBehaviour
     IEnumerator IExploreFire()
     {
         anim.SetBool("isMove", false);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         anim.SetBool("isExploreFire", true);
         yield return new WaitForSeconds(0.3f);
         anim.SetBool("isExploreFire", false);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         startCo = true;
         SetPatton();
     }
@@ -215,32 +216,13 @@ public class Boss : MonoBehaviour
     IEnumerator IShotgunFire()
     {
         anim.SetBool("isMove", false);
-        yield return new WaitForSeconds(1f);
-        Vector2 dir;
-        BossBullet obj;
-        for (int i = -1; i < 2; i++) //
-        {
-            /*if (i==0)
-            {
-                continue;
-            }*/
-            dir = Quaternion.AngleAxis(10 * i, Vector3.forward) * offset;
-            obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
-            obj.transform.position = transform.position;
-            obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
-        }
         yield return new WaitForSeconds(0.5f);
-        for (int i = -2; i < 3; i++) //
-        {
-            /*if (i==0)
-            {
-                continue;
-            }*/
-            dir = Quaternion.AngleAxis(10 * i, Vector3.forward) * offset;
-            obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
-            obj.transform.position = transform.position;
-            obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
-        }
+        anim.SetBool("isShotgunThree", true);
+        yield return new WaitForSeconds(0.5f);
+        anim.SetBool("isShotgunThree", false);
+        anim.SetBool("isShotgunFive", true);
+        yield return new WaitForSeconds(0.5f);
+        anim.SetBool("isShotgunFive", false);
         startCo = true;
         SetPatton();
     }
@@ -344,12 +326,53 @@ public class Boss : MonoBehaviour
         bullet.transform.position = transform.position;
         bullet.SetRigidExploreBullet(dir, 7, bulletDamage);
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    void ThreeFireOn()
     {
-        if (collision.CompareTag("Player"))
+        Vector2 dir;
+        BossBullet obj;
+        for (int i = -1; i < 2; i++) //
         {
-            collision.GetComponent<Character>().PlayerHIt(1);
+            /*if (i==0)
+            {
+                continue;
+            }*/
+            dir = Quaternion.AngleAxis(10 * i, Vector3.forward) * offset;
+            obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
+            obj.transform.position = transform.position;
+            obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
+        }
+    }
+    void FiveFireOn()
+    {
+        Vector2 dir;
+        BossBullet obj;
+        for (int i = -2; i < 3; i++) //
+        {
+            if (i == 0)
+            {
+                continue;
+            }
+            if (2 == Mathf.Abs(i))
+            {
+                dir = Quaternion.AngleAxis(9 * i, Vector3.forward) * offset;
+                obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
+                obj.transform.position = transform.position;
+                obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
+            }
+            if (1 == Mathf.Abs(i))
+            {
+                dir = Quaternion.AngleAxis(6 * i, Vector3.forward) * offset;
+                obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
+                obj.transform.position = transform.position;
+                obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
+            }
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<Character>().PlayerHIt(1);
         }
     }
 

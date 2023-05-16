@@ -113,7 +113,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1941457191785433370}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -206,7 +206,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 500
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -245,13 +245,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 0}
   textObj: {fileID: 0}
+  isHitColor: {r: 0, g: 0, b: 0, a: 0}
   exploreBullet: {fileID: 321218970, guid: 4b2327fe07bf27443b192e9baa8b29a5, type: 3}
   curBossPatton: 4
   layer:
     serializedVersion: 2
     m_Bits: 64
   bossHp: 100
-  bossSpeed: 1
+  bossSpeed: 2
   bulletDamage: 1
   bulletSpeed: 4
   timer: 0
