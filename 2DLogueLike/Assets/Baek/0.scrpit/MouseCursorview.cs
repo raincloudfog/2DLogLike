@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseCursorview : MonoBehaviour
+public class MousePointer : MonoBehaviour
 {
-    public Texture2D cursorTexture; // 사용할 마우스 커서 텍스처
-    public CursorMode cursorMode = CursorMode.Auto; // 마우스 커서의 동작 모드 (기본값: Auto)
-    public Vector2 hotSpot = Vector2.zero; // 마우스 커서의 클릭 지점 (기본값: (0, 0))
-
-    private void Start()
+    private void Update()
     {
-        // 마우스 커서 텍스처를 설정합니다.
-        Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
+        // 마우스 커서의 위치를 읽어옵니다.
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = 10f; // 마우스 커서와 요소 사이의 거리를 설정합니다.
+
+        // 카메라의 월드 좌표로 변환합니다.
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+        // 마우스 포인터 요소를 해당 위치로 이동시킵니다.
+        transform.position = worldPosition;
     }
 }

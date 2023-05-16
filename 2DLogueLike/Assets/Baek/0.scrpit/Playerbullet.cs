@@ -11,7 +11,12 @@ public class Playerbullet : MonoBehaviour
     //발사
     //재발사
     //정지
-    
+    [SerializeField] Sprite[] bullets;
+    private void OnEnable()
+    {
+        GetComponent<SpriteRenderer>().sprite = bullets[0];
+    }
+
     public void Shoot(Vector2 dir, float bulletSpeed) // 총알의 속도를 정해줍니다.
     {
         if (rigid == null)
@@ -51,7 +56,9 @@ public class Playerbullet : MonoBehaviour
                 {
                     hit.GetComponent<Enemy>().IsHit(ObjectPoolBaek.Instance.Player.Damage);
                 }
+
                 Debug.Log(ObjectPoolBaek.Instance.Player.Damage);
+                
             }
 
             if (hit.CompareTag("Shop"))
@@ -60,7 +67,14 @@ public class Playerbullet : MonoBehaviour
                 hit.GetComponent<Npc>().enabled = false;
                 hit.gameObject.layer = 9;
             }
+            if (GunManager.Instance.waeponType == WaeponType.Missile)
+            {
+                Debug.Log("미사일 발사");
+                GameObject boom = ObjectPoolBaek.Instance.BoomCreate();
+                boom.transform.SetParent(null);
+                boom.transform.position = transform.position;
 
+            }
             ObjectPoolBaek.Instance.PlayerBulletReturn(gameObject);
         }
 

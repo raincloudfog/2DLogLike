@@ -20,6 +20,8 @@ public class ObjectPoolBaek : SingletonBaek<ObjectPoolBaek>
 
     }
 
+    [SerializeField] GameObject Boom;
+
     [SerializeField] GameObject hpiconlist;
     [SerializeField] Image Hpicon;
     public Character Player; // 플레이어 캐릭터
@@ -28,6 +30,7 @@ public class ObjectPoolBaek : SingletonBaek<ObjectPoolBaek>
 
     Queue<GameObject> PlayerBulletPools = new Queue<GameObject>(); // 플레이어의 총알 오브젝트풀링
     Queue<Image> PlayerHpicon = new Queue<Image>(); // HP아이콘 오브젝트 풀링
+    Queue<GameObject> BoomPools = new Queue<GameObject>();
 
     public void PlayerBulletReturn(GameObject obj) // 총알 리턴
     {
@@ -78,5 +81,31 @@ public class ObjectPoolBaek : SingletonBaek<ObjectPoolBaek>
         obj.transform.SetParent(hpiconlist.transform);
         
        
+    }
+
+    public GameObject BoomCreate()
+    {
+        if(BoomPools.Count == 0)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                GameObject newobj = Instantiate(Boom);
+                BoomPools.Enqueue(newobj);
+                newobj.SetActive(false);
+            }
+        }
+
+        GameObject obj = BoomPools.Dequeue();
+        obj.gameObject.SetActive(true);
+        return obj;
+    }
+
+    public void BoomReturn(GameObject obj)
+    {
+        BoomPools.Enqueue(obj);
+        
+        obj.SetActive(false);
+        
+        obj.transform.SetParent(null);
     }
 }
