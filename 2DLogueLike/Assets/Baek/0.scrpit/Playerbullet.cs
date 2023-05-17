@@ -52,6 +52,7 @@ public class Playerbullet : MonoBehaviour
                 {
                     hit.GetComponent<Boss>().IsHit(ObjectPoolBaek.Instance.Player.Damage);
                 }
+                
                 else
                 {
                     hit.GetComponent<Enemy>().IsHit(ObjectPoolBaek.Instance.Player.Damage);
@@ -63,9 +64,10 @@ public class Playerbullet : MonoBehaviour
 
             if (hit.CompareTag("Shop"))
             {
-                hit.GetComponent<Enemy>().enabled = true;
+                hit.GetComponent<EnemyNPC>().enabled = true;
                 hit.GetComponent<Npc>().enabled = false;
-                hit.gameObject.layer = 9;
+                hit.GetComponent<EnemyNPC>().IsHit(ObjectPoolBaek.Instance.Player.Damage);
+                //hit.gameObject.layer = 9;
             }
             if (GunManager.Instance.waeponType == WaeponType.Missile)
             {
