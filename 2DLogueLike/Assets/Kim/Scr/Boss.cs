@@ -7,7 +7,7 @@ public class Boss : MonoBehaviour
 {    
     public enum BossPatton
     {
-        RandomFire,
+        SpinFire,
         Fires,
         AroundFire,
         Teleport,
@@ -73,7 +73,6 @@ public class Boss : MonoBehaviour
         }
         offset = EnemyObjectPool.instance.player.transform.position - transform.position;
         //rigid.velocity = offset.normalized * bossSpeed;
-
         EnemyFilp();
         StateBossPatton();
     }
@@ -86,11 +85,9 @@ public class Boss : MonoBehaviour
             rigid.velocity = Vector2.zero;
             switch (curBossPatton)
             {
-                case BossPatton.RandomFire:
-                    //StartCoroutine(IRandomFire());
-                    StartCoroutine(PracticeFire());
-                    //RandomFire();
-                    // 앞으로 4발 발사
+                case BossPatton.SpinFire: // 적의 위치를 받아 연속으로 발사 
+                    StartCoroutine(SpinFire());
+
                     break;
                 case BossPatton.Fires:
                     StartCoroutine(IFires());
@@ -167,10 +164,10 @@ public class Boss : MonoBehaviour
     {
         anim.SetBool("isMove", false);
         rigid.velocity = Vector2.zero;
-
         yield return new WaitForSeconds(1f);
         anim.SetBool("isTLportOn", true);
         capCol.enabled = false;
+
 
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("isTLportOff", true);
@@ -243,41 +240,88 @@ public class Boss : MonoBehaviour
         SetPatton();
     }
 
-    IEnumerator PracticeFire()
+    IEnumerator DieFire()
     {
+        isDie = true;
+        rigid.velocity = Vector2.zero;
+        anim.SetBool("isMove", false);
+
+        yield return new WaitForSeconds(2f);
+        anim.SetBool("isDieFireTLportOn", true);
+        capCol.enabled = false;
+
+        yield return new WaitForSeconds(0.5f);
+        anim.SetBool("isDieFireTLportOff", true);
+        anim.SetBool("isDieFireTLportOn", false);
+
+        yield return new WaitForSeconds(0.5f);
+        anim.SetBool("isDieFireStart", true);
+        anim.SetBool("isDieFireTLportOff", false);
+
+        yield return new WaitForSeconds(0.5f);
         Vector2 dir;
         BossBullet obj;
         int count = 0;
+        int shotCount = 100;
+        int ddd = 0;
+        Vector2 offsetDir = offset;
+        bool isStart = true;
         
-        while (true)
+        while (isStart == true)
         {
-            for (int i = 0; i <= 360; i+=50)
+            coTimer += 2f;
+            if (coTimer >= 10f)
+            {
+                coTimer = 0;
+                isStart = false;
+            }
+            for (int i = -10; i < shotCount; i++) //
             {
                 /*if (i==0)
                 {
                     continue;
                 }*/
-                dir = Quaternion.AngleAxis(i, Vector3.forward) * transform.position;
+                dir = Quaternion.AngleAxis((15 * i) + ddd, Vector3.forward) * transform.position;
                 obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
                 obj.transform.position = transform.position;
                 obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
-                
+                yield return new WaitForSeconds(0.02f);
+                ddd += 1;
             }
-            yield return new WaitForSeconds(0.1f);
-
-            for (int i = 45; i <= 315; i += 60)
-            {
-                /*if (i==0)
-                {
-                    continue;
-                }*/
-                dir = Quaternion.AngleAxis(i, Vector3.forward) * transform.position * 0.1f;
-                obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
-                obj.transform.position = transform.position;
-                obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
-            }
-            yield return new WaitForSeconds(0.1f);
         }
+        anim.SetBool("isDieFireStart", false);
+        anim.SetTrigger("isDie");
+        
+        yield return new WaitForSeconds(1.5f);
+        Ending();
+
+    }
+    IEnumerator SpinFire()
+    {
+        
+        Vector2 dir;
+        BossBullet obj;
+        int count = 0;
+        int shotCount = 5;
+        Vector2 offsetDir = offset;
+        while (count < shotCount)
+        {
+            for (int i = -7; i < shotCount; i++) //
+            {
+                /*if (i==0)
+                {
+                    continue;
+                }*/
+                dir = Quaternion.AngleAxis(10 * i, Vector3.forward) * offsetDir;
+                obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
+                obj.transform.position = transform.position;
+                obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
+                yield return new WaitForSeconds(0.1f);
+                count++;
+            }
+        }
+        startCo = true;
+        SetPatton();
     }
 
     void SetPatton() // 패턴을 랜덤으로 봐꿔주는 함수
@@ -287,7 +331,7 @@ public class Boss : MonoBehaviour
         switch (rand)
         {
             case 0:
-                curBossPatton = BossPatton.RandomFire;
+                curBossPatton = BossPatton.SpinFire;
                 break;
             case 1:
                 curBossPatton = BossPatton.Fires;
@@ -308,6 +352,7 @@ public class Boss : MonoBehaviour
     }
     void EnemyFilp() // 싱글톤에 있는 플레이어의 위치에 따라 좌우반전시켜주는 함수
     {
+        
         Vector3 localScale = transform.localScale;
         if (EnemyObjectPool.instance.player.transform.position.x < transform.position.x)
         {
@@ -318,6 +363,7 @@ public class Boss : MonoBehaviour
             localScale.x = 1;
         }
         transform.localScale = localScale;
+        
     }
 
     public void IsHit(int damage =1) // 보스의 히트 함수
@@ -327,10 +373,8 @@ public class Boss : MonoBehaviour
         if(bossHp <= 0)
         {
             StopAllCoroutines();
-            rigid.velocity = Vector2.zero;
-            isDie = true;
-            anim.SetTrigger("isDie");
-            capCol.enabled = false;
+
+            StartCoroutine(DieFire());
         }
     }
     void Ending()
@@ -370,7 +414,7 @@ public class Boss : MonoBehaviour
 
     void TeleportOn() // 텔레포트 애니메이션에 넣을 함수
     {
-        //PlaySound("TLportSound");
+        
         enemyAudio.PlayAudio((int)BossAudio.TLport);
         this.transform.position = EnemyObjectPool.instance.player.transform.position;
     }
@@ -427,6 +471,10 @@ public class Boss : MonoBehaviour
                 obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
             }
         }
+    }
+    void DieTLport()
+    {
+        transform.position = new Vector2(0, 5);
     }
     
     private void OnCollisionEnter2D(Collision2D collision)

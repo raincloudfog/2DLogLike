@@ -168,7 +168,7 @@ public class Character : MonoBehaviour
             return;
         Debug.Log("¸Â¾ÒÀ½");
         Hp -= Damage;
-        
+        Debug.Log(Hp + "/" + Damage);
         isHit = false;
         StartCoroutine(Hitspr());
         if(Hp <= 0)
