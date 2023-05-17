@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
+    // 카메라 흔들기 수정중
+
     [SerializeField] Transform target;  // 카메라가 따라갈 대상
     public float smoothing = 5f;  // 카메라 움직임 부드러움 정도
 
     Vector3 offset;  // 카메라와 대상의 거리 차이
-
+    Vector3 targetCamPos;
     void Init()
     {
         if (target == null)
@@ -27,8 +29,21 @@ public class CameraMove : MonoBehaviour
     void FixedUpdate()
     {
         // 목표 카메라 위치를 계산합니다.
-        Vector3 targetCamPos = target.position + offset;
+        //Vector3 targetCamPos = target.position + offset;
+        targetCamPos = target.position + offset;
         // 부드러운 이동을 위해 Lerp 함수를 사용하여 현재 위치에서 목표 위치로 이동합니다.
         transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.deltaTime);
     }
+
+   /* public IEnumerator Shake(float _amount, float _duration)
+    {
+        float timer = 0;
+        while(timer <= _duration)
+        {
+            transform.position = (Vector3)Random.insideUnitCircle * _amount + targetCamPos;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.deltaTime);
+    }*/
 }
