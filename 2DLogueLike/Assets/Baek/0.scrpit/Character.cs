@@ -44,6 +44,8 @@ public class Character : MonoBehaviour
     float HealerDistance; // 힐러 상인과의 거리
     float shopDistance; // 무기상인과의 거리
 
+    bool isDie = false;
+
     
     private void Awake()
     {
@@ -89,12 +91,18 @@ public class Character : MonoBehaviour
                 //NPC랑 가까운 뭔지 체크..
                 if (shopDistance < 5)
                 {
-                    SHOP.EventUI(true);
+                    if(SHOP.GetComponent<EnemyNPC>().enabled == false)
+                        SHOP.EventUI(true);
 
                 }
                 else if (HealerDistance < 5)
                 {
-                    POTION.EventUI(true);
+                    if (SHOP.GetComponent<EnemyNPC>().enabled == false)
+                        POTION.EventUI(true);
+                    else
+                    {
+
+                    }
                 }
             }
             
@@ -340,6 +348,9 @@ public class Character : MonoBehaviour
     IEnumerator Die()
     {
         anim.SetTrigger("Die");
+        ismove = false;
+        isAttack = false;
+        rigid.velocity = Vector2.zero;
         yield return new WaitForSeconds(1f);
         OptionManager.Instance.died.SetActive(true);
         Time.timeScale = 0;

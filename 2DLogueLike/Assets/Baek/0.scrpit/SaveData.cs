@@ -10,7 +10,7 @@ public class SaveData : SingletonBaek<SaveData>
     [Header("저장할 총 타입")]
     public WaeponType waeponType; // 저장할 총의 종류
     public int coin = 0; // 저장할 코인갯수
-
+    public bool issave = false;
     private void Awake()
     {
         if(Instance == null)
@@ -40,8 +40,9 @@ public class SaveData : SingletonBaek<SaveData>
     }
     private void FixedUpdate()
     {
-        if(SceneManager.GetActiveScene().name == "BossRoom")
+        if(SceneManager.GetActiveScene().name == "BossRoom" && issave == true)
         {
+            issave = false;
             GunManager.Instance.waeponType = Instance.waeponType;
             GameManager.Instance.Player.Hp = Instance.Hp;
             GameManager.Instance.coin = Instance.coin;
