@@ -11,7 +11,7 @@ public class StateIdle : MonoBehaviour,IState
         anim.SetBool("isMove", false);
     }
 
-    public void OperateExit(Collider2D col,)
+    public void OperateExit(Collider2D col)
     {
 
     }
