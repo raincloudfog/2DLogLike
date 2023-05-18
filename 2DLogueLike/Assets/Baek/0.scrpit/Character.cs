@@ -44,6 +44,7 @@ public class Character : MonoBehaviour
     float HealerDistance; // 힐러 상인과의 거리
     float shopDistance; // 무기상인과의 거리
 
+    bool isinvincibility = false; // 무적 -> 기본은 false
     bool isDie = false;
     bool isDash = false;
     bool isDashTime = false;
@@ -151,7 +152,7 @@ public class Character : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F12))
         {
-            isHit = !isHit;
+            isinvincibility = !isinvincibility;
         }
     }
 
@@ -173,6 +174,10 @@ public class Character : MonoBehaviour
 
     public void PlayerHIt(int Damage = 1) // 플레이어 피격시 
     {
+        if(isinvincibility == true)
+        {
+            return;
+        }
         if (isHit == false)
             return;
         Debug.Log("맞았음");

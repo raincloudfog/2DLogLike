@@ -28,7 +28,7 @@ public class Boss : MonoBehaviour
     public BossPatton curBossPatton = BossPatton.Fires;
     public TMP_Text text;
     public GameObject textObj;
- 
+
     Rigidbody2D rigid;
     Animator anim;
     CapsuleCollider2D capCol;
