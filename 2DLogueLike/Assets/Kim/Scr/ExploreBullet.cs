@@ -18,7 +18,7 @@ public class ExploreBullet : MonoBehaviour
     }
     private void Update()
     {
-        transform.rotation *= Quaternion.Euler(Vector3.forward * -0.5f);
+        transform.rotation *= Quaternion.Euler(Vector3.forward * -1f);
     }
     private void FixedUpdate()
     {
