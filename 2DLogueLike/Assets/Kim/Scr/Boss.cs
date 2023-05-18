@@ -262,7 +262,6 @@ public class Boss : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         Vector2 dir;
         BossBullet obj;
-        int count = 0;
         int shotCount = 100;
         int ddd = 0;
         Vector2 offsetDir = offset;
