@@ -35,7 +35,7 @@ public class ShotGunEnemy : Enemy
     void Update()
     {
         col = Physics2D.OverlapCircle(transform.position, ranginPlayer, playerLayer);
-
+        
         switch (curState)
         {
             case State.Idle:
@@ -46,10 +46,10 @@ public class ShotGunEnemy : Enemy
                 Attack();
                 break;
         }
-        Die();
-
         
+        Die();      
     }
+
     void Idle()
     {
         anim.SetBool("isMove", false);
@@ -58,6 +58,7 @@ public class ShotGunEnemy : Enemy
             SetState(State.Attack);
         }
     }
+
     void Attack()
     {
         Collider2D col2 = Physics2D.OverlapCircle(transform.position, ranginShot, playerLayer);

@@ -40,6 +40,8 @@ public class Enemy : MonoBehaviour
 
     protected bool isDie = false;
     protected bool isrealDie = false;
+
+    protected bool startCo = true;
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;

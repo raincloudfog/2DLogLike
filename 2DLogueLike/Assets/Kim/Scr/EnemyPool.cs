@@ -16,16 +16,20 @@ public class EnemyPool : MonoBehaviour
     public Transform rParent;
     Queue<RushEnemy> rPool = new Queue<RushEnemy>();
 
+    public FlyEnemy fPrefab;
+    public Transform fParent;
+    Queue<FlyEnemy> fPool = new Queue<FlyEnemy>();
+
     private void Awake()
     {
         for (int i = 0; i < 20; i++)
         {
-            PistorEnemy ptEnemy = Instantiate(ptPrefab);
+            /*PistorEnemy ptEnemy = Instantiate(ptPrefab);
             ptEnemy.gameObject.SetActive(false);
             ptEnemy.transform.SetParent(ptParent);
             ptPool.Enqueue(ptEnemy);
 
-            /*ShotGunEnemy sgEnemy = Instantiate(sgPrefab);
+            ShotGunEnemy sgEnemy = Instantiate(sgPrefab);
             sgEnemy.gameObject.SetActive(false);
             sgEnemy.transform.SetParent(sgParent);
             sgPool.Enqueue(sgEnemy);
@@ -89,6 +93,24 @@ public class EnemyPool : MonoBehaviour
             return rEnemy;
         }
     }
+
+    public FlyEnemy GetFEnemy()
+    {
+        if (fPool.Count > 0)
+        {
+            FlyEnemy fEnemy = fPool.Dequeue();
+            fEnemy.gameObject.SetActive(true);
+            return fEnemy;
+        }
+        else
+        {
+            FlyEnemy fEnemy = Instantiate(fPrefab);
+            fEnemy.gameObject.SetActive(true);
+            fEnemy.transform.SetParent(rParent);
+            fPool.Enqueue(fEnemy);
+            return fEnemy;
+        }
+    }
     public void ReturnPtEnemy(PistorEnemy ptEnemy)
     {
         ptPool.Enqueue(ptEnemy);
@@ -106,5 +128,11 @@ public class EnemyPool : MonoBehaviour
         rEnemy.gameObject.SetActive(false);
         rEnemy.transform.SetParent(rParent);
         rPool.Enqueue(rEnemy);
+    }
+    public void ReturnFEnemy(FlyEnemy fEnemy)
+    {
+        fEnemy.gameObject.SetActive(false);
+        fEnemy.transform.SetParent(rParent);
+        fPool.Enqueue(fEnemy);
     }
 }

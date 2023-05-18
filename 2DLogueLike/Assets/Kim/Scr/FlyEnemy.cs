@@ -13,7 +13,9 @@ public class FlyEnemy : Enemy
     public float duration = 2f; // 전체 애니메이션 시간 (초)
     public float timer;
     Vector2 offset;
+    Vector2 saveOffset;
     bool isPatrol = true;
+    bool isRush = false;
     private void Awake()
     {
         Init();
@@ -51,7 +53,12 @@ public class FlyEnemy : Enemy
                 break;
 
             case State.Attack:
-                Attack();
+                if(startCo == true)
+                {
+                    startCo = false;
+                    //Attack();
+                    StartCoroutine(IAttack());
+                }
                 break;
         }
 
@@ -60,7 +67,7 @@ public class FlyEnemy : Enemy
 
     void Idle() // 가만히 
     {
-        anim.SetBool("isMove", false);
+        anim.SetBool("isRush", false);
         rigid.velocity = Vector2.zero;
         timer += Time.deltaTime;
         if (timer > Random.Range(1, 5) && isDie == false)
@@ -77,7 +84,7 @@ public class FlyEnemy : Enemy
 
     void Patrol() // 순찰 
     {
-        anim.SetBool("isMove", true);
+        anim.SetBool("isRush", false);
         if (col != null && isDie == false)
         {
             SetState(State.Attack);
@@ -91,7 +98,7 @@ public class FlyEnemy : Enemy
                 float x = Random.Range(-1f, 1f);
                 float y = Random.Range(-1f, 1f);
                 Debug.Log(x + "/" + y);
-                rigid.velocity = new Vector2(x, y).normalized * 1.5f;
+                rigid.velocity = new Vector2(x, y).normalized * 3f;
                 StartCoroutine(RandomMove());
             }
 
@@ -100,6 +107,11 @@ public class FlyEnemy : Enemy
 
     void Attack()
     {
+        if(isRush == false)
+        {
+            isRush = true;
+            saveOffset = offset;
+        }
         StopCoroutine(RandomMove());
         anim.SetBool("isMove", false);
         anim.SetBool("isRush", true);
@@ -107,22 +119,52 @@ public class FlyEnemy : Enemy
         {
             offset = EnemyObjectPool.instance.player.transform.position - transform.position;
             rigid.velocity = offset.normalized * curEnemySpeed;
-            //StartCoroutine(ChangeColorOverTime()); 
         }
+    }
 
+    IEnumerator IAttack()
+    {
+        anim.SetBool("isRush", true);
+        startCo = false;
+        AttackEnemyFilp();
+        Vector2 saveOffset = offset;
+        rigid.velocity = Vector2.zero;
+        rigid.velocity = -saveOffset.normalized * 4;
+        yield return new WaitForSeconds(0.3f);
+        rigid.velocity = saveOffset.normalized * 10;
+        yield return new WaitForSeconds(1f);
+        anim.SetBool("isRush", false);
+        rigid.velocity = Vector2.zero;
+        yield return new WaitForSeconds(1f);
+        startCo = true;
+        SetState(State.Patrol);
+    }
+
+    void AttackEnemyFilp()
+    {
+        Vector3 localScale = transform.localScale;
+        if (EnemyObjectPool.instance.player.transform.position.x < transform.position.x)
+        {
+            localScale.x = -0.5f;
+        }
+        else
+        {
+            localScale.x = 0.5f;
+        }
+        transform.localScale = localScale;
     }
     void EnemyFilp()
     {
         Vector3 localScale = transform.localScale;
-        if (transform.position.x != 0)
+        if (rigid.velocity.x != 0)
         {
             if (rigid.velocity.x < 0)
             {
-                localScale.x = -1;
+                localScale.x = -0.5f;
             }
             else
             {
-                localScale.x = 1;
+                localScale.x = 0.5f;
             }
         }
         transform.localScale = localScale;
@@ -141,7 +183,7 @@ public class FlyEnemy : Enemy
     IEnumerator ReturnDelay()
     {
         yield return new WaitForSeconds(1f);
-        //EnemyObjectPool.instance.enemyPool.ReturnREnemy(this); // 죽으면 오브젝트를 리턴 시킴
+        EnemyObjectPool.instance.enemyPool.ReturnFEnemy(this); // 죽으면 오브젝트를 리턴 시킴
         int random = Random.Range(0, 2);
         switch (random)
         {
