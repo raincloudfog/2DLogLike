@@ -23,9 +23,9 @@ public class GunManager : SingletonBaek<GunManager>
 {
     private IWeaponStrategy weaponStrategy; // 전략 패턴 용도
     public WaeponType waeponType = WaeponType.Pistol;
-    [SerializeField] GameObject Gunsp; // 총 모양 바꾸기
+    public GameObject Gunsp; // 총 모양 바꾸기
     [SerializeField] Character Player;
-    [SerializeField] Sprite[] Guns; // 총 종류 스프라이트
+    public Sprite[] Guns; // 총 종류 스프라이트
     private void Awake()
     {
         if (Instance == null)
@@ -49,10 +49,17 @@ public class GunManager : SingletonBaek<GunManager>
 
     private void FixedUpdate()
     {        
-        shoot(waeponType);
+        //shoot(waeponType);
+        shoot2();
     }
 
-
+    void shoot2()
+    {
+        if (weaponStrategy != null) // 전략 패턴 용도
+        {
+            weaponStrategy.Shoot();
+        }
+    }
 
     public void shoot(WaeponType waeponType)
     {

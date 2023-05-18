@@ -13,6 +13,7 @@ public class Gundrop : Item
 
         Debug.Log("플레이어 닿임");
         GunManager.Instance.waeponType = WaeponType.Missile;
+        GunManager.Instance.SetWeaponStrategy(new MissieStrategy()); // 전략 패턴시 발동됨
         Destroy(gameObject);
 
         
