@@ -21,7 +21,7 @@ public enum WaeponType
 
 public class GunManager : SingletonBaek<GunManager>
 {
-    private IWeaponStrategy weaponStrategy; // 전략 패턴 용도
+    public IWeaponStrategy weaponStrategy; // 전략 패턴 용도
     public WaeponType waeponType = WaeponType.Pistol;
     public GameObject Gunsp; // 총 모양 바꾸기
     [SerializeField] Character Player;
@@ -45,7 +45,10 @@ public class GunManager : SingletonBaek<GunManager>
         weaponStrategy = strategy;
     }
 
-
+    private void Start()
+    {
+        SetWeaponStrategy(new PistolStrategy());
+    }
 
     private void FixedUpdate()
     {        

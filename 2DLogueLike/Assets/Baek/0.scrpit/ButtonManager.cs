@@ -15,6 +15,7 @@ public class ButtonManager : MonoBehaviour
         {
             GameManager.Instance.coin -= 1; // 코인 차감
             GunManager.Instance.waeponType = WaeponType.Machine_gun; // 총기 타입 변경
+            GunManager.Instance.SetWeaponStrategy(new MachineGunStrategy());
         }
         else // 보유한 코인이 부족한 경우
         {
@@ -30,6 +31,7 @@ public class ButtonManager : MonoBehaviour
         {
             GameManager.Instance.coin -= 1; // 코인 차감
             GunManager.Instance.waeponType = WaeponType.Shotgun; // 총기 타입 변경
+            GunManager.Instance.SetWeaponStrategy(new ShotgunStrategy());
         }
         else // 보유한 코인이 부족한 경우
         {
@@ -45,6 +47,7 @@ public class ButtonManager : MonoBehaviour
         {
             GameManager.Instance.coin -= 2; // 코인 차감
             GunManager.Instance.waeponType = WaeponType.Sniper; // 총기 타입 변경
+            GunManager.Instance.SetWeaponStrategy(new SniperStrategy());
         }
         else // 보유한 코인이 부족한 경우
         {

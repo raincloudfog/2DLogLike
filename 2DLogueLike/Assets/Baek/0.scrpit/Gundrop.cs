@@ -21,6 +21,7 @@ public class Gundrop : Item
    
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Pick_Up();
+        if(collision.CompareTag("Player"))        
+            Pick_Up();
     }
 }

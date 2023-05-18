@@ -12,7 +12,8 @@ public class SaveData : SingletonBaek<SaveData>
     public int coin = 0; // 저장할 코인갯수
     [NonReorderable]
     public bool issave = true;
-    
+    public IWeaponStrategy weaponStrategy;
+
     private void Awake()
     {
         if(Instance == null)
@@ -40,6 +41,11 @@ public class SaveData : SingletonBaek<SaveData>
         this.coin = coin;
         return this;
     }
+    public SaveData IWeapontype(IWeaponStrategy weaponStrategy)
+    {
+        this.weaponStrategy = weaponStrategy;
+        return this;
+    }
     private void FixedUpdate()
     {
         if(SceneManager.GetActiveScene().name == "BossRoom" && issave == true)
@@ -48,6 +54,7 @@ public class SaveData : SingletonBaek<SaveData>
             if (GunManager.Instance.waeponType != Instance.waeponType)
             {
                 GunManager.Instance.waeponType = Instance.waeponType;
+                GunManager.Instance.SetWeaponStrategy(weaponStrategy);
             }
             
             GameManager.Instance.Player.Hp = Instance.Hp;

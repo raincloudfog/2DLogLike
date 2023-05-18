@@ -13,7 +13,7 @@ public class NextStage : MonoBehaviour
         if(Player != null)
         {
             SaveData.Instance.Weapontype(GunManager.Instance.waeponType).
-                Hpsave(Player.GetComponent<Character>().Hp).Coinsave(GameManager.Instance.coin);
+                Hpsave(Player.GetComponent<Character>().Hp).Coinsave(GameManager.Instance.coin).IWeapontype(GunManager.Instance.weaponStrategy);
             SceneManager.LoadScene(2);
         }
     }
