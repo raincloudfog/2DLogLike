@@ -24,7 +24,7 @@ public class Boss : MonoBehaviour
     }
 
     [SerializeField] ExploreBullet exploreBullet;
-    
+    [NonReorderable]
     public BossPatton curBossPatton = BossPatton.Fires;
     public TMP_Text text;
     public GameObject textObj;

@@ -3007,6 +3007,10 @@ PrefabInstance:
       propertyPath: cameraShaker
       value: 
       objectReference: {fileID: 811606717}
+    - target: {fileID: 1941457191785433360, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: curBossPatton
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1941457191785433370, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_Name
       value: Boss
@@ -7347,7 +7351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77595382dfe91d1479e0a9916874b6dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waeponType: 4
+  waeponType: 0
   Gunsp: {fileID: 4282473672203205212}
   Player: {fileID: 4282473673986115255}
   Guns:

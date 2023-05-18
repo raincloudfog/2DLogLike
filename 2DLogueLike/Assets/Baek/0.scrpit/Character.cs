@@ -289,7 +289,7 @@ public class Character : MonoBehaviour
 
         // 김영수가 리지드바디로 움직임 수정 
         // 키입력시 대쉬가 발동하며 잠깐의 무적 
-        if(Input.GetKeyDown(KeyCode.LeftShift)&& isDash == false)
+        if(Input.GetKeyDown(KeyCode.LeftShift)&& isDash == false && rigid.velocity != Vector2.zero)
         {
             StartCoroutine(Dash(movedic));
         }
@@ -308,7 +308,9 @@ public class Character : MonoBehaviour
         isDashTime = true;
         isHit = false;
         rigid.velocity = dir.normalized * moveSpeed * 2;
+        spr.color = Color.green;
         yield return new WaitForSeconds(0.2f);
+        spr.color = Color.white;
         isDashTime = false;
         isHit = true;
         yield return new WaitForSeconds(1f);
