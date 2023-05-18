@@ -4,7 +4,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 public class Boss : MonoBehaviour
-{    
+{
+    //public CameraMove cameraShaker;
     public enum BossPatton
     {
         SpinFire,
@@ -182,7 +183,7 @@ public class Boss : MonoBehaviour
    
    
 
-    IEnumerator IFires() // 적에게 빠르게 불렛을 5연발 발사
+    IEnumerator IFires() // 적에게 빠르게 불렛을 8연발 발사
     {
         Vector2 dir;
         anim.SetBool("isMove", true);
@@ -261,7 +262,6 @@ public class Boss : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         Vector2 dir;
         BossBullet obj;
-        int count = 0;
         int shotCount = 100;
         int ddd = 0;
         Vector2 offsetDir = offset;
@@ -369,6 +369,7 @@ public class Boss : MonoBehaviour
     public void IsHit(int damage =1) // 보스의 히트 함수
     {
         bossHp -= damage;
+        
         StartCoroutine(IsHitColorChange());
         if(bossHp <= 0)
         {

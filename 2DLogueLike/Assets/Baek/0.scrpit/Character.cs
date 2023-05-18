@@ -45,8 +45,9 @@ public class Character : MonoBehaviour
     float shopDistance; // 무기상인과의 거리
 
     bool isDie = false;
+    bool isDash = false;
+    bool isDashTime = false;
 
-    
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -286,9 +287,32 @@ public class Character : MonoBehaviour
         // 플레이어가 움직이는걸 실행 속도 조절
         //transform.position += movedic * Time.deltaTime * moveSpeed;
 
-        // 김영수가 리지드바디로 움직임 수정
-        rigid.velocity = movedic * moveSpeed;
+        // 김영수가 리지드바디로 움직임 수정 
+        // 키입력시 대쉬가 발동하며 잠깐의 무적 
+        if(Input.GetKeyDown(KeyCode.LeftShift)&& isDash == false)
+        {
+            StartCoroutine(Dash(movedic));
+        }
+        if (isDashTime == false)
+            // 대쉬중이 아닐 때 움직임 -> 대쉬중에는 방향이 입력되면 안되기 때문
+        {
+            rigid.velocity = movedic.normalized * moveSpeed;
+        }
+        
         anim.SetBool("isMove", movedic != Vector3.zero); // 김영수가 추가함 키입력이 있을 때 애니메이션 실행   
+    }
+
+    IEnumerator Dash(Vector3 dir) //
+    {
+        isDash = true;
+        isDashTime = true;
+        isHit = false;
+        rigid.velocity = dir.normalized * moveSpeed * 2;
+        yield return new WaitForSeconds(0.2f);
+        isDashTime = false;
+        isHit = true;
+        yield return new WaitForSeconds(1f);
+        isDash = false;
     }
 
     void gunmove() // 총 이동 함수

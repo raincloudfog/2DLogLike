@@ -3003,6 +3003,10 @@ PrefabInstance:
       propertyPath: bulletSpeed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1941457191785433360, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: cameraShaker
+      value: 
+      objectReference: {fileID: 811606717}
     - target: {fileID: 1941457191785433370, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_Name
       value: Boss
