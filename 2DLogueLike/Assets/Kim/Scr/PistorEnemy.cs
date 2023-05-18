@@ -63,8 +63,8 @@ public class PistorEnemy : Enemy
     {
         Collider2D col2 = Physics2D.OverlapCircle(transform.position, ranginShot, playerLayer);
         anim.SetBool("isMove", col);
-        EnemyFilp();
-        if (col == null)
+       
+        if (col == null && isDie == false)
         {
             SetState(State.Idle);
             rigid.velocity = Vector2.zero;
@@ -75,13 +75,14 @@ public class PistorEnemy : Enemy
             //Vector2 offset = player.transform.position - transform.position;
             Vector2 offset = EnemyObjectPool.instance.player.transform.position - transform.position;
             rigid.velocity = offset.normalized * curEnemySpeed;
-            
+            EnemyFilp();
         }
 
 
         else if (col2 != null && col != null && isDie == false)
         {
             anim.SetBool("isMove", false);
+            EnemyFilp();
             rigid.velocity = Vector2.zero;
             if (isAttack)
             {

@@ -179,12 +179,6 @@ public class RushEnemy : Enemy
         isrealDie = false;
     }
 
-    /*IEnumerator Delay()
-    {
-        yield return new WaitForSeconds(shotDelay);
-        isAttack = true;
-    }*/
-
     IEnumerator RandomMove()
     {
         yield return new WaitForSeconds(Random.Range(2, 5));
@@ -201,23 +195,4 @@ public class RushEnemy : Enemy
         }
     }
 
-    private IEnumerator ChangeColorOverTime()
-    {
-        float elapsedTime = 0f; // 경과 시간
-
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / duration; // 보간 계수
-
-            // 새로운 색상 계산
-            Color newColor = Color.Lerp(startColor, targetColor, t);
-
-            // 스프라이트 렌더러에 새로운 색상 적용
-            spren.color = newColor;
-
-            yield return null; // 다음 프레임까지 대기
-        }
-        
-    }
 }

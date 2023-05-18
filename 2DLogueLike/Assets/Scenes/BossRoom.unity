@@ -2991,6 +2991,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 954200954, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: audioClips.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 954200954, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: audioClips.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3cce0696aff0c9f4c9613644642c8eb4, type: 3}
+    - target: {fileID: 954200954, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: audioClips.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: ccf559b13105e8841b4673f796314571, type: 3}
+    - target: {fileID: 954200954, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
+      propertyPath: audioClips.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: 9a3e839648b28b247b3c087c9e32b824, type: 3}
     - target: {fileID: 1941457191785433360, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: text
       value: 
@@ -5485,7 +5501,7 @@ SpriteRenderer:
   m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1169617453
