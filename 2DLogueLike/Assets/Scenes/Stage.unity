@@ -4446,7 +4446,7 @@ MonoBehaviour:
   Hp: 0
   waeponType: 0
   coin: 0
-  issave: 0
+  issave: 1
 --- !u!4 &346716963
 Transform:
   m_ObjectHideFlags: 0
@@ -6190,7 +6190,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 20, y: 1}
   m_EdgeRadius: 0
 --- !u!4 &369351488
 Transform:
@@ -28438,6 +28438,10 @@ PrefabInstance:
     - target: {fileID: 7293673877935743589, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7293673877935743589, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 7293673877935743589, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}
       propertyPath: m_LocalPosition.x
