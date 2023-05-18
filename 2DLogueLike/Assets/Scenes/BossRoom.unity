@@ -7347,7 +7347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77595382dfe91d1479e0a9916874b6dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waeponType: 4
+  waeponType: 0
   Gunsp: {fileID: 4282473672203205212}
   Player: {fileID: 4282473673986115255}
   Guns:

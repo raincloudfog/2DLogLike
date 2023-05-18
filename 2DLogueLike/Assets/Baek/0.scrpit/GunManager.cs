@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+public interface IWeaponStrategy // 전략 패턴용도
+{
+    void Shoot();
+}
+
 public enum WaeponType
 {
     Pistol,
@@ -14,6 +21,7 @@ public enum WaeponType
 
 public class GunManager : SingletonBaek<GunManager>
 {
+    private IWeaponStrategy weaponStrategy; // 전략 패턴 용도
     public WaeponType waeponType = WaeponType.Pistol;
     [SerializeField] GameObject Gunsp; // 총 모양 바꾸기
     [SerializeField] Character Player;
@@ -31,14 +39,16 @@ public class GunManager : SingletonBaek<GunManager>
         }
 
     }
-    
 
-    
+    public void SetWeaponStrategy(IWeaponStrategy strategy) // 전략 패턴용도
+    {
+        weaponStrategy = strategy;
+    }
+
 
 
     private void FixedUpdate()
-    {
-        
+    {        
         shoot(waeponType);
     }
 
@@ -46,6 +56,11 @@ public class GunManager : SingletonBaek<GunManager>
 
     public void shoot(WaeponType waeponType)
     {
+        if (weaponStrategy != null) // 전략 패턴 용도
+        {
+            weaponStrategy.Shoot();
+        }
+
         switch (waeponType)
         {
             case WaeponType.Pistol: // 만약 피스톨 타입이면
