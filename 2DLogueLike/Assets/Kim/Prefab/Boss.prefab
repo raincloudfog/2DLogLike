@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 1304559308, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
-  m_Color: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
+  m_Color: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -245,8 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1bf642a7a6530b40b6eb3515d2beccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exploreBullet: {fileID: 321218970, guid: 4b2327fe07bf27443b192e9baa8b29a5, type: 3}
-  curBossPatton: 0
+  curBossPatton: 4
   text: {fileID: 0}
   textObj: {fileID: 0}
   layer:
@@ -255,7 +254,7 @@ MonoBehaviour:
   bossHp: 100
   bossSpeed: 2
   bulletDamage: 1
-  bulletSpeed: 4
+  bulletSpeed: 5
   timer: 0
   coTimer: 0
   isRandomFire: 1
@@ -277,6 +276,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 11af08b3f9d7bcd4c8dcfc6f39381827, type: 3}
   - {fileID: 8300000, guid: 3bfb9b749391ade4fb8ceb3a4830d950, type: 3}
   - {fileID: 8300000, guid: b2c16dc12cf487c4db3cdff772b4c903, type: 3}
+  - {fileID: 8300000, guid: 3cce0696aff0c9f4c9613644642c8eb4, type: 3}
+  - {fileID: 8300000, guid: ccf559b13105e8841b4673f796314571, type: 3}
+  - {fileID: 8300000, guid: 9a3e839648b28b247b3c087c9e32b824, type: 3}
 --- !u!82 &954200953
 AudioSource:
   m_ObjectHideFlags: 0

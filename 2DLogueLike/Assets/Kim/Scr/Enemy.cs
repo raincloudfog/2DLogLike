@@ -75,7 +75,6 @@ public class Enemy : MonoBehaviour
     protected virtual void SetState(State newState)
     {   
         curState = newState;
-        
     }
 
     protected virtual void PlaySound(string action)

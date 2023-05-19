@@ -4,16 +4,30 @@ using UnityEngine;
 
 public class FlyEnemy : Enemy
 {
+    enum LayerData
+    {
+        Player = 6,
+        Wall = 8
+    }
+
     //Character player;
     //GameObject player;
-    Collider2D bodyCol = new Collider2D();
     CapsuleCollider2D capCol;
+    Collider2D wallcheckCol = new Collider2D();
     SpriteRenderer spren; // 색상이 변할 스프라이트 렌더러 컴포넌트
     public Color targetColor; // 목표 색상
     public float duration = 2f; // 전체 애니메이션 시간 (초)
     public float timer;
+    public float ranginWall;
+
+    int reverse = 1;
+
     Vector2 offset;
     Vector2 saveOffset;
+    Vector2 patrolVec;
+    Vector3 localScale;
+    public LayerMask wallLayer;
+    public Transform wallCheck;
     bool isPatrol = true;
     bool isRush = false;
     private void Awake()
@@ -48,15 +62,13 @@ public class FlyEnemy : Enemy
             case State.Idle:
                 Idle();
                 break;
-            case State.Patrol:
-                Patrol();
-                break;
-
+   
             case State.Attack:
-                if(startCo == true)
+                if (startCo == true)
                 {
                     startCo = false;
                     //Attack();
+                    
                     StartCoroutine(IAttack());
                 }
                 break;
@@ -68,22 +80,32 @@ public class FlyEnemy : Enemy
     void Idle() // 가만히 
     {
         anim.SetBool("isRush", false);
-        rigid.velocity = Vector2.zero;
-        timer += Time.deltaTime;
-        if (timer > Random.Range(1, 5) && isDie == false)
+        EnemyFilp(rigid.velocity.x);
+        if (col == null && isDie == false)
         {
-            timer = 0;
-            SetState(State.Patrol);
+            rigid.velocity = offset.normalized * curEnemySpeed;
         }
-        if (col != null && isDie == false)
+   
+        else if (col != null && isDie == false)
         {
             SetState(State.Attack);
         }
 
     }
 
-    void Patrol() // 순찰 
+    /*void Patrol() // 순찰 
     {
+        if(wallcheckCol != null && curState == State.Patrol)
+        {
+            rigid.velocity = -patrolVec;
+            //rigid.velocity = Vector2.zero;
+            EnemyFilp(-patrolVec.x);
+        }
+        *//*if (Physics2D.OverlapCircle(wallCheck.position, 1.2f, wallLayer))
+        {
+            rigid.velocity = -patrolVec;
+            EnemyFilp(-patrolVec.x);
+        }*//*
         anim.SetBool("isRush", false);
         if (col != null && isDie == false)
         {
@@ -93,37 +115,23 @@ public class FlyEnemy : Enemy
         {
             if (isPatrol == true)
             {
-                EnemyFilp();
+                
                 isPatrol = false;
                 float x = Random.Range(-1f, 1f);
                 float y = Random.Range(-1f, 1f);
                 Debug.Log(x + "/" + y);
-                rigid.velocity = new Vector2(x, y).normalized * 3f;
+                patrolVec = new Vector2(x,y).normalized * 3f;
+                rigid.velocity = patrolVec;
+                EnemyFilp(patrolVec.x);
                 StartCoroutine(RandomMove());
             }
 
         }
-    }
-
-    void Attack()
-    {
-        if(isRush == false)
-        {
-            isRush = true;
-            saveOffset = offset;
-        }
-        StopCoroutine(RandomMove());
-        anim.SetBool("isMove", false);
-        anim.SetBool("isRush", true);
-        if (col != null && isDie == false)
-        {
-            offset = EnemyObjectPool.instance.player.transform.position - transform.position;
-            rigid.velocity = offset.normalized * curEnemySpeed;
-        }
-    }
+    }*/
 
     IEnumerator IAttack()
     {
+        
         anim.SetBool("isRush", true);
         startCo = false;
         AttackEnemyFilp();
@@ -137,34 +145,35 @@ public class FlyEnemy : Enemy
         rigid.velocity = Vector2.zero;
         yield return new WaitForSeconds(1f);
         startCo = true;
-        SetState(State.Patrol);
+        SetState(State.Idle);
     }
 
     void AttackEnemyFilp()
     {
-        Vector3 localScale = transform.localScale;
+        localScale = transform.localScale;
         if (EnemyObjectPool.instance.player.transform.position.x < transform.position.x)
         {
-            localScale.x = -0.5f;
+            localScale.x = -1f;
         }
         else
         {
-            localScale.x = 0.5f;
+            localScale.x = 1f;
         }
         transform.localScale = localScale;
     }
-    void EnemyFilp()
+    void EnemyFilp(float x)
     {
         Vector3 localScale = transform.localScale;
-        if (rigid.velocity.x != 0)
+        if (x != 0)
         {
-            if (rigid.velocity.x < 0)
+            if (x < 0)
             {
-                localScale.x = -0.5f;
+                localScale.x = -1;
+
             }
             else
             {
-                localScale.x = 0.5f;
+                localScale.x = 1;
             }
         }
         transform.localScale = localScale;
@@ -201,7 +210,11 @@ public class FlyEnemy : Enemy
 
     IEnumerator RandomMove()
     {
-        yield return new WaitForSeconds(Random.Range(2, 5));
+        if(curState == State.Attack)
+        {
+            yield break;
+        }
+        yield return new WaitForSeconds(Random.Range(2f, 3f));
         int rand = Random.Range(0, 2);
         switch (rand)
         {

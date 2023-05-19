@@ -84,7 +84,6 @@ public class RushEnemy : Enemy
 
     void Patrol() // ¼øÂû 
     {
-        EnemyFilp();
         anim.SetBool("isMove", true);
         if (col != null && isDie == false)
         {
@@ -99,6 +98,7 @@ public class RushEnemy : Enemy
                 float y = Random.Range(-1f, 1f);
                 Debug.Log(x + "/" + y);
                 rigid.velocity = new Vector2(x, y).normalized * 1.5f;
+                EnemyFilp(x);
                 StartCoroutine(RandomMove());
             }
             
@@ -120,12 +120,12 @@ public class RushEnemy : Enemy
         }
 
     }
-    void EnemyFilp()
+    void EnemyFilp(float x)
     {
         Vector3 localScale = transform.localScale;
-        if (transform.position.x != 0)
+        if (x != 0)
         {
-            if (rigid.velocity.x < 0)
+            if (x < 0)
             {
                 localScale.x = -1;
             }
@@ -194,5 +194,4 @@ public class RushEnemy : Enemy
                 break;
         }
     }
-
 }

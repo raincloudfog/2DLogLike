@@ -42,7 +42,7 @@ public class ExploreBullet : MonoBehaviour
                     bullet.transform.position = transform.position;
                     bullet.SetRigidBossBullet(dir, 6, bulletDamage);
                 }
-                Destroy(this.gameObject);
+                EnemyObjectPool.instance.enemyBulletpool.ReturnExploreBullet(this);
             }
         }
     }

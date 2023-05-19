@@ -2984,6 +2984,8 @@ MonoBehaviour:
   parent: {fileID: 1435169631}
   bossBullet: {fileID: -4860358251845302917, guid: 131556a32d29fb7458250436d1721492, type: 3}
   bossBulletParent: {fileID: 1821273403}
+  exploreBullet: {fileID: 321218970, guid: 4b2327fe07bf27443b192e9baa8b29a5, type: 3}
+  exploreBulletParent: {fileID: 2141102687}
 --- !u!1001 &323293342
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2991,22 +2993,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 954200954, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
-      propertyPath: audioClips.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 954200954, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
-      propertyPath: audioClips.Array.data[3]
-      value: 
-      objectReference: {fileID: 8300000, guid: 3cce0696aff0c9f4c9613644642c8eb4, type: 3}
-    - target: {fileID: 954200954, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
-      propertyPath: audioClips.Array.data[4]
-      value: 
-      objectReference: {fileID: 8300000, guid: ccf559b13105e8841b4673f796314571, type: 3}
-    - target: {fileID: 954200954, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
-      propertyPath: audioClips.Array.data[5]
-      value: 
-      objectReference: {fileID: 8300000, guid: 9a3e839648b28b247b3c087c9e32b824, type: 3}
     - target: {fileID: 1941457191785433360, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: text
       value: 
@@ -3015,18 +3001,6 @@ PrefabInstance:
       propertyPath: textObj
       value: 
       objectReference: {fileID: 656475693}
-    - target: {fileID: 1941457191785433360, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
-      propertyPath: bulletSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1941457191785433360, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
-      propertyPath: cameraShaker
-      value: 
-      objectReference: {fileID: 811606717}
-    - target: {fileID: 1941457191785433360, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
-      propertyPath: curBossPatton
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 1941457191785433370, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: m_Name
       value: Boss
@@ -5640,6 +5614,8 @@ MonoBehaviour:
   sgParent: {fileID: 2021567997}
   rPrefab: {fileID: 7934498043670452738, guid: 4958f4e62e81a4649ac9d5c740be244c, type: 3}
   rParent: {fileID: 345778993}
+  fPrefab: {fileID: 0}
+  fParent: {fileID: 0}
 --- !u!4 &1303205328
 Transform:
   m_ObjectHideFlags: 0
@@ -7411,6 +7387,7 @@ Transform:
   - {fileID: 796771659}
   - {fileID: 1821273403}
   - {fileID: 1736894581}
+  - {fileID: 2141102687}
   m_Father: {fileID: 14431714}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16255,6 +16232,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2141102686
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2141102687}
+  m_Layer: 0
+  m_Name: ExploreBulletParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2141102687
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141102686}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 11.195239, y: 0.76998806, z: -0.03373933}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1695868890}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4282473672203205210
 SpriteRenderer:
   m_ObjectHideFlags: 0

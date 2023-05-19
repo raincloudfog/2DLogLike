@@ -11,6 +11,10 @@ public class EnemyBulletPool : MonoBehaviour
     public BossBullet bossBullet;
     public Transform bossBulletParent;
     Queue<BossBullet> bossBulletPool = new Queue<BossBullet>();
+
+    public ExploreBullet exploreBullet;
+    public Transform exploreBulletParent;
+    Queue<ExploreBullet> exploreBulletPool = new Queue<ExploreBullet>();
     private void Awake()
     {
         for (int i = 0; i < 500; i++)
@@ -26,6 +30,13 @@ public class EnemyBulletPool : MonoBehaviour
             bullet.gameObject.SetActive(false);
             bullet.transform.SetParent(bossBulletParent);
             bossBulletPool.Enqueue(bullet);
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            ExploreBullet bullet = Instantiate(exploreBullet);
+            bullet.gameObject.SetActive(false);
+            bullet.transform.SetParent(exploreBulletParent);
+            exploreBulletPool.Enqueue(bullet);
         }
     }
 
@@ -64,6 +75,24 @@ public class EnemyBulletPool : MonoBehaviour
         }
     }
 
+    public ExploreBullet GetExploreBullet()
+    {
+        if (exploreBulletPool.Count > 0)
+        {
+            ExploreBullet bullet = exploreBulletPool.Dequeue();
+            bullet.gameObject.SetActive(true);
+            return bullet;
+        }
+        else
+        {
+            ExploreBullet bullet = Instantiate(exploreBullet);
+            bullet.gameObject.SetActive(true);
+            bullet.transform.SetParent(exploreBulletParent);
+            exploreBulletPool.Enqueue(bullet);
+            return bullet;
+        }
+    }
+
     public void ReturnBossBullet(BossBullet bullet)
     {
         bullet.gameObject.SetActive(false);
@@ -75,5 +104,12 @@ public class EnemyBulletPool : MonoBehaviour
         bullet.gameObject.SetActive(false);
         bullet.transform.SetParent(parent);
         pool.Enqueue(bullet);
+    }
+
+    public void ReturnExploreBullet(ExploreBullet bullet)
+    {
+        bullet.gameObject.SetActive(false);
+        bullet.transform.SetParent(exploreBulletParent);
+        exploreBulletPool.Enqueue(bullet);
     }
 }
