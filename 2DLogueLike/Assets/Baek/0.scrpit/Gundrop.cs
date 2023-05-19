@@ -11,17 +11,17 @@ public class Gundrop : Item
     {
         
 
-        Debug.Log("플레이어 닿임");
-        GunManager.Instance.waeponType = WaeponType.Missile;
-        GunManager.Instance.SetWeaponStrategy(new MissieStrategy()); // 전략 패턴시 발동됨
-        Destroy(gameObject);
+        //Debug.Log("플레이어 닿임");
+        GunManager.Instance.waeponType = WaeponType.Missile;// 건매니저의 웨폰 타입바꿔줌
+        GunManager.Instance.SetWeaponStrategy(new MissieStrategy()); // 건매니저의 웨폰 전략을 미사일로 바꿔줌.
+        Destroy(gameObject); // 미사일은 하나라 오브젝트풀하지않음.
 
         
     }
    
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player"))        
+        if(collision.CompareTag("Player"))         // 만약 플레이어와 닿았을경우 픽업
             Pick_Up();
     }
 }

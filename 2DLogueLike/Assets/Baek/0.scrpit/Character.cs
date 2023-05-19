@@ -23,11 +23,11 @@ public class Character : MonoBehaviour
     public float spreadAngle = 10f; // 총알 퍼짐 각도
 
     Vector3 Player; // 플레이어의 현재위치
-    public Npc SHOP;// 무기 상인 위치
-    public Npc POTION; // 힐러 위치
+    public Npc SHOP;// 무기 상인
+    public Npc POTION; // 힐러 
 
-    Vector3 Weapon;
-    Vector3 Potion;
+    Vector3 Weapon; // 무기상인의 위치
+    Vector3 Potion; // 힐러의 위치
 
     public float gunDistance = 1.0f;// 마우스 위치와 총 사이의 거리
     [SerializeField]
@@ -44,6 +44,18 @@ public class Character : MonoBehaviour
     float HealerDistance; // 힐러 상인과의 거리
     float shopDistance; // 무기상인과의 거리
 
+    public bool isEnemy = false;
+    private bool isStop = false;
+    public bool IsStop
+    {
+        get { return isStop; }
+        set
+        {
+            isStop = value;
+        }
+    }
+
+    // 김영수 담당
     bool isinvincibility = false; // 무적 -> 기본은 false
     bool isDie = false;
     bool isDash = false;
@@ -93,18 +105,20 @@ public class Character : MonoBehaviour
                 //NPC랑 가까운 뭔지 체크..
                 if (shopDistance < 5)
                 {
-                    if(SHOP.GetComponent<EnemyNPC>().enabled == false)
+                    
+                    if (SHOP.GetComponent<EnemyNPC>().enabled == false)
                         SHOP.EventUI(true);
 
                 }
                 else if (HealerDistance < 5)
                 {
+                    if(isEnemy.Equals(true))
+                    {
+                        return;
+                    }
                     if (SHOP.GetComponent<EnemyNPC>().enabled == false)
                         POTION.EventUI(true);
-                    else
-                    {
-
-                    }
+                    
                 }
             }
             
@@ -174,18 +188,18 @@ public class Character : MonoBehaviour
 
     public void PlayerHIt(int Damage = 1) // 플레이어 피격시 
     {
-        if(isinvincibility == true)
+        if(isinvincibility == true) // 무적 코드
         {
             return;
         }
-        if (isHit == false)
+        if (isHit == false) // 피격 딜레이
             return;
-        Debug.Log("맞았음");
+        //Debug.Log("맞았음");
         Hp -= Damage;
-        Debug.Log(Hp + "/" + Damage);
+        //Debug.Log(Hp + "/" + Damage);
         isHit = false;
         StartCoroutine(Hitspr());
-        if(Hp <= 0)
+        if(Hp <= 0) // 죽었을시 피 더안깍이도록
         {
             Hp = 0;
             StartCoroutine(Die());
@@ -258,7 +272,7 @@ public class Character : MonoBehaviour
                 // 발사 방향 계산
                 Vector2 direction = (world - transform.position).normalized;
 
-                Debug.Log(direction);
+                //Debug.Log(direction);
 
                 // 총알 생성
                 GameObject bullet = ObjectPoolBaek.Instance.PlayerBulletCreate();
@@ -277,6 +291,11 @@ public class Character : MonoBehaviour
 
     void Move() // 이동 함수
     {
+        if(isStop == true)
+        {
+            return;
+        }
+
         if (ismove == false)
         {
             return;
@@ -308,7 +327,7 @@ public class Character : MonoBehaviour
         anim.SetBool("isMove", movedic != Vector3.zero); // 김영수가 추가함 키입력이 있을 때 애니메이션 실행   
     }
 
-    IEnumerator Dash(Vector3 dir) //
+    IEnumerator Dash(Vector3 dir) //김영수 담당
     {
         isDash = true;
         isDashTime = true;
@@ -377,15 +396,15 @@ public class Character : MonoBehaviour
         
     }
 
-    IEnumerator Die()
+    IEnumerator Die() // 죽었을때
     {
-        anim.SetTrigger("Die");
-        ismove = false;
-        isAttack = false;
-        rigid.velocity = Vector2.zero;
-        yield return new WaitForSeconds(1f);
+        anim.SetTrigger("Die"); // 죽는 애니메이션 발동
+        ismove = false; // 못움직이게
+        isAttack = false; // 총 못쏘게
+        rigid.velocity = Vector2.zero; // 이동 속도 거기서 멈춤
+        yield return new WaitForSeconds(1f); // 1초후 게임 오버 UI켜주기
         OptionManager.Instance.died.SetActive(true);
-        Time.timeScale = 0;
+        Time.timeScale = 0; // 시간 안흐르게 막아주기
     }
 
 }

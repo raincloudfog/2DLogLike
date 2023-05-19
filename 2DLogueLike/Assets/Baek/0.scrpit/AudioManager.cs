@@ -23,9 +23,6 @@ public class AudioManager : SingletonBaek<AudioManager>
         DontDestroyOnLoad(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
+    
 }

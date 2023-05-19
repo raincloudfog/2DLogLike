@@ -4,26 +4,13 @@ using UnityEngine;
 
 public class Food : Item
 {
-    Collider2D Pick;
-    Character Player;
-    [SerializeField] Sprite[] Foods;
-    [SerializeField] Sprite mainspr;
+    Collider2D Pick; // 플레이어 감지
+    Character Player; // 플레이어
+    [SerializeField] Sprite[] Foods; // 음식 이미지들
+    [SerializeField] Sprite mainspr; // 기본 음식 이미지
     [SerializeField] protected float ranginPlayer; // 플레이어와 닿였을때
     Rigidbody2D rigid;
     bool sprite = true;
-
-    /*private void OnEnable()
-    {
-        Init();
-    }*/
-    /*private void Start()
-    {
-        Init();
-    }*/
-    /*private void Awake()
-    {
-        Init();
-    }*/
 
 
     public void Init()
@@ -47,10 +34,10 @@ public class Food : Item
         }
             
     }
-    public override void Pick_Up()
+    public override void Pick_Up() // 코인과 같음
     {
         
-        //Init();
+       
         if (Pick != null)
         {
             Debug.Log("플레이어 닿임");
@@ -67,7 +54,6 @@ public class Food : Item
     private void FixedUpdate()
     {
         Init();
-        
 
         Pick = Physics2D.OverlapCircle(transform.position,
                ranginPlayer,

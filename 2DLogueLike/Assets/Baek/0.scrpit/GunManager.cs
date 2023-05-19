@@ -40,19 +40,19 @@ public class GunManager : SingletonBaek<GunManager>
 
     }
 
-    public void SetWeaponStrategy(IWeaponStrategy strategy) // 전략 패턴용도
+    public void SetWeaponStrategy(IWeaponStrategy strategy) // 전략 패턴용도 // 웨폰전략에 있는 슛 사용 하기
     {
         weaponStrategy = strategy;
     }
 
     private void Start()
     {
-        SetWeaponStrategy(new PistolStrategy());
+        SetWeaponStrategy(new PistolStrategy()); // 총알 기본 값 피스톨 지정
     }
 
     private void FixedUpdate()
     {        
-        //shoot(waeponType);
+        //shoot(waeponType); // 전략 패턴 사용하기 전에 사용한 코드
         shoot2();
     }
 
@@ -64,7 +64,7 @@ public class GunManager : SingletonBaek<GunManager>
         }
     }
 
-    public void shoot(WaeponType waeponType)
+    /*public void shoot(WaeponType waeponType) // 더미데이터 전략 패턴 사용 하기전에 사용 하던 코드
     {
         if (weaponStrategy != null) // 전략 패턴 용도
         {
@@ -108,5 +108,5 @@ public class GunManager : SingletonBaek<GunManager>
             default:
                 break;
         }
-    }
+    }*/
 }

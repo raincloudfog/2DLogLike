@@ -30,44 +30,13 @@ public class Npc : MonoBehaviour
 
     public void EventUI(bool isbool) // UI실행
     {
-        UI.SetActive(isbool);
-        GameManager.Instance.isUiactive = isbool;
+        UI.SetActive(isbool); 
+        GameManager.Instance.isUiactive = isbool; 
     }
-
-    private void Update()
-    {
-        /*if(player != null)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Debug.Log("isUiactive = true");
-                //GameManager.Instance.isUiactive = true;
-                GameManager.Instance.SetIsTalking(true, _kind);
-                UI.SetActive(true);                
-            }            
-        }
-        else
-        {
-            Debug.Log("isUiactive = false;");
-            GameManager.Instance.SetIsTalking(false, _kind);
-            //GameManager.Instance.isUiactive = false;
-            UI.SetActive(false);            
-        }*/
-        /*if (UI.activeSelf == true)
-        {
-            GameManager.Instance.Player.isAttack = false;
-        }
-        else if (UI.activeSelf == false)
-        {
-            GameManager.Instance.Player.isAttack = true;
-        }
-*/
-
-
-    }
+   
     private void FixedUpdate()
     {
-        player = Physics2D.OverlapCircle(transform.position, transform.localScale.x * 2, LayerMask.GetMask("Player"));
+        player = Physics2D.OverlapCircle(transform.position, transform.localScale.x * 2, LayerMask.GetMask("Player")); // 플레이어를 감지하면 위의 체크박스 표시
 
         if(player != null)
         {

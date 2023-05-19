@@ -360,6 +360,7 @@ public class Boss : MonoBehaviour
     }
     void Ending()
     {
+        GameManager.Instance.Player.IsStop = true; // 백인범이 추가함
         textObj.gameObject.SetActive(true);
         text.gameObject.SetActive(true);
         text.text = "Game Clear";

@@ -20,17 +20,17 @@ public class ObjectPoolBaek : SingletonBaek<ObjectPoolBaek>
 
     }
 
-    [SerializeField] GameObject Boom;
+    [SerializeField] GameObject Boom; // 폭탄이펙트 오브젝트
 
-    [SerializeField] GameObject hpiconlist;
-    [SerializeField] Image Hpicon;
+    [SerializeField] GameObject hpiconlist; // HP가 담길 공간
+    [SerializeField] Image Hpicon; // HP
     public Character Player; // 플레이어 캐릭터
     [SerializeField]
     GameObject Playerbullet; // 플레이어의 총알
 
     Queue<GameObject> PlayerBulletPools = new Queue<GameObject>(); // 플레이어의 총알 오브젝트풀링
     Queue<Image> PlayerHpicon = new Queue<Image>(); // HP아이콘 오브젝트 풀링
-    Queue<GameObject> BoomPools = new Queue<GameObject>();
+    Queue<GameObject> BoomPools = new Queue<GameObject>(); // 폭탄 이펙트가 담길 큐
 
     public void PlayerBulletReturn(GameObject obj) // 총알 리턴
     {
@@ -56,7 +56,7 @@ public class ObjectPoolBaek : SingletonBaek<ObjectPoolBaek>
         return obj;
     }
 
-    public void HpiconReturn(Image img)
+    public void HpiconReturn(Image img) //HP아이콘반환받음
     {
         PlayerHpicon.Enqueue(img);
         img.transform.SetParent(null);
@@ -83,7 +83,7 @@ public class ObjectPoolBaek : SingletonBaek<ObjectPoolBaek>
        
     }
 
-    public GameObject BoomCreate()
+    public GameObject BoomCreate() // 폭탄 이펙트를 줍니다.
     {
         if(BoomPools.Count == 0)
         {
@@ -100,7 +100,7 @@ public class ObjectPoolBaek : SingletonBaek<ObjectPoolBaek>
         return obj;
     }
 
-    public void BoomReturn(GameObject obj)
+    public void BoomReturn(GameObject obj) // 폭탄 이펙트를 반환받습니다.
     {
         BoomPools.Enqueue(obj);
         

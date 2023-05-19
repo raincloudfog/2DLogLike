@@ -5640,6 +5640,8 @@ MonoBehaviour:
   sgParent: {fileID: 2021567997}
   rPrefab: {fileID: 7934498043670452738, guid: 4958f4e62e81a4649ac9d5c740be244c, type: 3}
   rParent: {fileID: 345778993}
+  fPrefab: {fileID: 0}
+  fParent: {fileID: 0}
 --- !u!4 &1303205328
 Transform:
   m_ObjectHideFlags: 0
@@ -16464,7 +16466,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.8125, y: 1.3125}
+  m_Size: {x: 0.8125, y: 0.7}
   m_Direction: 0
 --- !u!95 &4282473673986115254
 Animator:
@@ -16517,6 +16519,7 @@ MonoBehaviour:
   ismove: 1
   isAttack: 1
   isHit: 1
+  isEnemy: 0
 --- !u!82 &4282473673986115256
 AudioSource:
   m_ObjectHideFlags: 0

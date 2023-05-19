@@ -6,9 +6,6 @@ using UnityEngine;
 
 public abstract class Item : MonoBehaviour 
 {
-   public abstract void Pick_Up();
-   
-    
-    
+   public abstract void Pick_Up();           // 아이템들은 무조건 만들어줄것
 }
  
