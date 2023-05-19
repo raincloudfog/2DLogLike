@@ -275,7 +275,7 @@ public class Boss : MonoBehaviour
         while (isStart == true)
         {
             coTimer += 2f;
-            if (coTimer >= 10f)
+            if (coTimer >= 6f)
             {
                 coTimer = 0;
                 isStart = false;

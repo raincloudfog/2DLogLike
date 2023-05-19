@@ -4,22 +4,14 @@ using UnityEngine;
 
 public class RushEnemy : Enemy
 {
-    //Character player;
-    //GameObject player;
-    Collider2D bodyCol = new Collider2D();
     CapsuleCollider2D capCol;
-    SpriteRenderer spren; // 색상이 변할 스프라이트 렌더러 컴포넌트
-    public Color targetColor; // 목표 색상
-    public float duration = 2f; // 전체 애니메이션 시간 (초)
     public float timer;
-    private Color startColor; // 시작 색상
+    
 
     bool isPatrol = true;
     private void Awake()
     {
         Init();
-        
-        spren = GetComponent<SpriteRenderer>();
     }
     protected override void Init()
     {
@@ -37,11 +29,6 @@ public class RushEnemy : Enemy
         curEnemySpeed = enemySpeed;
         curBodyDamage = bodyDamage;
         //player = EnemyObjectPool.instance.testPlayer;
-    }
-
-    private void Start()
-    {
-        startColor = spren.color;
     }
 
     void Update()

@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class ItemPool : MonoBehaviour
 {
+    // 아이템들의 풀
+
+    // 음식 아이템
     public Food foodPrefab;
     public Transform foodParent;
     Queue<Food> foodPool = new Queue<Food>();
 
+    // 동전 아이템
     public Coin coinPrefab;
     public Transform coinParent;
     Queue<Coin> coinPool = new Queue<Coin>();

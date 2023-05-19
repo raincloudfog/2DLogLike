@@ -8,7 +8,6 @@ public class PistorEnemy : Enemy
     private void Awake()
     {
         Init();
-        
     }
     private void OnEnable()
     {
@@ -117,9 +116,9 @@ public class PistorEnemy : Enemy
         obj.SetRigidBullet(offset, curEnemyBulletSpeed, curEnemyBulletDamage);
         PlaySound("isShot");
     }
-    void Die()
+    void Die() // 죽었을 때의 함수
     {
-        if (isDie == true && isrealDie == false)
+        if (isDie == true && isrealDie == false) // 한번만 실행하기 위함
         {
             isrealDie = true;
             anim.SetTrigger("isDie");
@@ -129,12 +128,13 @@ public class PistorEnemy : Enemy
         }
     }
 
-    IEnumerator ReturnDelay()
+    IEnumerator ReturnDelay() // 적들을 오브젝트 풀로 다시 돌려주는 코루틴
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f); 
         EnemyObjectPool.instance.enemyPool.ReturnPtEnemy(this);
+       
         int random = Random.Range(0,  2);
-        switch (random)
+        switch (random) // 죽었을 때 랜덤으로 아이템을 드랍함
         {
             case 0:
                 Food food = EnemyObjectPool.instance.itemPool.GetFood();
@@ -145,10 +145,10 @@ public class PistorEnemy : Enemy
                 coin.transform.position = transform.position;
                 break;
         }
-        isrealDie = false;
+        isrealDie = false; // Die함수가 다시 실행될수 있도록 설정
     }
     
-    IEnumerator Delay()
+    IEnumerator Delay() // 적들의 공격 딜레이
     {
         yield return new WaitForSeconds(shotDelay);
         isAttack = true;

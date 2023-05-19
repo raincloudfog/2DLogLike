@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class FlyEnemy : Enemy
 {
-    enum LayerData
+    enum LayerData // 레이어 데이터
     {
         Player = 6,
         Wall = 8
     }
-
     //Character player;
     //GameObject player;
     CapsuleCollider2D capCol;
@@ -19,8 +18,6 @@ public class FlyEnemy : Enemy
     public float duration = 2f; // 전체 애니메이션 시간 (초)
     public float timer;
     public float ranginWall;
-
-    int reverse = 1;
 
     Vector2 offset;
     Vector2 saveOffset;
@@ -64,20 +61,19 @@ public class FlyEnemy : Enemy
                 break;
    
             case State.Attack:
-                if (startCo == true)
+                if (startCo == true) // 코루틴을 한번만 실행시키기 위한 불값
                 {
-                    startCo = false;
+                    startCo = false; 
                     //Attack();
                     
                     StartCoroutine(IAttack());
                 }
                 break;
         }
-
         Die();
     }
 
-    void Idle() // 가만히 
+    void Idle() // 기본상태 -> 범위내에 플레이어가 없으면 플레이어를 쫗아가는 상태
     {
         anim.SetBool("isRush", false);
         EnemyFilp(rigid.velocity.x);
@@ -92,44 +88,7 @@ public class FlyEnemy : Enemy
         }
 
     }
-
-    /*void Patrol() // 순찰 
-    {
-        if(wallcheckCol != null && curState == State.Patrol)
-        {
-            rigid.velocity = -patrolVec;
-            //rigid.velocity = Vector2.zero;
-            EnemyFilp(-patrolVec.x);
-        }
-        *//*if (Physics2D.OverlapCircle(wallCheck.position, 1.2f, wallLayer))
-        {
-            rigid.velocity = -patrolVec;
-            EnemyFilp(-patrolVec.x);
-        }*//*
-        anim.SetBool("isRush", false);
-        if (col != null && isDie == false)
-        {
-            SetState(State.Attack);
-        }
-        else if (col == null && isDie == false)
-        {
-            if (isPatrol == true)
-            {
-                
-                isPatrol = false;
-                float x = Random.Range(-1f, 1f);
-                float y = Random.Range(-1f, 1f);
-                Debug.Log(x + "/" + y);
-                patrolVec = new Vector2(x,y).normalized * 3f;
-                rigid.velocity = patrolVec;
-                EnemyFilp(patrolVec.x);
-                StartCoroutine(RandomMove());
-            }
-
-        }
-    }*/
-
-    IEnumerator IAttack()
+    IEnumerator IAttack() // 범위내에 플레이어가 있으면 돌진하는 패턴
     {
         
         anim.SetBool("isRush", true);
@@ -206,25 +165,5 @@ public class FlyEnemy : Enemy
                 break;
         }
         isrealDie = false;
-    }
-
-    IEnumerator RandomMove()
-    {
-        if(curState == State.Attack)
-        {
-            yield break;
-        }
-        yield return new WaitForSeconds(Random.Range(2f, 3f));
-        int rand = Random.Range(0, 2);
-        switch (rand)
-        {
-            case 0:
-                isPatrol = true;
-                SetState(State.Idle);
-                break;
-            case 1:
-                isPatrol = true;
-                break;
-        }
     }
 }

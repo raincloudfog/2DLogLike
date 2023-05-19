@@ -53,14 +53,4 @@ public class Enemybullet : MonoBehaviour
     {
         rigid.velocity = Vector2.zero;
     }
-
-
-
-    /*IEnumerator Disable() // 총알이 발사된 3초 후 리턴시키는 코루틴 더미데이터
-
-    {
-        yield return new WaitForSeconds(3f);
-        EnemyObjectPool.instance.enemyBulletpool.ReturnBullet(this);
-    }*/
-
 }

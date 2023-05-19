@@ -20,13 +20,15 @@ public class BossBullet : MonoBehaviour
     {
         col = Physics2D.OverlapCircle(transform.position, transform.localScale.x,
             LayerMask.GetMask("Wall", "Player"));
-        if (col != null)
+        // col의 감지범위는 불렛이 원이기때문에 로컬스케일 x로 설정
+        if (col != null) // 만약 설정한 레이어를 가진 오브젝트가 닿았다면
         {
-            if (col.gameObject.layer == 6)
+            if (col.gameObject.layer == 6) // Player 레이어일 경우
             {
-                col.GetComponent<Character>().PlayerHIt(bulletDamage);
+                col.GetComponent<Character>().PlayerHIt(bulletDamage); // 캐릭터의 PlayerHit에 접근하여 대미지를 입힘
             }
             EnemyObjectPool.instance.enemyBulletpool.ReturnBossBullet(this);
+            // 싱글톤에 있는 enemyBulletpool에 있는 리턴함수로 되돌려준다;
         }
     }
     public void SetRigidBossBullet(Vector2 offset, float speed, int bulletDamage)
@@ -39,9 +41,10 @@ public class BossBullet : MonoBehaviour
         }
         bulletVec = offset.normalized * speed; // 받은 벡터값
         rigid.velocity = bulletVec;
-        //StartCoroutine(Disable());
+
     }
-    public void RigidBossBulletAgain()
+
+    /*public void RigidBossBulletAgain()  // 필요없는 함수
     // 일시정지를 풀었을 경우 제로니까 저장해놓은 불렛벡터를 불러온다.           
     {
         if (rigid == null)
@@ -53,13 +56,5 @@ public class BossBullet : MonoBehaviour
     public void Stop()
     {
         rigid.velocity = Vector2.zero;
-    }
-
-
-
-    /*IEnumerator Disable() // 총알이 발사된 3초 후 리턴시키는 코루틴 더미데이터
-    {
-        yield return new WaitForSeconds(3f);
-        EnemyObjectPool.instance.enemyBulletpool.ReturnBossBullet(this);
     }*/
 }

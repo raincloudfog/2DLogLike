@@ -24,13 +24,13 @@ public class ExploreBullet : MonoBehaviour
     {
         col = Physics2D.OverlapCircle(transform.position, transform.localScale.x,
             LayerMask.GetMask("Wall", "Player"));
-        if (col != null)
+        if (col != null) 
         {
-            if (col.gameObject.layer == 6)
+            if (col.gameObject.layer == 6) // 닿은 레이어가 플레이어면 대미지를 줌
             {
                 col.GetComponent<Character>().PlayerHIt(bulletDamage);
             }
-            else if(col.gameObject.layer == 8)
+            else if(col.gameObject.layer == 8) // 벽에 닿으면 폭발하면서 전방향으로 불렛을 발사함
             {
                 for (int i = 0; i < 30; ++i)
                 {

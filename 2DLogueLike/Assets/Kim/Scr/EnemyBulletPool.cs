@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyBulletPool : MonoBehaviour
-{
+{ 
+    //ÀûµéÀÇ ºÒ·¿µéÀ» ´ã´Â Ç®
+
+    // Àâ¸÷ÀÇ ºÒ·¿
     public Enemybullet prefab;
     public Transform parent;
     Queue<Enemybullet> pool = new Queue<Enemybullet>();
 
+    // º¸½ºÀÇ ºÒ·¿
     public BossBullet bossBullet;
     public Transform bossBulletParent;
     Queue<BossBullet> bossBulletPool = new Queue<BossBullet>();
 
+    // º¸½ºÀÇ Æø¹ß ºÒ·¿
     public ExploreBullet exploreBullet;
     public Transform exploreBulletParent;
     Queue<ExploreBullet> exploreBulletPool = new Queue<ExploreBullet>();

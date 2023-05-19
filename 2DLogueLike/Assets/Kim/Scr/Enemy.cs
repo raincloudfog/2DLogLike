@@ -32,16 +32,16 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected int curEnemyBulletDamage;
     [SerializeField] protected int curBodyDamage;
     [SerializeField] protected int bodyDamage;
-    [SerializeField] protected float shotDelay;
-    [SerializeField] protected float ranginPlayer; // 플레이어를 발견하는 범위
-    [SerializeField] protected float ranginShot; // 플레이어를 발견하여 총을쏠수있는 범위
+    [SerializeField] protected float shotDelay;     // 발사 딜레이
+    [SerializeField] protected float ranginPlayer;  // 플레이어를 발견하는 범위
+    [SerializeField] protected float ranginShot;   // 플레이어를 발견하여 총을쏠수있는 범위
 
-    protected bool isAttack = true;
+    protected bool isAttack = true; // 공격을 했는가
 
-    protected bool isDie = false;
-    protected bool isrealDie = false;
+    protected bool isDie = false; // 죽었는가
+    protected bool isrealDie = false; // 
 
-    protected bool startCo = true;
+    protected bool startCo = true; // 코루틴을 시작했는가
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
@@ -101,6 +101,7 @@ public class Enemy : MonoBehaviour
             if (collision.gameObject.CompareTag("Player"))
             {
                 collision.gameObject.GetComponent<Character>().PlayerHIt(1);
+                // 적들이 플레이어에게 닿으면 대미지를 줌
             }
         }
     }

@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class EnemyPool : MonoBehaviour
 {
+    // 적들을 담고 있는 풀
+    
+    // 단발을 쏘는 적 
     public PistorEnemy ptPrefab;
     public Transform ptParent;
     Queue<PistorEnemy> ptPool = new Queue<PistorEnemy>();
 
+    // 3발씩 쏘는 적
     public ShotGunEnemy sgPrefab;
     public Transform sgParent;
     Queue<ShotGunEnemy> sgPool = new Queue<ShotGunEnemy>();
 
+    // 플레이어를 쫒아가는 적
     public RushEnemy rPrefab;
     public Transform rParent;
     Queue<RushEnemy> rPool = new Queue<RushEnemy>();
 
+    // 플레이어 발견시 돌진하는 적
     public FlyEnemy fPrefab;
     public Transform fParent;
     Queue<FlyEnemy> fPool = new Queue<FlyEnemy>();
@@ -24,6 +30,9 @@ public class EnemyPool : MonoBehaviour
     {
         for (int i = 0; i < 20; i++)
         {
+            // 현재는 적들을 위치를 직접 정해주고 배치해뒀기 떄문에
+            // 주석처리함 -> 필요할시 사용
+
             /*PistorEnemy ptEnemy = Instantiate(ptPrefab);
             ptEnemy.gameObject.SetActive(false);
             ptEnemy.transform.SetParent(ptParent);
