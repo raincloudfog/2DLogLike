@@ -357,6 +357,7 @@ public class Boss : MonoBehaviour
     }
     void Ending() // 보스의 발악패턴이 끝난 후 나오는 승리 문구
     {
+        GameManager.Instance.Player.IsStop = true; // 백인범이 추가함
         textObj.gameObject.SetActive(true);
         text.gameObject.SetActive(true);
         text.text = "Game Clear";

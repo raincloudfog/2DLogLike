@@ -8,7 +8,7 @@ public class Stage : MonoBehaviour
 
     public GameObject bossHpObj;
 
-    public GameObject walldoor;
+    public GameObject walldoor; // 적들이 있는 맵에 들어가면 입구를 막는 벽 (혹은 문)
 
     private void Awake()
     {
@@ -17,7 +17,7 @@ public class Stage : MonoBehaviour
         {
             monstersList[i].SetActive(false);
         }
-        if(walldoor != null)
+        if(walldoor != null) // 만약 벽이 존재하면 벽을 비활성화 해줍니다.
         {
             walldoor.SetActive(false);
         }
@@ -35,7 +35,7 @@ public class Stage : MonoBehaviour
             {
                 monstersList[i].gameObject.SetActive(true);
             }
-            if (walldoor != null)
+            if (walldoor != null) // 벽생성
             {
                 walldoor.SetActive(true);
             }

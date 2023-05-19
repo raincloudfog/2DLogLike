@@ -11,8 +11,8 @@ public class SaveData : SingletonBaek<SaveData>
     public WaeponType waeponType; // 저장할 총의 종류
     public int coin = 0; // 저장할 코인갯수
     [NonReorderable]
-    public bool issave = true;
-    public IWeaponStrategy weaponStrategy;
+    public bool issave = true; // 만약 세이브 되었는지 확인합니다.
+    public IWeaponStrategy weaponStrategy; // 무기상태확인합니다.
 
     private void Awake()
     {
@@ -46,9 +46,9 @@ public class SaveData : SingletonBaek<SaveData>
         this.weaponStrategy = weaponStrategy;
         return this;
     }
-    private void FixedUpdate()
+    private void FixedUpdate() // 여기다 한이유는 가끔씩 무기가 안바뀔때가있어서 fix에 넣었습니다.
     {
-        if(SceneManager.GetActiveScene().name == "BossRoom" && issave == true)
+        if(SceneManager.GetActiveScene().name == "BossRoom" && issave == true) // 만약 보스방이면서 세이브에 데이터가 있는 경우이면
         {
             
             if (GunManager.Instance.waeponType != Instance.waeponType)
@@ -59,7 +59,7 @@ public class SaveData : SingletonBaek<SaveData>
             
             GameManager.Instance.Player.Hp = Instance.Hp;
             GameManager.Instance.coin = Instance.coin;
-            issave = false;
+            issave = false; // 세이브값은 넘겨주었으니 다시 못불러오게 합니다.
         }
         
 

@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class StartScenes : MonoBehaviour
 {
-    public void OnStart()
+    public void OnStart()// 스타트 시 스테이지로 넘어갑니다.
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(1); 
     }
 }
