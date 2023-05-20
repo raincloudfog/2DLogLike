@@ -7,7 +7,7 @@ public class ExploreBullet : MonoBehaviour
     Rigidbody2D rigid;
     CircleCollider2D circleCol;
     Collider2D col = new Collider2D();
-    int bulletDamage = 0;
+    
     Vector2 bulletVec = Vector2.zero;
     void Init()
     {
@@ -28,7 +28,7 @@ public class ExploreBullet : MonoBehaviour
         {
             if (col.gameObject.layer == 6) // 닿은 레이어가 플레이어면 대미지를 줌
             {
-                col.GetComponent<Character>().PlayerHIt(bulletDamage);
+                col.GetComponent<Character>().PlayerHIt();
             }
             else if(col.gameObject.layer == 8) // 벽에 닿으면 폭발하면서 전방향으로 불렛을 발사함
             {
@@ -40,43 +40,17 @@ public class ExploreBullet : MonoBehaviour
                     float y = Mathf.Sin(angle * Mathf.PI / 180.0f);
                     Vector2 dir = new Vector2(x, y);
                     bullet.transform.position = transform.position;
-                    bullet.SetRigidBossBullet(dir, 6, bulletDamage);
+                    bullet.SetRigidBossBullet(dir, 6);
                 }
                 EnemyObjectPool.instance.enemyBulletpool.ReturnExploreBullet(this);
             }
         }
     }
-    public void SetRigidExploreBullet(Vector2 offset, float speed, int bulletDamage)
-    // 총알의 속성을 정해준다 (방향, 속도, 대미지)
+    public void SetRigidExploreBullet(Vector2 offset, float speed)
+    // 총알의 속성을 정해준다 (방향, 속도)
     {
         Init();
-        if (this.bulletDamage == 0)
-        {
-            this.bulletDamage = bulletDamage;
-        }
         bulletVec = offset.normalized * speed; // 받은 벡터값
         rigid.velocity = bulletVec;
-        //StartCoroutine(Disable());
     }
-    public void RigidBossBulletAgain()
-    // 일시정지를 풀었을 경우 제로니까 저장해놓은 불렛벡터를 불러온다.           
-    {
-        if (rigid == null)
-        {
-            rigid = this.GetComponent<Rigidbody2D>();
-        }
-        rigid.velocity = bulletVec; // 저장해 놓은 불렛백터 불러오기
-    }
-    public void Stop()
-    {
-        rigid.velocity = Vector2.zero;
-    }
-
-
-
-    /*IEnumerator Disable() // 총알이 발사된 3초 후 리턴시키는 코루틴 
-    {
-        yield return new WaitForSeconds(3f);
-        
-    }*/
 }

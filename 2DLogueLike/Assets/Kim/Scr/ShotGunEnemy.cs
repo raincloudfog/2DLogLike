@@ -4,38 +4,19 @@ using UnityEngine;
 
 public class ShotGunEnemy : Enemy
 {
-    //Character player;
-    //GameObject player;
-    CapsuleCollider2D capCol;
+    Collider2D col2 = new Collider2D();
     private void Awake()
     {
         Init();
-        
     }
     private void OnEnable()
     {
         Init();
-        capCol.enabled = true;
-        curEnemyHp = enemyHp;
-        curEnemySpeed = enemySpeed;
-        curEnemyBulletSpeed = enemyBulletSpeed;
-        curEnemyBulletDamage = enemybulletDamage;
-        //player = EnemyObjectPool.instance.testPlayer; 캐싱을 하고싶지만 오류가 뜨기에 보류
     }
-    protected override void Init()
-    {
-        base.Init();
-        if(capCol == null)
-        {
-            capCol = GetComponent<CapsuleCollider2D>();
-        }
-    }
-
-
     void Update()
     {
         col = Physics2D.OverlapCircle(transform.position, ranginPlayer, playerLayer);
-        
+        offset = EnemyObjectPool.instance.player.transform.position - transform.position;
         switch (curState)
         {
             case State.Idle:
@@ -61,7 +42,7 @@ public class ShotGunEnemy : Enemy
 
     void Attack()
     {
-        Collider2D col2 = Physics2D.OverlapCircle(transform.position, ranginShot, playerLayer);
+        col2 = Physics2D.OverlapCircle(transform.position, ranginShot, playerLayer);
         anim.SetBool("isMove", col);
         if (col == null && isDie == false)
         {
@@ -70,9 +51,6 @@ public class ShotGunEnemy : Enemy
         }
         else if (col != null && col2 == null && isDie == false)
         {
-            //anim.SetBool("isMove", true);
-            //Vector2 offset = player.transform.position - transform.position;
-            Vector2 offset = EnemyObjectPool.instance.player.transform.position - transform.position;
             rigid.velocity = offset.normalized * curEnemySpeed;
             EnemyFilp();
         }
@@ -96,37 +74,23 @@ public class ShotGunEnemy : Enemy
     }
     void EnemyFilp()
     {
-        Vector3 localScale = transform.localScale;
-        //player.transform.position.x
-        if (EnemyObjectPool.instance.player.transform.position.x < transform.position.x)
-        {
-            localScale.x = -1;
-        }
-        else
-        {
-            localScale.x = 1;
-        }
+        localScale = transform.localScale;
+        localScale.x = EnemyObjectPool.instance.player.transform.position.x < transform.position.x ? -1 : 1;
         transform.localScale = localScale;
     }
  
     void newShotgun() //
-    {
-        Vector2 offset = EnemyObjectPool.instance.player.transform.position - transform.position;
+    { 
         Vector2 dir;
         Enemybullet obj;
         for (int i = -1; i < 2; i++) //
         {
-            /*if (i==0)
-            {
-                continue;
-            }*/
             dir = Quaternion.AngleAxis( 10 * i, Vector3.forward) * offset;
             obj = EnemyObjectPool.instance.enemyBulletpool.Getbullet();
             obj.transform.position = transform.position;
-            obj.SetRigidBullet(dir, curEnemyBulletSpeed, curEnemyBulletDamage);
+            obj.SetRigidBullet(dir, curEnemyBulletSpeed);
         }
         PlaySound("isShot");
-        
     }
     void Die()
     {

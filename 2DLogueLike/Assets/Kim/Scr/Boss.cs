@@ -24,6 +24,7 @@ public class Boss : MonoBehaviour
         ThreeFire,
         FiveFire
     }
+    Vector2 offsetDir;
 
     [NonReorderable]
     public BossPatton curBossPatton = BossPatton.ExploreFire;
@@ -40,7 +41,6 @@ public class Boss : MonoBehaviour
     public LayerMask layer; // 플레이어의 레이어를 담고있는 변수
     public int bossHp;      
     public int bossSpeed;   
-    public int bulletDamage =1;
     public int bulletSpeed = 6;
     public float timer;    
     public float coTimer;   // 코루틴 타이머
@@ -54,7 +54,6 @@ public class Boss : MonoBehaviour
     private void OnEnable()
     {
         Init();
-        
     }
     void Awake()
     {
@@ -64,7 +63,13 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
+        if (isDie == true)
+        {
+            return;
+        }
+        offset = EnemyObjectPool.instance.player.transform.position - transform.position;
+        EnemyFilp();
+        StateBossPatton();
     }
 
     void Init() // 초기값 
@@ -78,18 +83,6 @@ public class Boss : MonoBehaviour
         }
         if (spren == null) spren = GetComponent<SpriteRenderer>();
         if (enemyAudio == null) enemyAudio = GetComponent<EnemyAudio>();
-    }
-
-    void Move() // 움직임 함수 만약 보스가 죽었을 경우 리턴시켜 작동하지 않게 한다
-    {
-        if (isDie == true)
-        {
-            return;
-        }
-        offset = EnemyObjectPool.instance.player.transform.position - transform.position;
-        //rigid.velocity = offset.normalized * bossSpeed;
-        EnemyFilp();
-        StateBossPatton();
     }
 
     void StateBossPatton() // 보스의 패턴 상태
@@ -133,10 +126,6 @@ public class Boss : MonoBehaviour
             }
         }
     }
-
-    
-
-   
     IEnumerator ITeleport() // 플레이어의 위치로 순간이동 패턴
     {
         anim.SetBool("isMove", false);
@@ -170,7 +159,7 @@ public class Boss : MonoBehaviour
             rigid.velocity = offset.normalized * bossSpeed;
             BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
             bullet.transform.position = transform.position;
-            bullet.SetRigidBossBullet(dir, 7, bulletDamage);
+            bullet.SetRigidBossBullet(dir, 7);
             enemyAudio.PlayAudio((int)BossAudio.Fires);
             count += 1;
             yield return new WaitForSeconds(0.2f);
@@ -219,24 +208,19 @@ public class Boss : MonoBehaviour
 
     IEnumerator SpinFire() // 플레이어의방향으로 부채꼴로 불렛을 발사하는 패턴
     {
-
         Vector2 dir;
         BossBullet obj;
         int count = 0;
         int shotCount = 5;
-        Vector2 offsetDir = offset;
+        offsetDir = offset;
         while (count < shotCount)
         {
             for (int i = -7; i < shotCount; i++) //
             {
-                /*if (i==0)
-                {
-                    continue;
-                }*/
                 dir = Quaternion.AngleAxis(10 * i, Vector3.forward) * offsetDir;
                 obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
                 obj.transform.position = transform.position;
-                obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
+                obj.SetRigidBossBullet(dir, bulletSpeed);
                 enemyAudio.PlayAudio((int)BossAudio.Fires);
                 count++;
                 yield return new WaitForSeconds(0.1f);
@@ -268,8 +252,8 @@ public class Boss : MonoBehaviour
         Vector2 dir;
         BossBullet obj;
         int shotCount = 100;
-        int ddd = 0; //
-        Vector2 offsetDir = offset;
+        int ddd = 0;  // 불렛이 나가는 방향을 다르게 하기위해 추가
+        offsetDir = offset;
         bool isStart = true;
         
         while (isStart == true)
@@ -289,9 +273,9 @@ public class Boss : MonoBehaviour
                 dir = Quaternion.AngleAxis((15 * i) + ddd, Vector3.forward) * transform.position;
                 obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
                 obj.transform.position = transform.position;
-                obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
+                obj.SetRigidBossBullet(dir, bulletSpeed);
                 yield return new WaitForSeconds(0.02f);
-                ddd += 1; // 불렛이 나가는 방향을 다르게 하기위해 추가
+                ddd += 1;
             }
         }
         anim.SetBool("isDieFireStart", false);
@@ -329,18 +313,9 @@ public class Boss : MonoBehaviour
     }
     void EnemyFilp() // 싱글톤에 있는 플레이어의 위치에 따라 좌우반전시켜주는 함수
     {
-        
         Vector3 localScale = transform.localScale;
-        if (EnemyObjectPool.instance.player.transform.position.x < transform.position.x)
-        {
-            localScale.x = -1;
-        }
-        else
-        {
-            localScale.x = 1;
-        }
-        transform.localScale = localScale;
-        
+        localScale.x = EnemyObjectPool.instance.player.transform.position.x < transform.position.x ? -1 : 1; 
+        transform.localScale = localScale; 
     }
 
     public void IsHit(int damage =1) // 보스의 히트 함수
@@ -369,22 +344,22 @@ public class Boss : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         spren.color = Color.white;
     }
-
-
     void AroundFireOn() // 애니메이션 점프모션이 땅바닥에 닿았을 때 실행되는 함수
     {
+        BossBullet bullet;
+        Vector2 dir;
         int count = 30; // 총알 갯수
         float intervalAngle = 360 / count; // 총알의 각도
         
         for (int i = 0; i < count; ++i)
         {
-            BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
+            bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
             float angle = intervalAngle * i;
             float x = Mathf.Cos(angle * Mathf.PI / 180.0f);
             float y = Mathf.Sin(angle * Mathf.PI / 180.0f);
-            Vector2 dir = new Vector2(x, y);
+            dir = new Vector2(x, y);
             bullet.transform.position = transform.position;
-            bullet.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
+            bullet.SetRigidBossBullet(dir, bulletSpeed);
             enemyAudio.PlayAudio((int)BossAudio.AroundFire);
         }
         anim.SetBool("isJump", false);
@@ -399,7 +374,6 @@ public class Boss : MonoBehaviour
     }
     void ExploreFireOn() // 폭발불렛 애니메이션에 넣을 함수 
     {
-        //PlaySound("ExploreSound");
         enemyAudio.PlayAudio((int)BossAudio.Explore);
         ExploreBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetExploreBullet();
         int x = Random.Range(-1, 2);
@@ -407,7 +381,7 @@ public class Boss : MonoBehaviour
         Vector2 dir = new Vector2(x, y);
         dir += offset;
         bullet.transform.position = transform.position;
-        bullet.SetRigidExploreBullet(dir, 7, bulletDamage);
+        bullet.SetRigidExploreBullet(dir, 7);
     }
     void ThreeFireOn() // 샷건 3발을 발사하는 애니메이션에 넣을 함수
     {
@@ -415,14 +389,10 @@ public class Boss : MonoBehaviour
         BossBullet obj;
         for (int i = -1; i < 2; i++) //
         {
-            /*if (i==0)
-            {
-                continue;
-            }*/
             dir = Quaternion.AngleAxis(10 * i, Vector3.forward) * offset;
             obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
             obj.transform.position = transform.position;
-            obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
+            obj.SetRigidBossBullet(dir, bulletSpeed);
             enemyAudio.PlayAudio((int)BossAudio.ThreeFire);
         }
     }
@@ -441,14 +411,14 @@ public class Boss : MonoBehaviour
                 dir = Quaternion.AngleAxis(9 * i, Vector3.forward) * offset;
                 obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
                 obj.transform.position = transform.position;
-                obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
+                obj.SetRigidBossBullet(dir, bulletSpeed);
             }
             if (1 == Mathf.Abs(i))
             {
                 dir = Quaternion.AngleAxis(6 * i, Vector3.forward) * offset;
                 obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
                 obj.transform.position = transform.position;
-                obj.SetRigidBossBullet(dir, bulletSpeed, bulletDamage);
+                obj.SetRigidBossBullet(dir, bulletSpeed);
             }
             enemyAudio.PlayAudio((int)BossAudio.FiveFire);
         }
@@ -464,7 +434,7 @@ public class Boss : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                collision.gameObject.GetComponent<Character>().PlayerHIt(1);
+                collision.gameObject.GetComponent<Character>().PlayerHIt();
             }
         }
     }
