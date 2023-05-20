@@ -50,8 +50,5 @@ public class Npc : MonoBehaviour
         
 
     }
-    public virtual void Talk()
-    {
-
-    }
+   
 }

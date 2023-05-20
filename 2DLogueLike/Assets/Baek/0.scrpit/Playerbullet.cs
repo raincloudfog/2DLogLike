@@ -66,7 +66,7 @@ public class Playerbullet : MonoBehaviour
                     hit.GetComponent<Enemy>().IsHit(ObjectPoolBaek.Instance.Player.Damage);                   
                 }
 
-                Debug.Log(ObjectPoolBaek.Instance.Player.Damage);
+                //Debug.Log(ObjectPoolBaek.Instance.Player.Damage);
                 
             }
 
@@ -90,7 +90,7 @@ public class Playerbullet : MonoBehaviour
                 
                 hit.gameObject.SetActive(false);
             }
-            if (GunManager.Instance.waeponType == WaeponType.Missile) // 만약 무기 탄환이 미사일일경우 총알이 부딪히면서 폭탄 이펙트를 생성합니다.
+            if (GunManager.Instance.WeaponType == WeaponType.Missile) // 만약 무기 탄환이 미사일일경우 총알이 부딪히면서 폭탄 이펙트를 생성합니다.
             {                
                 GameObject boom = ObjectPoolBaek.Instance.BoomCreate();
                 boom.transform.SetParent(null);// 생성된 붐 이펙트가 총알이랑 사라지면 안되므로 부모를 null로 바꿔줌.
