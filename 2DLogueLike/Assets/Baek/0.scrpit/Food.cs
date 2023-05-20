@@ -40,12 +40,14 @@ public class Food : Item
        
         if (Pick != null)
         {
-            Debug.Log("플레이어 닿임");
-            GameManager.Instance.Player.Hp += 1;
-            if(GameManager.Instance.Player.Hp >= GameManager.Instance.Player.Hpcut)
+            //Debug.Log("플레이어 닿임");
+            if (GameManager.Instance.Player.Hp == GameManager.Instance.Player.MaxHp)
             {
-                GameManager.Instance.Player.Hp = GameManager.Instance.Player.Hpcut;
+                Destroy(gameObject);
+                return;
             }
+            GameManager.Instance.Player.Hp += 1;
+            
             Destroy(gameObject);
             
         }

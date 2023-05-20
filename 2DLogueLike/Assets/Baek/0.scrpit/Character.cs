@@ -37,7 +37,7 @@ public class Character : MonoBehaviour
     public int Damage = 5; // 기본 데미지
     public int Hp = 5; // 현재 체력
     public int MaxHp = 10; // 최대 체력
-    public int Hpcut;
+    
     public bool ismove = true; // 이동 허용
     public bool isAttack = true; // 공격 허용
     [SerializeField] bool isHit = true; // 타격 허용;
@@ -66,7 +66,7 @@ public class Character : MonoBehaviour
         anim = GetComponent<Animator>();
         spr = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
-        Hpcut = 50;
+        
         
         
        if(SHOP != null && POTION != null)
