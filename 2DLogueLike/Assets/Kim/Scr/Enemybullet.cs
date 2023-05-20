@@ -7,7 +7,6 @@ public class Enemybullet : MonoBehaviour
     Rigidbody2D rigid;
     CircleCollider2D circleCol;
     Collider2D col = new Collider2D();
-    int bulletDamage = 0;
     Vector2 bulletVec = Vector2.zero;
     void Init()
     {
@@ -24,33 +23,16 @@ public class Enemybullet : MonoBehaviour
         {
             if (col.gameObject.layer == 6)
             {
-                col.GetComponent<Character>().PlayerHIt(bulletDamage);
+                col.GetComponent<Character>().PlayerHIt();
             }
             EnemyObjectPool.instance.enemyBulletpool.ReturnBullet(this);
         }
     }
-    public void SetRigidBullet(Vector2 offset,float speed,int bulletDamage) 
-        // 총알의 속성을 정해준다 (방향, 속도, 대미지)
+    public void SetRigidBullet(Vector2 offset,float speed) 
+        // 총알의 속성을 정해준다 (방향, 속도)
     {
         Init();
-        if (this.bulletDamage == 0)
-        {
-            this.bulletDamage = bulletDamage;
-        }
         bulletVec = offset.normalized * speed; // 받은 벡터값
         rigid.velocity = bulletVec;
-    }
-    public void RigidBulletAgain() 
-    // 일시정지를 풀었을 경우 제로니까 저장해놓은 불렛벡터를 불러온다.           
-    {
-        if(rigid == null)
-        {
-            rigid = this.GetComponent<Rigidbody2D>();
-        }
-        rigid.velocity = bulletVec; // 저장해 놓은 불렛백터 불러오기
-    }
-    public void Stop()
-    {
-        rigid.velocity = Vector2.zero;
     }
 }

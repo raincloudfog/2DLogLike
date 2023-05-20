@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PistorEnemy : Enemy
 {
-    CapsuleCollider2D capCol;
+    Collider2D col2 = new Collider2D();
     private void Awake()
     {
         Init();
@@ -12,19 +12,6 @@ public class PistorEnemy : Enemy
     private void OnEnable()
     {
         Init();
-    }
-    protected override void Init()
-    {
-        base.Init();
-        if (capCol == null)
-        {
-            capCol = GetComponent<CapsuleCollider2D>();
-        }
-        capCol.enabled = true;
-        curEnemyHp = enemyHp;
-        curEnemySpeed = enemySpeed;
-        curEnemyBulletSpeed = enemyBulletSpeed;
-        curEnemyBulletDamage = enemybulletDamage;
     }
 
     void Update()
@@ -35,7 +22,7 @@ public class PistorEnemy : Enemy
     void StateEnemyPatton()
     {
         col = Physics2D.OverlapCircle(transform.position, ranginPlayer, playerLayer);
-
+        offset = EnemyObjectPool.instance.player.transform.position - transform.position;
         switch (curState)
         {
             case State.Idle:
@@ -60,7 +47,7 @@ public class PistorEnemy : Enemy
 
     void Attack()
     {
-        Collider2D col2 = Physics2D.OverlapCircle(transform.position, ranginShot, playerLayer);
+        col2 = Physics2D.OverlapCircle(transform.position, ranginShot, playerLayer);
         anim.SetBool("isMove", col);
        
         if (col == null && isDie == false)
@@ -70,9 +57,6 @@ public class PistorEnemy : Enemy
         }
         else if (col != null && col2 == null && isDie == false)
         {
-            //anim.SetBool("isMove", true);
-            //Vector2 offset = player.transform.position - transform.position;
-            Vector2 offset = EnemyObjectPool.instance.player.transform.position - transform.position;
             rigid.velocity = offset.normalized * curEnemySpeed;
             EnemyFilp();
         }
@@ -95,25 +79,15 @@ public class PistorEnemy : Enemy
 
     void EnemyFilp()
     {
-        Vector3 localScale = transform.localScale;
-        //player.transform.position.x
-        if (EnemyObjectPool.instance.player.transform.position.x < transform.position.x)
-        {
-            localScale.x = -1;
-        }
-        else
-        {
-            localScale.x = 1;
-        }
+        localScale = transform.localScale; 
+        localScale.x = EnemyObjectPool.instance.player.transform.position.x < transform.position.x ? -1 : 1;       
         transform.localScale = localScale;
     }
     void Pistor()
     {
-        //Vector2 offset = player.transform.position - transform.position;
-        Vector2 offset = EnemyObjectPool.instance.player.transform.position - transform.position;
         Enemybullet obj = EnemyObjectPool.instance.enemyBulletpool.Getbullet();
         obj.transform.position = transform.position;
-        obj.SetRigidBullet(offset, curEnemyBulletSpeed, curEnemyBulletDamage);
+        obj.SetRigidBullet(offset, curEnemyBulletSpeed);
         PlaySound("isShot");
     }
     void Die() // 죽었을 때의 함수

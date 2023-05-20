@@ -4,37 +4,21 @@ using UnityEngine;
 
 public class RushEnemy : Enemy
 {
-    CapsuleCollider2D capCol;
     public float timer;
-    
-
     bool isPatrol = true;
     private void Awake()
     {
         Init();
     }
-    protected override void Init()
-    {
-        base.Init();
-        if (capCol == null)
-        {
-            capCol = GetComponent<CapsuleCollider2D>();
-        }
-    }
     private void OnEnable()
     {
         Init();
-        capCol.enabled = true;
-        curEnemyHp = enemyHp;
-        curEnemySpeed = enemySpeed;
-        curBodyDamage = bodyDamage;
-        //player = EnemyObjectPool.instance.testPlayer;
     }
 
     void Update()
     {
         col = Physics2D.OverlapCircle(transform.position, ranginPlayer, playerLayer);
-        
+        offset = EnemyObjectPool.instance.player.transform.position - transform.position;
         switch (curState)
         {
             case State.Idle:
@@ -88,7 +72,6 @@ public class RushEnemy : Enemy
                 EnemyFilp(x);
                 StartCoroutine(RandomMove());
             }
-            
         }
     }
    
@@ -101,39 +84,23 @@ public class RushEnemy : Enemy
         {
             AttackEnemyFilp();
             ranginPlayer = 10;
-            Vector2 offset = EnemyObjectPool.instance.player.transform.position - transform.position;
             rigid.velocity = offset.normalized * curEnemySpeed;
-            //StartCoroutine(ChangeColorOverTime()); 
         }
 
     }
     void EnemyFilp(float x)
     {
-        Vector3 localScale = transform.localScale;
+        localScale = transform.localScale;
         if (x != 0)
         {
-            if (x < 0)
-            {
-                localScale.x = -1;
-            }
-            else
-            {
-                localScale.x = 1;
-            }
+            localScale.x = x < 0 ? -1 : 1;
         }
         transform.localScale = localScale;
     }
     void AttackEnemyFilp()
     {
-        Vector3 localScale = transform.localScale;
-        if (EnemyObjectPool.instance.player.transform.position.x < transform.position.x)
-        {
-            localScale.x = -1;
-        }
-        else
-        {
-            localScale.x = 1;
-        }
+        localScale = transform.localScale;
+        localScale.x = EnemyObjectPool.instance.player.transform.position.x < transform.position.x ? -1 : 1;    
         transform.localScale = localScale;
     }
     void Die()
