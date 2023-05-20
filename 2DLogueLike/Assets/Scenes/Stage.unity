@@ -25054,6 +25054,7 @@ MonoBehaviour:
   istalking: 1
   UI: {fileID: 876748885}
   Shop: {fileID: 881751233}
+  food: {fileID: 860854553227303453, guid: 5d725a26557507c4c8ce287d09a0b469, type: 3}
 --- !u!95 &1096236927
 Animator:
   serializedVersion: 5
@@ -28541,6 +28542,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1813500731, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7293673877935743589, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -28588,6 +28593,10 @@ PrefabInstance:
     - target: {fileID: 7293673877935743591, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}
       propertyPath: m_Name
       value: player_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7293673879374012055, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fd87de67b5e43d47ba532a356f92d99, type: 3}

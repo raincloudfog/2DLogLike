@@ -16802,7 +16802,6 @@ MonoBehaviour:
   Damage: 5
   Hp: 5
   MaxHp: 10
-  Hpcut: 0
   ismove: 1
   isAttack: 1
   isHit: 1
@@ -16819,7 +16818,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.245
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0

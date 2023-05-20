@@ -5,6 +5,7 @@ using UnityEngine;
 public class Healer : Npc
 {
     public GameObject Shop; // 무기 상인을 감지하기 위함
+    public Food food; // 죽으면 푸드를 주기위해
     private void Start()
     {
         _kind = NPCKind.Potion;

@@ -66,20 +66,20 @@ public class GameManager : SingletonBaek<GameManager>
 
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == "BossRoom")
+        if (SceneManager.GetActiveScene().name == "BossRoom") // 만약 보스룸일경우
         {
             
-            for (int i = 0; i < Player.Hp; i++)
+            for (int i = 0; i < Player.Hp; i++) // 스테이지에 저장해논 체력만큼
             {
-                ObjectPoolBaek.Instance.HpiconCreate();
+                ObjectPoolBaek.Instance.HpiconCreate(); // 체력을 만듭니다.
             }
         }
-        else if (SceneManager.GetActiveScene().name == "Stage")
+        else if (SceneManager.GetActiveScene().name == "Stage") // 스테이지일 경우
         {
 
-            for (int i = 0; i < Player.Hp; i++)
+            for (int i = 0; i < Player.Hp; i++) // 기본 체력 만큼
             {
-                ObjectPoolBaek.Instance.HpiconCreate();
+                ObjectPoolBaek.Instance.HpiconCreate(); 
             }
         }
         if (Player == null)
@@ -96,10 +96,8 @@ public class GameManager : SingletonBaek<GameManager>
         if(Player.Hp != hpiconlist.transform.childCount)
         {
             if (Player.Hp > hpiconlist.transform.childCount)
-            {
-                
-                    ObjectPoolBaek.Instance.HpiconCreate();
-                
+            {                
+                    ObjectPoolBaek.Instance.HpiconCreate();                
             }
             else if(Player.Hp < hpiconlist.transform.childCount)
             {
@@ -107,23 +105,6 @@ public class GameManager : SingletonBaek<GameManager>
                 (hpiconlist.transform.GetChild(hpiconlist.transform.childCount - 1).GetComponent<Image>());
             }
         }
-
-        /*if(curHp > Player.Hp)
-        {
-            ObjectPoolBaek.Instance.HpiconReturn
-                (hpiconlist.transform.GetChild(hpiconlist.transform.childCount-1).GetComponent<Image>());
-            curHp = Player.Hp;
-        }
-        else if(curHp < Player.Hp)
-        {
-            curHp = Player.Hp;
-            ObjectPoolBaek.Instance.HpiconCreate();
-        }
-        if(hpiconlist.transform.childCount >= 11)
-        {
-            ObjectPoolBaek.Instance.HpiconReturn
-                (hpiconlist.transform.GetChild(hpiconlist.transform.childCount - 1).GetComponent<Image>());
-        }*/
     }
     private void LateUpdate()
     {

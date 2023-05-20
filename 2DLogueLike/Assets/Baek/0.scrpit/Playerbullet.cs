@@ -18,7 +18,7 @@ public class Playerbullet : MonoBehaviour
 
     private void OnEnable()
     {
-        if(player == null)
+        if(player == null) // 시작시 플레이어 가 없으면 플레이어 가져오기
         {
             player = ObjectPoolBaek.Instance.Player;
         }
@@ -81,6 +81,13 @@ public class Playerbullet : MonoBehaviour
             else if(hit.CompareTag("Healer")) // 만약 힐러를 때렸을경우 힐러는 사라집니다. 
             {
                 player.isEnemy = true;
+                //원래 죽으면 5개의 푸드가 나오는걸로하려했으나 미구현
+                /*for (int i = 0; i < 5; i++)
+                {
+                    GameObject obj = Instantiate(hit.GetComponent<Healer>().food.gameObject, hit.transform);
+                    obj.transform.SetParent(null);
+                }*/ 
+                
                 hit.gameObject.SetActive(false);
             }
             if (GunManager.Instance.waeponType == WaeponType.Missile) // 만약 무기 탄환이 미사일일경우 총알이 부딪히면서 폭탄 이펙트를 생성합니다.
