@@ -202,7 +202,7 @@ SpriteRenderer:
   m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &51994048
@@ -601,7 +601,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5b854f362d492d340b44c1726d8c0363, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -698,7 +698,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71cd49a239c8084da4870ec7a564222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BGMSound: []
+  BGMSound:
+  - {fileID: 8300000, guid: 7a830a97a31fd1648a2fb2e9f4deee7d, type: 3}
+  - {fileID: 8300000, guid: f00e289e077407742978d53ec15c8c6f, type: 3}
+  - {fileID: 8300000, guid: 25ac36ee6120bb846b1da98298e07cb0, type: 3}
   BulletSound:
   - {fileID: 8300000, guid: 98352501310fd7e4c8e136d3151454d9, type: 3}
   - {fileID: 8300000, guid: 8515af42855dd3f4d9087e86ba860204, type: 3}

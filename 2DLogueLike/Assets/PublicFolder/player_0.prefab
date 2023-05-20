@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7293673877935743591}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7293673879374012054}
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 5
   m_Sprite: {fileID: -1560459678, guid: b5d2bb13905b54d4cb497a6e9311426e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -120,6 +120,7 @@ MonoBehaviour:
   ismove: 1
   isAttack: 1
   isHit: 1
+  isEnemy: 0
 --- !u!95 &7293673877935743611
 Animator:
   serializedVersion: 5
@@ -155,7 +156,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.8125, y: 1.3125}
+  m_Size: {x: 0.8125, y: 0.7}
   m_Direction: 0
 --- !u!50 &7293673877935743609
 Rigidbody2D:

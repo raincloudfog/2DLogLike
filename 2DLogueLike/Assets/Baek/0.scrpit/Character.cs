@@ -139,7 +139,7 @@ public class Character : MonoBehaviour
     private void FixedUpdate()
     {
         Player = transform.position;
-        shopDistance = (Player - Weapon).sqrMagnitude;
+        shopDistance = (Player - Weapon).sqrMagnitude; // 플레이어와 무기상인의 거리 제곱
         HealerDistance = (Player - Potion).sqrMagnitude;
 
         // 총이 왼쪽으로 갔을시에 플립으로 돌려준다.
@@ -174,14 +174,7 @@ public class Character : MonoBehaviour
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         anim.SetFloat("State", (transform.position.x+worldPosition.x));
-        /*if(anim.GetFloat("State") < 0)
-        {
-            spr.flipX = true;
-        }
-        else if (anim.GetFloat("State") > 0)
-        {
-            spr.flipX = false;
-        }*/ // 더미데이터
+        
     }
 
     
@@ -208,7 +201,7 @@ public class Character : MonoBehaviour
 
     IEnumerator Hitspr() //플레이어 히트시 피격 모션
     {
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         yield return new WaitForSeconds(0.5f);
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
         isHit = true;
@@ -338,7 +331,7 @@ public class Character : MonoBehaviour
         spr.color = Color.white;
         isDashTime = false;
         isHit = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         isDash = false;
     }
 
@@ -367,8 +360,6 @@ public class Character : MonoBehaviour
 
     public void Shotgun() // 샷건은 여러발로 나갑니다.
     {
-        
-
         for (int i = -1; i <2 ; i++)
         {
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
