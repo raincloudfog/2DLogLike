@@ -30,6 +30,8 @@ public class Boss : MonoBehaviour
     public BossPatton curBossPatton = BossPatton.ExploreFire;
     public TMP_Text text;       //보스가 죽었을 때 나오는 승리문구
     public GameObject textObj; // 텍스트 패널
+    public Button button;
+    public TMP_Text buttonText; // 버튼 문구
 
     Rigidbody2D rigid;
     Animator anim;
@@ -49,6 +51,8 @@ public class Boss : MonoBehaviour
     public bool isAroundFire = true;
     public bool isFires = true;
 
+    bool isStart = false;// 발악패턴이 시작되었는가
+
     int count = 0;
     bool startCo = true;
     private void OnEnable()
@@ -63,13 +67,13 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isDie == true)
-        {
-            return;
-        }
         offset = EnemyObjectPool.instance.player.transform.position - transform.position;
         EnemyFilp();
         StateBossPatton();
+    }
+    private void FixedUpdate()
+    {
+        //StateBossPatton();
     }
 
     void Init() // 초기값 
@@ -235,10 +239,9 @@ public class Boss : MonoBehaviour
         isDie = true;
         rigid.velocity = Vector2.zero;
         anim.SetBool("isMove", false);
-
+        capCol.enabled = false;
         yield return new WaitForSeconds(2f);
         anim.SetBool("isDieFireTLportOn", true);
-        capCol.enabled = false;
 
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("isDieFireTLportOff", true);
@@ -251,33 +254,31 @@ public class Boss : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         Vector2 dir;
         BossBullet obj;
-        int shotCount = 100;
+        int shotCount = 500;
         int ddd = 0;  // 불렛이 나가는 방향을 다르게 하기위해 추가
-        offsetDir = offset;
-        bool isStart = true;
-        
+        //offsetDir = offset;
+        isStart = true;
+
         while (isStart == true)
-        {
-            coTimer += 2f;
-            if (coTimer >= 6f)
-            {
-                coTimer = 0;
-                isStart = false;
-            }
+        { 
             for (int i = -10; i < shotCount; i++) //
             {
-                /*if (i==0)
-                {
-                    continue;
-                }*/
                 dir = Quaternion.AngleAxis((15 * i) + ddd, Vector3.forward) * transform.position;
                 obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
                 obj.transform.position = transform.position;
                 obj.SetRigidBossBullet(dir, bulletSpeed);
-                yield return new WaitForSeconds(0.02f);
                 ddd += 1;
+                coTimer += 0.02f;
+                yield return new WaitForSeconds(0.02f);
+                if (coTimer >= 6f)
+                {
+                    coTimer = 0;
+                    isStart = false;
+                    break;
+                }
             }
         }
+
         anim.SetBool("isDieFireStart", false);
         anim.SetTrigger("isDie");
         
@@ -336,6 +337,7 @@ public class Boss : MonoBehaviour
         textObj.gameObject.SetActive(true);
         text.gameObject.SetActive(true);
         text.text = "Game Clear";
+        buttonText.text = "RESTART";
         Time.timeScale = 0;
     }
     IEnumerator IsHitColorChange() // 보스가 히트될 때마다 색상변경

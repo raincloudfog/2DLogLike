@@ -22,14 +22,14 @@ public class EnemyBulletPool : MonoBehaviour
     Queue<ExploreBullet> exploreBulletPool = new Queue<ExploreBullet>();
     private void Awake()
     {
-        for (int i = 0; i < 500; i++)
+        for (int i = 0; i < 100; i++)
         {
             Enemybullet bullet = Instantiate(prefab);
             bullet.gameObject.SetActive(false);
             bullet.transform.SetParent(parent);
             pool.Enqueue(bullet);
         }
-        for (int i = 0; i < 500; i++)
+        for (int i = 0; i < 1000; i++)
         {
             BossBullet bullet = Instantiate(bossBullet);
             bullet.gameObject.SetActive(false);

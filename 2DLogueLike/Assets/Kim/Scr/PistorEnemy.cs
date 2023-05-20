@@ -16,13 +16,17 @@ public class PistorEnemy : Enemy
 
     void Update()
     {
+        offset = EnemyObjectPool.instance.player.transform.position - transform.position;
+    }
+    private void FixedUpdate()
+    {
+        col = Physics2D.OverlapCircle(transform.position, ranginPlayer, playerLayer);
         StateEnemyPatton();
+        Die();
     }
 
     void StateEnemyPatton()
     {
-        col = Physics2D.OverlapCircle(transform.position, ranginPlayer, playerLayer);
-        offset = EnemyObjectPool.instance.player.transform.position - transform.position;
         switch (curState)
         {
             case State.Idle:
@@ -33,9 +37,9 @@ public class PistorEnemy : Enemy
                 Attack();
                 break;
         }
-        Die();
     }
 
+    
     void Idle()
     {
         anim.SetBool("isMove", false);

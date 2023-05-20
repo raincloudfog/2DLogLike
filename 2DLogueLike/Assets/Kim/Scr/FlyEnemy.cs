@@ -18,23 +18,31 @@ public class FlyEnemy : Enemy
 
     void Update()
     {
-        col = Physics2D.OverlapCircle(transform.position, ranginPlayer, playerLayer);
         offset = EnemyObjectPool.instance.player.transform.position - transform.position;
+    }
+    private void FixedUpdate()
+    {
+        col = Physics2D.OverlapCircle(transform.position, ranginPlayer, playerLayer);
+        StateEnemyPatton();
+        Die();
+    }
+
+    void StateEnemyPatton()
+    {
         switch (curState)
         {
             case State.Idle:
                 Idle();
                 break;
-   
+
             case State.Attack:
                 if (startCo == true) // 코루틴을 한번만 실행시키기 위한 불값
                 {
-                    startCo = false; 
+                    startCo = false;
                     StartCoroutine(IAttack());
                 }
                 break;
         }
-        Die();
     }
 
     void Idle() // 기본상태 -> 범위내에 플레이어가 없으면 플레이어를 쫗아가는 상태

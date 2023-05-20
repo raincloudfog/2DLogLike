@@ -15,8 +15,16 @@ public class ShotGunEnemy : Enemy
     }
     void Update()
     {
-        col = Physics2D.OverlapCircle(transform.position, ranginPlayer, playerLayer);
         offset = EnemyObjectPool.instance.player.transform.position - transform.position;
+    }
+    private void FixedUpdate()
+    {
+        col = Physics2D.OverlapCircle(transform.position, ranginPlayer, playerLayer);
+        StateEnemyPatton();
+        Die();
+    }
+    void StateEnemyPatton()
+    {
         switch (curState)
         {
             case State.Idle:
@@ -27,8 +35,6 @@ public class ShotGunEnemy : Enemy
                 Attack();
                 break;
         }
-        
-        Die();      
     }
 
     void Idle()

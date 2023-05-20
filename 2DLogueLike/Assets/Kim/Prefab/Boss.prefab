@@ -252,8 +252,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   bossHp: 100
-  bossSpeed: 2
-  bulletDamage: 1
+  bossSpeed: 4
   bulletSpeed: 5
   timer: 0
   coTimer: 0

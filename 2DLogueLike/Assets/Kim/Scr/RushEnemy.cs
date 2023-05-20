@@ -17,8 +17,16 @@ public class RushEnemy : Enemy
 
     void Update()
     {
-        col = Physics2D.OverlapCircle(transform.position, ranginPlayer, playerLayer);
         offset = EnemyObjectPool.instance.player.transform.position - transform.position;
+    }
+    private void FixedUpdate()
+    {
+        col = Physics2D.OverlapCircle(transform.position, ranginPlayer, playerLayer);
+        StateEnemyPatton();
+        Die();
+    }
+    void StateEnemyPatton()
+    {
         switch (curState)
         {
             case State.Idle:
@@ -32,8 +40,6 @@ public class RushEnemy : Enemy
                 Attack();
                 break;
         }
-        
-        Die();
     }
 
     void Idle() // °¡¸¸È÷ 
