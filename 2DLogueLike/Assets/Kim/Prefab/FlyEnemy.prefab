@@ -341,7 +341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioHit: {fileID: 0}
-  enemyBulletShot: {fileID: 0}
+  enemyBulletShot: {fileID: 8300000, guid: ac6034ade498bb94b87620cdf6eac48b, type: 3}
   enemyDie: {fileID: 8300000, guid: 027b21962c1f0184d98c9baaf3848d6f, type: 3}
   playerLayer:
     serializedVersion: 2
@@ -352,18 +352,6 @@ MonoBehaviour:
   curEnemySpeed: 0
   enemyBulletSpeed: 0
   curEnemyBulletSpeed: 0
-  enemybulletDamage: 0
-  curEnemyBulletDamage: 0
-  curBodyDamage: 0
-  bodyDamage: 0
   shotDelay: 0
   ranginPlayer: 2.52
   ranginShot: 0
-  targetColor: {r: 0, g: 0, b: 0, a: 0}
-  duration: 2
-  timer: 0
-  ranginWall: 0
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  wallCheck: {fileID: 0}

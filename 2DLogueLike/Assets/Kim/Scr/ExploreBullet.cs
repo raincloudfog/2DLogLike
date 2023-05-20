@@ -36,8 +36,8 @@ public class ExploreBullet : MonoBehaviour
                 {
                     BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
                     float angle = (360 / 30) * i;
-                    float x = Mathf.Cos(angle * Mathf.PI / 180.0f);
-                    float y = Mathf.Sin(angle * Mathf.PI / 180.0f);
+                    float x = Mathf.Cos(angle * Mathf.Deg2Rad);
+                    float y = Mathf.Sin(angle * Mathf.Deg2Rad);
                     Vector2 dir = new Vector2(x, y);
                     bullet.transform.position = transform.position;
                     bullet.SetRigidBossBullet(dir, 6);

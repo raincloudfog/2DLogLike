@@ -68,6 +68,7 @@ public class FlyEnemy : Enemy
         saveOffset = offset;
         rigid.velocity = Vector2.zero;
         rigid.velocity = -saveOffset.normalized * 4;
+        PlaySound("isShot");
         yield return new WaitForSeconds(0.3f);
         rigid.velocity = saveOffset.normalized * 10;
         yield return new WaitForSeconds(1f);

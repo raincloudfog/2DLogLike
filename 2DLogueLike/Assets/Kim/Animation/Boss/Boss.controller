@@ -365,9 +365,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: isDieFireTLportOn
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: isJump
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3342518236631196262}
   m_Solo: 0
@@ -493,9 +490,6 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: isDieFireTLportOn
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: isExploreFire
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3342518236631196262}
@@ -897,9 +891,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: isDieFireTLportOn
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: isMove
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3342518236631196262}
   m_Solo: 0
@@ -1162,7 +1153,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -979252342986979942}
-    m_Position: {x: 30, y: 210, z: 0}
+    m_Position: {x: 30, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3752784436466197031}
     m_Position: {x: -180, y: 320, z: 0}
@@ -1266,9 +1257,6 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: isDieFireTLportOn
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: isShotgunFive
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3342518236631196262}

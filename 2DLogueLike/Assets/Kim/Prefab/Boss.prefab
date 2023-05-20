@@ -248,17 +248,18 @@ MonoBehaviour:
   curBossPatton: 4
   text: {fileID: 0}
   textObj: {fileID: 0}
+  button: {fileID: 0}
+  buttonText: {fileID: 0}
   layer:
     serializedVersion: 2
     m_Bits: 64
-  bossHp: 100
+  bossHp: 10
   bossSpeed: 4
   bulletSpeed: 5
-  timer: 0
-  coTimer: 0
   isRandomFire: 1
   isAroundFire: 1
   isFires: 1
+  dieFireTimer: 0
 --- !u!114 &954200954
 MonoBehaviour:
   m_ObjectHideFlags: 0

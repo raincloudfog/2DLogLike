@@ -2998,10 +2998,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 827474841}
     - target: {fileID: 1941457191785433360, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
-      propertyPath: bossHp
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1941457191785433360, guid: cf15a52cbfa2e6e4a9d9c91f1ede25b7, type: 3}
       propertyPath: button
       value: 
       objectReference: {fileID: 1332821927}

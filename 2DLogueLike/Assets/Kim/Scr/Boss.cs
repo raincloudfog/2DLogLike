@@ -43,9 +43,7 @@ public class Boss : MonoBehaviour
     public LayerMask layer; // 플레이어의 레이어를 담고있는 변수
     public int bossHp;      
     public int bossSpeed;   
-    public int bulletSpeed = 6;
-    public float timer;    
-    public float coTimer;   // 코루틴 타이머
+    public int bulletSpeed = 6; 
     bool isDie = false; // 죽었는지 
     public bool isRandomFire = true; 
     public bool isAroundFire = true;
@@ -55,6 +53,8 @@ public class Boss : MonoBehaviour
 
     int count = 0;
     bool startCo = true;
+
+    public float dieFireTimer;
     private void OnEnable()
     {
         Init();
@@ -63,17 +63,19 @@ public class Boss : MonoBehaviour
     {
         Init();
     }
-    
-    // Update is called once per frame
+   
     void Update()
     {
         offset = EnemyObjectPool.instance.player.transform.position - transform.position;
         EnemyFilp();
-        StateBossPatton();
+        if(isStart == true) // 발악 패턴이 시작될 시에 작동하는 패턴의 지속 시간
+        {
+            dieFireTimer += Time.deltaTime;
+        }
     }
     private void FixedUpdate()
     {
-        //StateBossPatton();
+        StateBossPatton();
     }
 
     void Init() // 초기값 
@@ -97,33 +99,26 @@ public class Boss : MonoBehaviour
             rigid.velocity = Vector2.zero;
             switch (curBossPatton)
             {
-                case BossPatton.SpinFire: // 적의 위치를 받아 연속으로 발사 
-                    StartCoroutine(SpinFire());
-
-                    break;
-                case BossPatton.Fires:
-                    StartCoroutine(IFires());
-
-                    //Fires();
-                    // 플레이어 방향으로 샷건
-                    break;
-                case BossPatton.AroundFire:
-                    StartCoroutine(IAroundFire());
-
-                    //AroundFire();
-                    // 원 형태로 전체 공격;
-                    break;
                 case BossPatton.Teleport:
                     StartCoroutine(ITeleport());
-
-                    // 순간이동
-                    //Teleport();
                     break;
+
+                case BossPatton.Fires:
+                    StartCoroutine(IFires());
+                    break;
+
+                case BossPatton.AroundFire:
+                    StartCoroutine(IAroundFire());
+                    break;
+
                 case BossPatton.ExploreFire:
                     StartCoroutine(IExploreFire());
-
-                    //ExploreFire();
                     break;
+
+                case BossPatton.SpinFire:
+                    StartCoroutine(SpinFire());
+                    break;
+              
                 case BossPatton.ShotgunFire:
                     StartCoroutine(IShotgunFire());
                     break;
@@ -149,19 +144,18 @@ public class Boss : MonoBehaviour
         startCo = true;
         SetPatton();
     }
-   
-   
 
     IEnumerator IFires() // 적에게 빠르게 8발의 불렛을 발사하는 패턴
     {
         Vector2 dir;
+        BossBullet bullet;
         anim.SetBool("isMove", true);
         while(count < 8)
         {
             dir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1,2));
             dir += offset;
             rigid.velocity = offset.normalized * bossSpeed;
-            BossBullet bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
+            bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
             bullet.transform.position = transform.position;
             bullet.SetRigidBossBullet(dir, 7);
             enemyAudio.PlayAudio((int)BossAudio.Fires);
@@ -261,18 +255,18 @@ public class Boss : MonoBehaviour
 
         while (isStart == true)
         { 
-            for (int i = -10; i < shotCount; i++) //
+            for (int i = -10; i < shotCount; i++)
             {
                 dir = Quaternion.AngleAxis((15 * i) + ddd, Vector3.forward) * transform.position;
                 obj = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
                 obj.transform.position = transform.position;
                 obj.SetRigidBossBullet(dir, bulletSpeed);
                 ddd += 1;
-                coTimer += 0.02f;
                 yield return new WaitForSeconds(0.02f);
-                if (coTimer >= 6f)
+                
+                if(dieFireTimer >= 6f)
                 {
-                    coTimer = 0;
+                    dieFireTimer = 0;
                     isStart = false;
                     break;
                 }
@@ -351,14 +345,14 @@ public class Boss : MonoBehaviour
         BossBullet bullet;
         Vector2 dir;
         int count = 30; // 총알 갯수
-        float intervalAngle = 360 / count; // 총알의 각도
+        float Angle = 360 / count; // 총알의 각도
         
         for (int i = 0; i < count; ++i)
         {
             bullet = EnemyObjectPool.instance.enemyBulletpool.GetBossBullet();
-            float angle = intervalAngle * i;
-            float x = Mathf.Cos(angle * Mathf.PI / 180.0f);
-            float y = Mathf.Sin(angle * Mathf.PI / 180.0f);
+            float angle = Angle * i;
+            float x = Mathf.Cos(angle * Mathf.Deg2Rad/*Mathf.PI / 180.0f*/);
+            float y = Mathf.Sin(angle * Mathf.Deg2Rad/*Mathf.PI / 180.0f*/);
             dir = new Vector2(x, y);
             bullet.transform.position = transform.position;
             bullet.SetRigidBossBullet(dir, bulletSpeed);
