@@ -254,7 +254,7 @@ public class Character : MonoBehaviour
             audioSource.Play();
             timer = 0;
            
-            if (GunManager.Instance.waeponType == WaeponType.Shotgun)
+            if (GunManager.Instance.WeaponType == WeaponType.Shotgun)
             {
 
                 Shotgun();

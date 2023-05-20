@@ -8,7 +8,7 @@ public class SaveData : SingletonBaek<SaveData>
     [Header("저장한 체력")]
     public int Hp = 0; // 저장할 체력
     [Header("저장할 총 타입")]
-    public WaeponType waeponType; // 저장할 총의 종류
+    public WeaponType WeaponType; // 저장할 총의 종류
     public int coin = 0; // 저장할 코인갯수
     [NonReorderable]
     public bool issave = true; // 만약 세이브 되었는지 확인합니다.
@@ -26,9 +26,9 @@ public class SaveData : SingletonBaek<SaveData>
             Destroy(gameObject);
         }
     }
-    public SaveData Weapontype(WaeponType weapon) // 빌더 패턴
+    public SaveData Weapontype(WeaponType weapon) // 빌더 패턴
     {
-        waeponType = weapon;
+        WeaponType = weapon;
         return this;
     }
     public SaveData Hpsave(int hp)
@@ -51,9 +51,9 @@ public class SaveData : SingletonBaek<SaveData>
         if(SceneManager.GetActiveScene().name == "BossRoom" && issave == true) // 만약 보스방이면서 세이브에 데이터가 있는 경우이면
         {
             
-            if (GunManager.Instance.waeponType != Instance.waeponType)
+            if (GunManager.Instance.WeaponType != Instance.WeaponType)
             {
-                GunManager.Instance.waeponType = Instance.waeponType;
+                GunManager.Instance.WeaponType = Instance.WeaponType;
                 GunManager.Instance.SetWeaponStrategy(weaponStrategy);
             }
             
